@@ -139,9 +139,10 @@ textarea,input[type=text]{border:1px solid #ccc;background:#fff}textarea{height:
 <section class="end">
   <span class="num">✓</span>
   <h2>Listo. Envíanoslo.</h2>
-  <p class="sub">Descarga tus respuestas y envíanoslas por email junto con los materiales que marcaste.</p>
+  <p class="sub">Pulsa «Enviar respuestas» y nos llegarán por email. Los materiales que marcaste (logo, fotos…) envíanoslos aparte por correo.</p>
   <div class="actions">
-    <button type="button" id="dl">Descargar respuestas</button>
+    <button type="button" id="sd">Enviar respuestas</button>
+    <button type="button" class="ghost" id="dl">Descargar respuestas</button>
     <button type="button" class="ghost" id="cp">Copiar al portapapeles</button>
     <button type="button" class="ghost" id="pr">Imprimir / guardar PDF</button>
     <button type="button" class="danger" id="rs">Borrar todo</button>
@@ -188,6 +189,15 @@ textarea,input[type=text]{border:1px solid #ccc;background:#fff}textarea{height:
   function brand(){var v=(document.getElementById("q02")||{}).value||"";return v.trim().replace(/[^\wÀ-ÿ-]+/g,"_").slice(0,40)||"marca"}
   document.getElementById("dl").onclick=function(){var b=new Blob([asText()],{type:"text/plain;charset=utf-8"});var a=document.createElement("a");
     a.href=URL.createObjectURL(b);a.download="Brief_de_marca_"+brand()+".txt";document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},500);toast("Respuestas descargadas")};
+  document.getElementById("sd").onclick=function(){var b=this;
+    if(!document.getElementById("q01").value.trim()&&!document.getElementById("q02").value.trim()){toast("Rellena al menos tu nombre o el de la marca");return}
+    if(!confirm("¿Enviar el brief ahora?"))return;
+    b.disabled=true;b.textContent="Enviando…";
+    fetch("https://formsubmit.co/ajax/lerosedays@icloud.com",{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},
+      body:JSON.stringify({_subject:"Brief de marca — "+(document.getElementById("q02").value.trim()||"sin nombre"),_template:"box",_captcha:"false",Respuestas:asText()})})
+    .then(function(r){return r.json()}).then(function(j){if(String(j.success)!=="true")throw 0;toast("Enviado. ¡Gracias!");b.textContent="Enviado ✓"})
+    .catch(function(){toast("No se pudo enviar. Usa «Descargar respuestas» y mándalo por email.");b.textContent="Enviar respuestas"})
+    .then(function(){b.disabled=false})};
   document.getElementById("cp").onclick=function(){var t=asText();(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){toast("Copiado al portapapeles")},function(){
     var ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");toast("Copiado al portapapeles")}catch(e){toast("No se pudo copiar")}ta.remove()})};
   document.getElementById("pr").onclick=document.getElementById("pr2").onclick=function(){window.print()};
