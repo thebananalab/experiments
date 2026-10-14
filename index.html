@@ -195,8 +195,8 @@ textarea,input[type=text]{border:1px solid #ccc;background:#fff}textarea{height:
     b.disabled=true;b.textContent="Enviando…";
     fetch("https://formsubmit.co/ajax/lerosedays@icloud.com",{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},
       body:JSON.stringify({_subject:"Brief de marca — "+(document.getElementById("q02").value.trim()||"sin nombre"),_template:"box",_captcha:"false",Respuestas:asText()})})
-    .then(function(r){return r.json()}).then(function(j){if(String(j.success)!=="true")throw 0;toast("Enviado. ¡Gracias!");b.textContent="Enviado ✓"})
-    .catch(function(){toast("No se pudo enviar. Usa «Descargar respuestas» y mándalo por email.");b.textContent="Enviar respuestas"})
+    .then(function(r){return r.json()}).then(function(j){if(String(j.success)!=="true")throw new Error(j.message||"");toast("Enviado. ¡Gracias!");b.textContent="Enviado ✓"})
+    .catch(function(e){console.error(e);toast("No se pudo enviar"+(e&&e.message?": "+e.message:"")+". Usa «Descargar respuestas» y mándalo por email.");b.textContent="Enviar respuestas"})
     .then(function(){b.disabled=false})};
   document.getElementById("cp").onclick=function(){var t=asText();(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){toast("Copiado al portapapeles")},function(){
     var ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");toast("Copiado al portapapeles")}catch(e){toast("No se pudo copiar")}ta.remove()})};
