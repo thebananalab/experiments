@@ -91,6 +91,7 @@ textarea,input[type=text]{border:1px solid #ccc;background:#fff}textarea{height:
   <div class="prog" aria-hidden="true"><i id="pbar"></i></div>
   <span class="mono" id="pcount">0 / 55</span>
   <span class="mono saved" id="saved"></span>
+  <button type="button" class="ghost" id="pr2" style="padding:8px 12px;font-size:11px">PDF</button>
 </div></div>
 
 <div class="wrap">
@@ -189,7 +190,7 @@ textarea,input[type=text]{border:1px solid #ccc;background:#fff}textarea{height:
     a.href=URL.createObjectURL(b);a.download="Brief_de_marca_"+brand()+".txt";document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},500);toast("Respuestas descargadas")};
   document.getElementById("cp").onclick=function(){var t=asText();(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){toast("Copiado al portapapeles")},function(){
     var ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");toast("Copiado al portapapeles")}catch(e){toast("No se pudo copiar")}ta.remove()})};
-  document.getElementById("pr").onclick=function(){window.print()};
+  document.getElementById("pr").onclick=document.getElementById("pr2").onclick=function(){window.print()};
   document.getElementById("rs").onclick=function(){if(!confirm("¿Borrar todas las respuestas? No se puede deshacer."))return;form.reset();try{localStorage.removeItem(KEY)}catch(e){}texts.forEach(grow);progress();toast("Respuestas borradas")};
 
   var links=document.querySelectorAll("nav.toc a");
