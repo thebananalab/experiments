@@ -193,8 +193,8 @@ textarea,input[type=text]{border:1px solid #ccc;background:#fff}textarea{height:
     if(!document.getElementById("q01").value.trim()&&!document.getElementById("q02").value.trim()){toast("Rellena al menos tu nombre o el de la marca");return}
     if(!confirm("¿Enviar el brief ahora?"))return;
     b.disabled=true;b.textContent="Enviando…";
-    fetch("https://formsubmit.co/ajax/lerosedays@icloud.com",{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},
-      body:JSON.stringify({_subject:"Brief de marca — "+(document.getElementById("q02").value.trim()||"sin nombre"),_template:"box",_captcha:"false",Respuestas:asText()})})
+    fetch("https://api.web3forms.com/submit",{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},
+      body:JSON.stringify({access_key:"bff47cd6-7036-4189-9bd8-8d3173c8d426",subject:"Brief de marca — "+(document.getElementById("q02").value.trim()||"sin nombre"),from_name:"Brief de marca",name:document.getElementById("q01").value.trim()||"Sin nombre",message:asText()})})
     .then(function(r){return r.json()}).then(function(j){if(String(j.success)!=="true")throw new Error(j.message||"");toast("Enviado. ¡Gracias!");b.textContent="Enviado ✓"})
     .catch(function(e){console.error(e);toast("No se pudo enviar"+(e&&e.message?": "+e.message:"")+". Usa «Descargar respuestas» y mándalo por email.");b.textContent="Enviar respuestas"})
     .then(function(){b.disabled=false})};
