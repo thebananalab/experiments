@@ -1,0 +1,929 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+</head>
+<body>
+<title>Cobee Onboarding</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Outfit:wght@500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: prototipo de móvil centrado (marco de teléfono en escritorio, pantalla completa en móvil).
+   Tokens tomados de cobee.io: morado noche, verde neón, pasteles por categoría. */
+:root{
+  --bg:#FAF8FF; --surface:#FFFFFF; --ink:#131117; --muted:#645F78; --line:#E4E0F0;
+  --brand:#221C46; --accent:#01EB5E; --on-accent:#221C46; --accent-ink:#177855; --focus:#4A19B5;
+  --pastel-ink:#221C46; --danger:#B30100; --shadow:0 18px 50px rgba(34,28,70,.12);
+  --display:"Outfit","TT Travels",Arial,Verdana,sans-serif; --body:"Figtree",Arial,Verdana,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#150E2E; --surface:#221C46; --ink:#FAF8FF; --muted:#B9B3D6; --line:#3A3262;
+  --accent-ink:#01EB5E; --focus:#96F7D4; --danger:#FF7375; --shadow:0 18px 50px rgba(0,0,0,.45); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#150E2E; --surface:#221C46; --ink:#FAF8FF; --muted:#B9B3D6; --line:#3A3262;
+  --accent-ink:#01EB5E; --focus:#96F7D4; --danger:#FF7375; --shadow:0 18px 50px rgba(0,0,0,.45); color-scheme:dark}
+*{box-sizing:border-box}
+html,body{min-height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45;
+  padding-block:12px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+button{font:inherit;color:inherit;cursor:pointer;background:none;border:0;padding:0}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:8px}
+h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:.02em;margin:0;text-wrap:balance}
+.wrap{max-width:420px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+
+/* barra de prototipo */
+.proto{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center;justify-content:center;font-size:11px;color:var(--muted);opacity:.7;transition:opacity .2s}
+.proto:hover,.proto:focus-within{opacity:1}
+.proto label{display:flex;align-items:center;gap:4px}
+.proto select{font:inherit;color:inherit;background:transparent;border:0;border-bottom:1px dotted var(--muted);padding:2px 0;min-width:0;cursor:pointer}
+.proto button{font-size:11px;color:inherit;text-decoration:underline;text-underline-offset:3px}
+.log{display:none;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 10px;max-height:130px;overflow:auto;font:11px/1.5 var(--mono);color:var(--muted)}
+.log.open{display:block}
+.log b{color:var(--ink);font-weight:600}
+
+/* marco */
+.phone{position:relative;background:var(--bg);border:1px solid var(--line);border-radius:32px;overflow:hidden;
+  height:min(780px,calc(100dvh - 70px));min-height:560px;display:flex;flex-direction:column;box-shadow:var(--shadow)}
+.top{display:flex;align-items:center;gap:10px;padding:16px 18px 6px}
+.back{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);background:var(--surface);flex:none}
+.back[hidden]{display:none}
+.stepinfo{flex:1;min-width:0}
+.steplabel{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.bar{height:4px;background:var(--line);border-radius:4px;margin-top:6px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:4px;transition:width .35s}
+main{flex:1;overflow:auto;padding:14px 20px 20px;display:flex;flex-direction:column;gap:16px}
+.foot{padding:12px 20px 18px;border-top:1px solid var(--line);background:var(--bg)}
+.btn{width:100%;background:var(--accent);color:var(--on-accent);font-weight:600;font-size:16px;border-radius:999px;padding:15px 24px;font-family:var(--body)}
+.btn:disabled{background:var(--line);color:var(--muted);cursor:not-allowed}
+.btn.ghost{background:transparent;border:2px solid var(--ink);color:var(--ink)}
+h1{font-size:28px;line-height:1.15}
+.lead{color:var(--muted);margin:6px 0 0}
+.fade{animation:in .3s ease both}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* paso 1 */
+.goals{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.goal{position:relative;text-align:left;background:var(--surface);border:2px solid var(--line);border-radius:18px;padding:12px;display:flex;flex-direction:column;gap:8px;min-height:104px;transition:border-color .15s,background .15s}
+.goal .ic{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:var(--pastel-ink)}
+.goal .ic.big{width:48px;height:46px;border-radius:0;background:none}
+.goal .ic.big img{width:46px;height:auto;display:block}
+.goal strong{font-family:var(--display);font-weight:600;font-size:17px;letter-spacing:.02em}
+.goal small{color:var(--muted);font-size:13px;line-height:1.3}
+.goal[aria-pressed="true"]{border-color:var(--accent-ink)}
+.goal .badge{position:absolute;top:10px;right:10px;font-size:11px;font-weight:600;background:var(--accent);color:var(--on-accent);border-radius:999px;padding:2px 8px}
+.hint{font-size:13px;color:var(--muted);min-height:20px}
+
+/* paso 2 */
+.fixed{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.fixed h3{font-size:15px;color:var(--muted);font-weight:500;letter-spacing:.04em;text-transform:uppercase}
+.fixed .r{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.fixed .r b{font-family:var(--display);font-size:20px;font-weight:600}
+.q{display:flex;flex-direction:column;gap:10px}
+.q .tagline{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.q h2{font-size:21px;line-height:1.2}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:9px 14px;font-weight:500;font-size:15px}
+.opt[aria-checked="true"]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.opt.skip{border:0;background:none;padding:9px 4px;color:var(--muted);text-decoration:underline;text-underline-offset:3px;font-size:14px}
+.opt.skip[aria-checked="true"]{background:none;color:var(--ink);font-weight:600}
+.follow{display:flex;flex-direction:column;gap:8px;padding-top:4px}
+.follow h3{font-family:var(--body);font-weight:600;font-size:15px;letter-spacing:0}
+.use{font-size:13px;color:var(--muted);margin:0}
+
+/* paso 3: una tarjeta = nombre, cifra, un dato editable y un enlace. El detalle va en "¿Por qué?" */
+.hero{display:flex;flex-direction:column;gap:4px}
+.hero .kick{font-size:15px;color:var(--muted)}
+.total{font-family:var(--display);font-weight:600;font-size:46px;line-height:1.05;letter-spacing:.01em;font-variant-numeric:tabular-nums}
+.total small{font-size:18px;font-weight:500;color:var(--muted);letter-spacing:.02em}
+.sub{font-size:14px;color:var(--muted)}
+.gift{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 14px}
+.gift .bubble{width:36px;height:36px}
+.gift b{display:block;font-size:15px}
+.gift span{font-size:13px;color:var(--muted)}
+.cards{display:flex;flex-direction:column;gap:10px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;transition:opacity .2s}
+.card.off{opacity:.55}
+.card .row{display:flex;align-items:center;gap:8px}
+.card .row .bubble{margin-right:4px}
+.bubble img{width:26px;height:auto;display:block}
+.bubble{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;flex:none;color:var(--pastel-ink)}
+.hd{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.nm{display:flex;align-items:center;gap:6px}
+.card h3{font-size:16px;line-height:1.25}
+.info{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--muted);color:var(--muted);font:600 12px/1 var(--display);display:grid;place-items:center;flex:none}
+.info[aria-expanded="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.chev{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;flex:none;color:var(--muted);transition:transform .2s}
+.chev[aria-expanded="true"]{transform:rotate(180deg)}
+.more{display:flex;flex-direction:column;gap:8px;padding-left:48px}
+.more[hidden]{display:none}
+.amt{display:flex;align-items:baseline;flex-wrap:wrap;gap:2px 6px}
+.amt .v{font-family:var(--display);font-weight:600;font-size:18px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.amt .per{font-size:13px;color:var(--muted)}
+.tag{font-size:12px;font-weight:600;color:#221C46;background:#E3E2FA;border-radius:999px;padding:2px 9px;white-space:nowrap}
+.tag.paid{background:#C7FCCA}
+.tag.trial{background:#FFCCEA}
+.sw{width:46px;height:28px;border-radius:999px;background:var(--line);position:relative;flex:none;transition:background .2s}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:var(--surface);box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .2s}
+.sw[aria-checked="true"]{background:var(--accent)}
+.sw[aria-checked="true"]::after{transform:translateX(18px);background:var(--brand)}
+.est[hidden]{display:none}
+.est{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--muted);flex-wrap:wrap}
+.link{color:var(--accent-ink);font-weight:600;text-decoration:underline;text-underline-offset:3px;font-size:14px}
+.whylink{align-self:flex-start;font-size:13px;color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+.stepper{display:none;align-items:center;gap:12px}
+.stepper.open{display:flex}
+.stepper button{width:36px;height:36px;border-radius:50%;border:2px solid var(--line);font-size:20px;line-height:1;display:grid;place-items:center}
+.stepper .link{width:auto;height:auto;border:0;border-radius:0;font-size:14px;margin-left:auto;display:inline}
+.stepper output{font-weight:600;min-width:120px;text-align:center;font-variant-numeric:tabular-nums}
+.tip{background:var(--ink);color:var(--bg);border-radius:12px;padding:10px 12px;font-size:14px;line-height:1.45;display:flex;flex-direction:column;gap:6px}
+.tip[hidden]{display:none}
+.tip p{margin:0}
+.tip .warn{font-size:13px}
+.tip .fine{font-size:12px;color:inherit;opacity:.7}
+.foot-note{font-size:13px;color:var(--muted);margin:0}
+.foot-note summary{cursor:pointer;color:var(--accent-ink);font-weight:600}
+.foot-note p{margin:6px 0 0}
+
+/* wrapped */
+.wrapped{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;background-color:var(--w-bg);background-size:cover;background-position:center bottom;background-repeat:no-repeat;color:var(--w-fg)}
+.wrapped[hidden]{display:none}
+.segs{display:flex;gap:5px;padding:16px 16px 8px}
+.seg{flex:1;height:4px;border-radius:4px;background:var(--w-soft);overflow:hidden}
+.seg i{display:block;height:100%;width:0;background:var(--w-fg)}
+.seg.done i{width:100%}
+.seg.cur i{animation:fill 5s linear forwards}
+.paused .seg.cur i{animation-play-state:paused}
+@keyframes fill{to{width:100%}}
+.wtools{display:flex;justify-content:space-between;align-items:center;padding:0 16px;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.wtools button{width:36px;height:36px;border-radius:50%;background:var(--w-soft);color:var(--w-fg);display:grid;place-items:center}
+.slide{flex:none;padding:8px 24px 0;display:flex;flex-direction:column;justify-content:flex-start;gap:14px;animation:in .4s ease both}
+.slide .big{font-family:var(--display);font-weight:600;font-size:64px;line-height:1;letter-spacing:.01em;font-variant-numeric:tabular-nums}
+.slide .eq{font-family:var(--display);font-weight:600;font-size:34px;line-height:1.1;letter-spacing:.01em}
+.slide h2{font-size:30px;line-height:1.1}
+.slide p{margin:0;font-size:18px}
+.bd{display:flex;flex-direction:column;gap:14px}
+.bd .l{display:flex;justify-content:space-between;gap:10px;font-weight:600;margin-bottom:5px}
+.bd .tr{height:10px;background:var(--w-soft);border-radius:10px;overflow:hidden}
+.bd .tr i{display:block;height:100%;background:var(--w-fg);border-radius:10px}
+.chip{align-self:flex-start;background:var(--w-fg);color:var(--w-bg);border-radius:999px;padding:8px 16px;font-weight:600}
+.art{flex:1;min-height:160px;position:relative;display:flex;align-items:flex-end;justify-content:center;overflow:hidden}
+.artimg{width:100%;height:100%;background-size:contain;background-position:center bottom;background-repeat:no-repeat;-webkit-mask-image:radial-gradient(ellipse 74% 74% at 50% 54%,#000 58%,transparent 100%);mask-image:radial-gradient(ellipse 74% 74% at 50% 54%,#000 58%,transparent 100%)}
+.art.big .artimg{transform:scale(1.2);transform-origin:50% 100%;animation:bob 3.4s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:scale(1.2) translateY(0)}50%{transform:scale(1.2) translateY(-8px)}}
+.conf{position:absolute;inset:0;width:100%;height:100%;z-index:8;pointer-events:none}
+.conf[hidden]{display:none}
+.wbtns{display:flex;flex-direction:column;gap:10px;padding:8px 24px 24px}
+.wbtns .btn{background:var(--w-fg);color:var(--w-bg)}
+.wbtns .btn.ghost{background:transparent;border-color:var(--w-fg);color:var(--w-fg)}
+.allbtn{align-self:center;font-size:15px}
+.allbtn[hidden]{display:none}
+.allb{display:flex;flex-direction:column;gap:8px}
+.allb[hidden]{display:none}
+.more-b{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px dashed var(--line);border-radius:16px;padding:12px 14px}
+.more-b .mb{flex:1;min-width:0;display:flex;flex-direction:column}
+.more-b b{font-size:15px}
+.more-b span{font-size:13px;color:var(--muted)}
+.more-b em{font-style:normal;font-size:13px;font-weight:600;color:var(--accent-ink)}
+.addb{border:2px solid var(--ink);border-radius:999px;padding:6px 14px;font-weight:600;font-size:14px;flex:none}
+.todos{display:flex;flex-direction:column;gap:8px}
+.todo{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 14px}
+.todo .ck{width:24px;height:24px;border-radius:7px;border:2px solid var(--muted);display:grid;place-items:center;flex:none;color:var(--on-accent)}
+.todo.done .ck{background:var(--accent);border-color:var(--accent)}
+.todo b{display:block;font-size:15px}
+.todo .sub{display:block;font-size:13px;color:var(--muted)}
+.todo.done b{color:var(--muted);text-decoration:line-through}
+.later{display:block;margin:10px auto 0;font-size:14px;color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+.later:disabled{text-decoration:none;cursor:default}
+.endimg{width:100%;max-width:220px;height:auto;align-self:center;border-radius:24px}
+/* pantalla final siempre en claro (también con tema oscuro) para que la ilustración se vea bien */
+.end{--bg:#F5F3FE;--surface:#FFFFFF;--ink:#131117;--muted:#645F78;--line:#E4E0F0;--accent-ink:#177855;color:var(--ink);position:absolute;inset:0;z-index:6;background:var(--bg);display:flex;flex-direction:column}
+.end[hidden]{display:none}
+@media (max-width:480px){
+  .phone{border-radius:24px}
+  h1{font-size:26px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+  <div class="phone" id="phone">
+    <div class="top">
+      <button class="back" id="back" type="button" aria-label="Volver" hidden>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <div class="stepinfo">
+        <div class="steplabel" id="steplabel"></div>
+        <div class="bar"><i id="barfill"></i></div>
+      </div>
+    </div>
+    <main id="main"></main>
+    <div class="foot"><button class="btn" id="cta" type="button"></button></div>
+    <section class="wrapped" id="wrapped" hidden aria-label="Cobee Wrapped"></section>
+    <section class="end" id="end" hidden></section>
+    <canvas class="conf" id="conf" hidden aria-hidden="true"></canvas>
+  </div>
+
+  <div class="proto">
+    <label>Perfil RR. HH.
+      <select id="mode" aria-label="Perfil de modalidad y jornada">
+        <option value="presencial">Presencial</option>
+        <option value="hibrido">Híbrido</option>
+        <option value="remoto">100 % remoto</option>
+        <option value="intensiva">Intensiva en verano</option>
+      </select>
+    </label>
+    <label>Plan Cobee
+      <select id="catalogo" aria-label="Plan de Cobee contratado por la empresa">
+        <option value="starter">Starter</option>
+        <option value="professional">Professional</option>
+        <option value="premium" selected>Premium</option>
+      </select>
+    </label>
+    <label>Tramo IRPF
+      <select id="tramo" aria-label="Tramo de tipo marginal de IRPF">
+        <option value="0.24">Hasta 23.800 € · 24 %</option>
+        <option value="0.30" selected>23.800–39.800 € · 30 %</option>
+        <option value="0.37">39.800–66.300 € · 37 %</option>
+        <option value="0.45">Más de 66.300 € · 45 %</option>
+      </select>
+    </label>
+    <label>Alta en
+      <select id="alta" aria-label="Mes del onboarding">
+        <option value="1">enero</option><option value="2">febrero</option><option value="3">marzo</option><option value="4">abril</option>
+        <option value="5">mayo</option><option value="6">junio</option><option value="7">julio</option><option value="8">agosto</option>
+        <option value="9">septiembre</option><option value="10">octubre</option><option value="11">noviembre</option><option value="12">diciembre</option>
+      </select>
+    </label>
+    <button id="restart" type="button">Reiniciar</button>
+    <button id="evbtn" type="button" aria-expanded="false" aria-controls="log">Eventos <span id="evn">0</span></button>
+  </div>
+  <div class="log" id="log" aria-live="off"></div>
+</div>
+
+<script>
+(function(){
+const $=s=>document.querySelector(s);
+const fmt=n=>String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g,".")+" €";
+const reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const NAME="Marta";
+
+const ICON={
+  transporte:'<rect x="4" y="3.5" width="16" height="13" rx="3"/><path d="M4 11h16M8 20v-3.5M16 20v-3.5"/>',
+  comida:'<path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 21V3c-2 1-3 4-3 8h3"/>',
+  descuentos:'<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1"/>',
+  seguro:'<path d="M12 21s-8-5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6-8 11-8 11z"/>',
+  formacion:'<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 19V5"/>',
+  bienestar:'<path d="M6 8v8M3 10v4M18 8v8M21 10v4M6 12h12"/>',
+  guarderia:'<circle cx="12" cy="8" r="4"/><path d="M5 21c0-4 3-6 7-6s7 2 7 6"/>',
+  pensiones:'<path d="M4 18V8l8-5 8 5v10M4 18h16M9 18v-6h6v6"/>',
+  reconocimiento:'<path d="M12 3l2.8 5.8 6.2.9-4.5 4.4 1 6.2L12 17.3l-5.5 3 1-6.2L3 9.7l6.2-.9z"/>',
+  ahorrar:'<circle cx="12" cy="12" r="8.5"/><path d="M15 8.8a3.6 3.6 0 1 0 0 6.4M7.5 11h5.5M7.5 13.2h5.5"/>',
+  crecer:'<path d="M4 17l6-6 4 4 6-8M15 7h5v5"/>',
+  pause:'<path d="M8 5v14M16 5v14"/>', play:'<path d="M7 4l13 8-13 8z"/>'
+};
+ICON.disfrutar='<path d="M4 7h16v3a2 2 0 0 0 0 4v3H4v-3a2 2 0 0 0 0-4z"/><path d="M14 7v10" stroke-dasharray="2 2"/>';
+const ico=(n,s=22)=>`<svg viewBox="0 0 24 24" width="${s}" height="${s}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[n]}</svg>`;
+
+const GOALS=[
+  {id:"ahorrar",name:"Ahorrar",desc:"Que me cunda más el sueldo",ic:"ahorrar",pastel:"#C7FCCA",label:"Ahorro estratégico",set:"green"},
+  {id:"salud",name:"Salud",desc:"Cuidarme sin que cueste tanto",ic:"seguro",pastel:"#FCC1BE",label:"Salud primero",set:"mint"},
+  {id:"crecer",name:"Crecer",desc:"Aprender y avanzar",ic:"crecer",pastel:"#C3EBFB",label:"En modo crecimiento",set:"light"},
+  {id:"familia",name:"Familia",desc:"Apoyo para los míos",ic:"guarderia",pastel:"#FDEEC1",label:"Familia en el centro",set:"light"},
+  {id:"futuro",name:"Futuro",desc:"Tranquilidad a largo plazo",ic:"pensiones",pastel:"#E3E2FA",label:"Mirada a largo plazo",set:"dark"},
+  {id:"disfrutar",name:"Disfrutar",desc:"Más planes por menos",ic:"disfrutar",pastel:"#FFCCEA",label:"Más planes por menos",set:"mint"}
+];
+const G=id=>GOALS.find(g=>g.id===id);
+/* objetivos con icono 3D de Cobee (el de Futuro/pensiones se generó en el mismo estilo) */
+const GIMG={ahorrar:"descuentos-empleados",salud:"seguro-salud",crecer:"plan-formacion",familia:"ticket-guarderia",futuro:"plan-pensiones",disfrutar:"ticket-restaurante"};
+const goalIcon=g=>GIMG[g.id]?`<span class="ic big"><img src="assets/benefit-${GIMG[g.id]}.webp" alt="" width="46" height="45"></span>`:`<span class="ic" style="background:${g.pastel}">${ico(g.ic)}</span>`;
+
+/* topes del simulador de Cobee: comida 11 €/día, máx. 220 €/mes y 11 meses; transporte máx. 136 €/mes */
+const COMIDA_DIA=11, COMIDA_MAX=220, TRANSPORTE_MAX=136, SEGURO_MAX=500, MESES=11;
+/* estimados por perfil (tramo de IRPF) para beneficios fuera del simulador.
+   Supuestos ilustrativos, pendientes de validar con datos de uso de Cobee y con el equipo fiscal. */
+const EST={24:{desc:150,gym:30,pen:50},30:{desc:200,gym:40,pen:100},37:{desc:250,gym:50,pen:125},45:{desc:300,gym:60,pen:125}};
+const DESC_PCT=0.05, GYM_PCT=0.20, PEN_MAX=1500;
+const est=()=>EST[Math.round(s.t*100)];
+/* planes de Wellhub en España (wellhub.com, precios "desde", oct. 2026). La IA propone uno según los objetivos */
+const WELLHUB={starter:{n:"Starter",p:9.99,apps:47},basic:{n:"Basic",p:22.99,apps:54},silver:{n:"Silver",p:36.99,apps:56}};
+const whPlan=()=>s.goals.includes("salud")?WELLHUB.basic:WELLHUB.starter;
+const eur2=n=>n.toFixed(2).replace(".",",")+" €";
+/* catálogo activo según el plan de Cobee de la empresa (página de precios de Cobee):
+   Starter: comida, transporte, guardería, seguro y descuentos · Professional: + formación y gimnasio/bienestar · Premium: + plan de pensiones.
+   La IA solo recomienda, y solo pregunta por, beneficios de este catálogo (reglas 3 y "restricción dura") */
+const CATALOGO={starter:["transporte","comida","guarderia","seguro","descuentos"],
+  professional:["transporte","comida","guarderia","seguro","descuentos","formacion","bienestar"],
+  premium:["transporte","comida","guarderia","seguro","descuentos","formacion","bienestar","pensiones"]};
+const activo=id=>CATALOGO[s.cat].includes(id);
+/* 4.2: lo que responden empleados con un perfil parecido (prototipo: datos sintéticos; en producción salen de Mixpanel) */
+function priors(q){
+  const t=Math.round(s.t*100);
+  return {AH:{"Seguro médico":.25,"Guardería":.1,"Un curso que pago o voy a pagar":.1,"Ninguno":.55},
+    SA:{"Sí, lo pago yo":.25,"Sí, me lo paga la empresa":.2,"No":.55},
+    CR:{"Sí":.3,"Aún no lo sé":.45,"No":.25},
+    FA:{"Sí":.2,"No":.8},
+    FU:t===24?{"No":.9,"Sí":.1}:{"No":.65,"Sí":.35}}[q.id];
+}
+const UMBRAL_VALOR=50, UMBRAL_IGUAL=.85;
+/* descuentos: la IA elige qué marcas asociadas enseñar según los objetivos (marcas que Cobee publica en su web).
+   Cobee publica descuentos de "hasta un 11 %"; el 5 % medio es un supuesto. */
+const BRANDS={ahorrar:["Carrefour","Amazon","Cepsa"],familia:["Carrefour","Primark","Atrápalo"],salud:["Nike","Rituals"],
+  crecer:["Amazon"],futuro:["Airbnb","Atrápalo"],disfrutar:["Atrápalo","Airbnb","Lastminute"]};
+/* no se muestran marcas que revelen algo personal (embarazo, bebés, salud). Elegir Familia no significa tener hijos pequeños. */
+function brands(){const out=[];const l=s.goals.map(g=>BRANDS[g]||[]),a=l[0]||[],b=l[1]||[];[a[0],a[1],b[0],a[2],b[1],b[2],"Amazon","Carrefour"].filter(Boolean).forEach(b=>{if(!out.includes(b)&&out.length<3)out.push(b);});return out;}
+
+/* prorrateo: los beneficios se aplican desde la nómina del mes siguiente al alta hasta diciembre.
+   Si el alta es en diciembre, el plan se calcula para el año siguiente completo.
+   Transporte, comida y guardería no cuentan agosto (vacaciones); comida tampoco julio en intensiva.
+   La formación es un gasto puntual y no se prorratea. */
+const MES=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+const YEAR=new Date().getFullYear();
+const startM=()=>s.alta+1>12?1:s.alta+1;
+const nextYear=()=>s.alta+1>12;
+let FULL=false;
+function months(kind){
+  let n=0;
+  for(let m=FULL?1:startM();m<=12;m++){
+    if(kind!=="all"&&m===8)continue;
+    if(kind==="comida"&&s.mode==="intensiva"&&m===7)continue;
+    n++;
+  }
+  return n;
+}
+const prorated=()=>!nextYear()&&startM()>1;
+const period=()=>nextYear()?`en ${YEAR+1}`:startM()===1?`en ${YEAR}`:"hasta diciembre";
+const MODES={
+  presencial:{office:5,days:20,months:MESES,transporte:true,tNote:"",cNote:""},
+  hibrido:{office:3,days:12,months:MESES,transporte:true,tNote:"Proporcional a tus días de oficina",cNote:""},
+  remoto:{office:0,days:20,months:MESES,transporte:false,tNote:"",cNote:"Teletrabajo: exención pendiente de validar con el equipo fiscal"},
+  intensiva:{office:5,days:20,months:MESES-1,transporte:true,tNote:"",cNote:"Sin julio por tu jornada intensiva (agosto ya cuenta como vacaciones)"}
+};
+
+const MO=[["Menos de 30 €",25],["30–45 €",40],["Más de 45 €",50]];
+const GU=[["Menos de 250 €",200],["250–400 €",325],["400–600 €",500],["Más de 600 €",700]];
+const FOR=[["Menos de 500 €",400],["500–1.500 €",1000],["1.500–3.000 €",2250],["Más de 3.000 €",3500]];
+/* cada pregunta mide una variable del cálculo: situación + importe en rangos */
+const QB=[
+  {id:"AH",goal:"ahorrar",text:"¿Cuál de estos gastos pagas tú?",use:"Pasamos ese gasto a retribución flexible y calculamos tu ahorro con tu importe real.",
+    opts:["Seguro médico","Guardería","Un curso que pago o voy a pagar","Ninguno"],
+    follow:{"Guardería":{text:"¿Cuánto pagas al mes?",opts:GU},"Un curso que pago o voy a pagar":{text:"¿Cuánto te queda por pagar en los próximos 12 meses?",opts:FOR}}},
+  {id:"SA",goal:"salud",sensitive:true,text:"¿Pagas tú un seguro médico privado?",use:"Decide si te recomendamos pasar tu seguro a Cobee, contratar uno o, si ya te lo paga la empresa, bienestar.",
+    opts:["Sí, lo pago yo","Sí, me lo paga la empresa","No"]},
+  {id:"CR",goal:"crecer",text:"¿Vas a pagar alguna formación relacionada con tu trabajo en los próximos 12 meses?",use:"Solo cuentan los pagos que aún no has hecho: es el importe con el que calculamos tu ahorro.",
+    opts:["Sí","Aún no lo sé","No"],follow:{"Sí":{text:"¿Cuánto, más o menos?",opts:FOR}}},
+  {id:"FA",goal:"familia",sensitive:true,text:"¿Tienes hijos menores de 3 años?",use:"Decide si te recomendamos guardería, y con qué cuota calculamos.",
+    opts:["Sí","No"],follow:{"Sí":{text:"¿Cuánto pagas al mes de guardería?",opts:GU}}},
+  {id:"FU",goal:"futuro",text:"¿Aportas ya a un plan de pensiones?",use:"Decide si te proponemos empezar un plan o aportar un poco más al que ya tienes.",
+    opts:["No","Sí"]}
+];
+
+/* estado */
+let s,plan,evs,t0;
+function fresh(mode){return {step:0,goals:[],answers:{},mode,t:Number($("#tramo").value),alta:Number($("#alta").value),vals:{},on:{},open:{},tips:{},ans:{},cat:$("#catalogo").value,assumed:{},fold:{}};}
+const cur=()=>MODES[s.mode];
+const T=()=>s.t;
+
+/* catálogo: ahorro = importe × tipo marginal del tramo, con los límites del simulador de Cobee */
+/* importe que dio el empleado para un beneficio (undefined si no respondió) */
+function qv(qid){
+  const q=QB.find(x=>x.id===qid),a=s.answers[qid];if(!q||!a)return undefined;
+  if(q.vals&&q.vals[a]!==undefined)return q.vals[a];
+  const f=q.follow&&q.follow[a],fa=s.answers[qid+"_f"];
+  if(f){const o=f.opts.find(o=>o[0]===fa);if(o)return o[1];}
+  return undefined;
+}
+function given(id){
+  const a=s.answers;
+  if(id==="seguro")return a.SA==="Sí, lo pago yo"?qv("SA"):a.AH==="Seguro médico"?qv("AH"):undefined;
+  if(id==="guarderia")return a.FA==="Sí"?qv("FA"):a.AH==="Guardería"?qv("AH"):undefined;
+  if(id==="formacion")return qv("CR")!==undefined?qv("CR"):a.AH==="Un curso que pago o voy a pagar"?qv("AH"):undefined;
+  return undefined;
+}
+/* lo que el empleado ya paga se presenta como traslado, no como contratación nueva */
+function existing(id){
+  const a=s.answers;
+  if(id==="seguro")return a.SA==="Sí, lo pago yo"||a.AH==="Seguro médico";
+  if(id==="guarderia")return a.AH==="Guardería"||given("guarderia")!==undefined;
+  if(id==="formacion")return a.CR==="Sí"||a.AH==="Un curso que pago o voy a pagar";
+  if(id==="pensiones")return a.FU==="Sí";
+  return false;
+}
+const B={
+  transporte:{name:()=>"Transporte",pastel:"#C3EBFB",min:1,max:5,step:1,
+    def:()=>cur().office,label:v=>`${v} día${v>1?"s":""} de oficina a la semana`,
+    save:v=>TRANSPORTE_MAX*(v/5)*months("t")*T()},
+  comida:{name:()=>"Comida",pastel:"#FDEEC1",min:1,max:20,step:1,
+    def:()=>cur().days,label:v=>`${v} días al mes`,
+    save:v=>Math.min(v*COMIDA_DIA,COMIDA_MAX)*months("comida")*T()},
+  descuentos:{name:()=>{const g=s.goals.find(x=>["ahorrar","crecer","disfrutar"].includes(x));return g==="ahorrar"?"Descuentos en compras":g==="crecer"?"Descuentos para aprender":g==="disfrutar"?"Planes y ocio":"Descuentos";},pastel:"#C7FCCA",est:true,min:50,max:800,step:50,
+    def:()=>est().desc,label:v=>`${v} € al mes en ${brands().join(", ")}`,save:v=>v*months("all")*DESC_PCT},
+  seguro:{name:()=>"Seguro médico",pastel:"#FCC1BE",min:10,max:150,step:5,
+    def:()=>given("seguro")??40,label:v=>`Prima de ${v} € al mes`,save:v=>Math.min(v*months("all"),SEGURO_MAX)*T()},
+  guarderia:{name:()=>"Guardería",pastel:"#FDEEC1",min:100,max:900,step:25,
+    def:()=>given("guarderia")??350,label:v=>`Cuota de ${v} € al mes`,save:v=>v*months("t")*T()},
+  formacion:{name:()=>"Formación",pastel:"#E3E2FA",min:200,max:12000,step:100,
+    def:()=>given("formacion")??1000,label:v=>`${fmt(v)} al año`,save:v=>v*T()},
+  /* bienestar = Wellhub en Cobee. No es retribución flexible (no ahorra IRPF): se muestra el plan que encaja y su precio */
+  /* ahorro estimado = (cuota de un gimnasio por tu cuenta − precio de referencia del plan Wellhub) × meses.
+     Gimnasio medio en España 30–50 €/mes y low cost desde 20 € (elDiario.es, ene. 2025). Editable */
+  bienestar:{name:()=>"Wellhub",pastel:"#FFCCEA",est:true,min:10,max:100,step:5,
+    def:()=>whPlan()===WELLHUB.basic?40:20,label:v=>`Frente a un gimnasio de ${v} € al mes · plan ${whPlan().n}, ${eur2(whPlan().p)}`,
+    save:v=>Math.max(0,v-whPlan().p)*months("all")},
+  pensiones:{name:()=>"Plan de pensiones",pastel:"#C3EBFB",est:true,min:25,max:125,step:25,
+    def:()=>existing("pensiones")?50:est().pen,label:v=>existing("pensiones")?`${v} € más al mes`:`Aportación de ${v} € al mes`,save:v=>Math.min(v*months("all"),PEN_MAX)*T()},
+  reconocimiento:{name:()=>"Reconocimiento",pastel:"#FFCCEA",noSave:true,def:()=>0,valueText:"Valor",valueSub:"sin ahorro fiscal"},
+};
+const val=id=>s.vals[id]!==undefined?s.vals[id]:B[id].def();
+/* iconos 3D de beneficios de Cobee (carpeta Assets); los que no tienen icono usan el trazo propio */
+const IMG={transporte:"ticket-transporte",comida:"ticket-restaurante",descuentos:"descuentos-empleados",seguro:"seguro-salud",guarderia:"ticket-guarderia",formacion:"plan-formacion",bienestar:"bienestar-fisico",pensiones:"plan-pensiones"};
+const bubble=(id,s2=18)=>`<span class="bubble" style="background:${B[id].pastel}">${IMG[id]?`<img src="assets/benefit-${IMG[id]}.webp" alt="" width="26" height="25">`:ico(id,s2)}</span>`;
+const saveOf=(id,full=false)=>{if(B[id].noSave)return 0;const k=FULL;FULL=full;const r=B[id].save(val(id));FULL=k;return r;};
+
+/* candidatos por objetivo, ordenados según respuestas */
+function cand(g,a=s.answers){
+  let l;
+  if(g==="ahorrar"){
+    /* Ahorrar = sacar más a lo que ya gastas: si no paga nada de la lista, no se le propone gastar más */
+    const m={"Seguro médico":"seguro","Guardería":"guarderia","Un curso que pago o voy a pagar":"formacion"}[a.AH];
+    l=a.AH==="Ninguno"?["descuentos"]:m?[m,"descuentos"]:["seguro","formacion","descuentos","bienestar"];
+  }else if(g==="salud"){
+    l=a.SA==="Sí, me lo paga la empresa"?["bienestar","descuentos","formacion"]:["seguro","bienestar","descuentos"];
+  }else if(g==="crecer"){l=a.CR==="No"?["descuentos","bienestar"]:["formacion","descuentos","bienestar"];}
+  /* guardería solo si ha dicho que tiene hijos menores de 3 años; si no se preguntó, no se asume */
+  else if(g==="familia"){l=a.FA==="Sí"||a.AH==="Guardería"?["guarderia","seguro","bienestar"]:["seguro","bienestar","descuentos"];}
+  else if(g==="futuro"){l=["pensiones","seguro","formacion","descuentos","bienestar"];}
+  else{l=["descuentos","bienestar"];}
+  return [...new Set(l)].filter(activo);
+}
+function fixedList(){const o=[];if(cur().transporte)o.push("transporte");o.push("comida");return o;}
+function pickCustom(a0=s.answers){
+  const a={...s.assumed,...a0};
+  const n=4-fixedList().length, out=[], src={};
+  const add=(id,g)=>{if(id&&out.length<n&&!out.includes(id)){out.push(id);src[id]=g;}};
+  const gs=s.goals, lists=gs.map(g=>cand(g,a));
+  if(gs.length===2){add(lists[0][0],gs[0]);add(lists[1].find(x=>!out.includes(x)),gs[1]);}
+  gs.forEach((g,i)=>lists[i].forEach(id=>add(id,g)));
+  if(!(gs.length===1&&gs[0]==="ahorrar"&&a.AH==="Ninguno"))["descuentos","seguro","bienestar","formacion"].filter(activo).forEach(id=>add(id,gs[0]));
+  return out.map(id=>({id,kind:"ia",goal:src[id]}));
+}
+function buildPlan(){
+  plan=[...fixedList().map(id=>({id,kind:"fijo"})),...pickCustom(),...(s.extra||[]).map(id=>({id,kind:"extra"}))];
+  plan.forEach(it=>{if(s.on[it.id]===undefined)s.on[it.id]=true;});
+}
+
+/* preguntas: reglas fijas 7.4 (máx. 2, una por objetivo, máx. 1 sensible)
+   + solo se pregunta si alguna respuesta cambia los beneficios o mueve el ahorro ≥ 100 € */
+/* si FA ya va a preguntar por los hijos, AH no repite guardería */
+/* regla 4 y 5: AH no repite lo que pregunta otro objetivo ni añade una segunda pregunta sensible (hijos),
+   y no ofrece gastos cuyo beneficio la empresa no tiene (regla 3) */
+function optsOf(q){
+  if(q.id!=="AH")return q.opts;
+  const g=s.goals;
+  return q.opts.filter(o=>!(o==="Seguro médico"&&(g.includes("salud")||!activo("seguro")))
+    &&!(o==="Guardería"&&(g.includes("familia")||g.includes("salud")||!activo("guarderia")))
+    &&!(o==="Un curso que pago o voy a pagar"&&(g.includes("crecer")||!activo("formacion"))));
+}
+const isSensitive=q=>q.sensitive||(q.id==="AH"&&optsOf(q).includes("Guardería"));
+function scenario(a){
+  const keep=s.answers;s.answers=a;
+  const ids=[...fixedList(),...pickCustom(a).map(x=>x.id)];
+  const tot=ids.reduce((t,id)=>t+saveOf(id,true),0);
+  s.answers=keep;return {ids:ids.join(","),tot};
+}
+/* 4.2: valor = probabilidad de que la respuesta cambie la recomendación × diferencia de ahorro.
+   Base = la respuesta más probable entre perfiles parecidos. Un cambio de beneficio cuenta como 100 € de diferencia mínima. */
+function evaluate(q){
+  const pr=priors(q),opts=optsOf(q).filter(o=>pr[o]!==undefined);
+  const sum=opts.reduce((t,o)=>t+pr[o],0)||1;
+  const likely=opts.reduce((m,o)=>pr[o]>pr[m]?o:m,opts[0]);
+  const pmax=pr[likely]/sum;
+  const variants=o=>{const f=q.follow&&q.follow[o];return f?f.opts.map(x=>({a:{[q.id]:o,[q.id+"_f"]:x[0]},w:1/f.opts.length})):[{a:{[q.id]:o},w:1}];};
+  const base=scenario({[q.id]:likely});
+  let value=0;
+  opts.forEach(o=>variants(o).forEach(({a,w})=>{const r=scenario(a);const d=Math.abs(r.tot-base.tot)+(r.ids!==base.ids?100:0);if(d>0)value+=pr[o]/sum*w*Math.max(d,r.ids!==base.ids?100:0);}));
+  return {likely,pmax,value:Math.round(value)};
+}
+/* reglas 1, 5, 7 y 8: una pregunta por objetivo, en orden de prioridad (el principal primero), máx. 2 y máx. 1 sensible */
+function questions(){
+  const out=[];s.assumed={};
+  s.goals.forEach(g=>{
+    const q=QB.find(q=>q.goal===g);if(!q)return;
+    const ev=evaluate(q);
+    if(ev.pmax>=UMBRAL_IGUAL){s.assumed[q.id]=ev.likely;return;}
+    if(ev.value<UMBRAL_VALOR)return;
+    if(isSensitive(q)&&out.some(isSensitive)){return;}
+    out.push(q);
+  });
+  return out.slice(0,2);
+}
+const done=q=>{const a=s.answers[q.id];if(a===undefined)return false;if(a==="")return true;return !(q.follow&&q.follow[a])||s.answers[q.id+"_f"]!==undefined;};
+
+/* explicaciones: en producción las redacta el LLM de Anthropic con el contexto del empleado.
+   Aquí son plantillas que citan cifras ya calculadas por las reglas (la IA no calcula). */
+function why(it){
+  const id=it.id,a=s.answers,m=cur(),v=val(id),sv=saveOf(id,true),y=fmt(sv),has=given(id)!==undefined,cuotas=(sv/Math.max(v,1)).toFixed(1).replace(".",",");
+  const f={
+    transporte:()=>m.tNote
+      ?`Solo cuentan los días que vas a la oficina: con ${v} a la semana, pagar el transporte desde la nómina te ahorra ${y} al año.`
+      :`Vas a la oficina todos los días, así que el transporte es uno de tus gastos más constantes. Pagarlo desde la nómina, hasta ${TRANSPORTE_MAX} € al mes, te ahorra ${y} al año.`,
+    comida:()=>s.mode==="remoto"
+      ?`Trabajando desde casa también comes entre semana: con ${v} días al mes ahorras ${y} al año. Estamos validando cómo se aplica en teletrabajo, así que la cifra se confirma al activarlo.`
+      :s.mode==="intensiva"
+      ?`Tu jornada intensiva deja fuera julio y ya lo hemos descontado: con ${v} días al mes ahorras ${y} al año.`
+      :`Comer fuera es un gasto que repites cada día. Con ${v} días al mes, a ${COMIDA_DIA} € al día, pagarlo con la tarjeta restaurante te ahorra ${y} al año.`,
+    descuentos:()=>{const b=brands();return `Por tus objetivos te enseñamos ${b.slice(0,-1).join(", ")} y ${b.at(-1)}, con descuentos de hasta el 11 %. Si gastas unos ${v} € al mes en ellas, con un descuento medio del ${DESC_PCT*100} % ahorrarías ${y} al año. Puedes usarlos desde hoy, sin cambiar nada en tu nómina. No es ahorro fiscal, así que lo marcamos como estimado.`;},
+    seguro:()=>existing("seguro")
+      ?`${has?`Nos dijiste que pagas unos ${v} € al mes por tu seguro médico.`:"Nos dijiste que ya pagas tu seguro médico."} Si tu aseguradora está en el catálogo de tu empresa, mantienes tu seguro: pagarlo por Cobee hace que salga antes de impuestos y ahorras ${y} al año con la misma cobertura.`
+      :a.SA==="No"
+      ?`Todavía no tienes seguro privado. Si lo contratas desde la nómina, con una prima de ${v} € al mes ahorras ${y} al año frente a contratarlo por tu cuenta.`
+      :`Con una prima de ${v} € al mes pagada desde la nómina, el seguro te sale más barato: ahorras ${y} al año.`,
+    guarderia:()=>has
+      ?`Nos dijiste que pagas unos ${v} € al mes de guardería. No cambias de guardería: pagarla desde la nómina te ahorra ${y} al año: unas ${cuotas} cuotas que dejas de pagar.`
+      :`Con un peque menor de 3 años, la guardería suele ser el mayor gasto fijo. Pagarla desde la nómina te ahorra ${y} al año.`,
+    formacion:()=>has
+      ?`Nos dijiste que te quedan unos ${fmt(v)} de formación por pagar. Si Cobee paga esas cuotas al centro desde tu nómina, a ti te cuesta ${fmt(v-sv)}: los otros ${y} los pone el ahorro fiscal.`
+      :a.CR==="Aún no lo sé"
+      ?`Si en los próximos meses haces un curso de ${fmt(v)} relacionado con tu trabajo, pagarlo con Cobee te ahorra ${y}. Ajusta el importe al curso que te interese.`
+      :`Con ${fmt(v)} al año en formación, a ti te cuesta ${fmt(v-sv)}: los otros ${y} los pone el ahorro fiscal.`,
+    bienestar:()=>{const w=whPlan();return `Si hoy pagarías unos ${v} € al mes por un gimnasio, con el plan ${w.n} de Wellhub ahorrarías ${y} al año, y además tendrías más centros y apps. Con Wellhub accedes a gimnasios, estudios y apps de bienestar en toda España (más de 1.000 centros). ${s.goals.includes("salud")?`Como quieres cuidar tu salud, te proponemos el plan ${w.n}`:`Para empezar, te proponemos el plan ${w.n}`} (desde ${eur2(w.p)} al mes, ${w.apps} apps de yoga, meditación y entrenamiento)${s.goals.includes("familia")?" y puedes añadir a tu familia":""}. Uso ilimitado en los centros de tu plan, se paga cada mes con tu tarjeta Cobee, sin permanencia y con 7 días de prueba gratis.`;},
+    pensiones:()=>existing("pensiones")
+      ?`Ya aportas a un plan. Si aportas ${v} € más al mes, esa parte deja de tributar hoy: unos ${y} al año. Tributará cuando lo rescates, por eso lo marcamos como estimado.`
+      :`Aportar ${v} € al mes reduce lo que tributas hoy en unos ${y} al año y empieza tu colchón para más adelante. Tributará cuando lo rescates, por eso lo marcamos como estimado.`,
+    reconocimiento:()=>"No ahorra impuestos, pero es lo que más pesa en cómo vives tu trabajo.",
+  };
+  return f[id]();
+}
+function note(it){
+  if(it.id==="comida"&&s.mode==="remoto")return cur().cNote;
+  if(it.id==="bienestar")return "Wellhub no está exento de IRPF, así que no hay ahorro fiscal, pero a través de Cobee sale más barato que contratarlo por tu cuenta. Tu empresa puede pagar una parte o todo; si mejoras el plan, pagas la diferencia. Cuenta para el límite de retribución en especie y Cobee te avisa antes de pasarte.";
+  if(it.id==="descuentos")return "Hasta un 11 % de descuento. Se usan desde hoy, sin tocar tu nómina.";
+  if(it.id==="formacion")return "Debe estar relacionada con tu trabajo y Cobee la paga directamente al centro. Lo que ya has pagado no se puede pasar.";
+  if(it.id==="guarderia")return "Si te aplicas la deducción por maternidad por gastos de guardería (hasta 1.000 €), lo que pagues con Cobee se resta de esa deducción: tu ahorro real puede ser menor.";
+  if(it.id==="seguro"&&val("seguro")*12>SEGURO_MAX)return `Tu seguro cuesta ${fmt(val("seguro")*12)} al año; el ahorro se calcula sobre ${SEGURO_MAX} €, el máximo exento.`;
+  return "";
+}
+
+/* eventos Mixpanel (simulados) */
+function track(name,props={}){
+  evs.unshift({t:Math.round((Date.now()-t0)/1000),name,props});
+  $("#evn").textContent=evs.length;
+  $("#log").innerHTML=evs.map(e=>`<div><b>${e.name}</b> ${JSON.stringify(e.props)} <span>+${e.t}s</span></div>`).join("");
+  try{console.log("[mixpanel]",name,props);}catch(e){}
+}
+
+/* shell */
+const STEPS=["Tu objetivo","Afinamos tu plan","Tu plan","Cobee Wrapped"];
+function head(){
+  const idx=Math.min(s.step,3);
+  $("#steplabel").textContent=`Paso ${idx+1} de 4 · ${STEPS[idx]}`;
+  $("#barfill").style.width=((idx+1)/4*100)+"%";
+  $("#back").hidden=s.step===0;
+}
+const main=$("#main"), cta=$("#cta");
+function go(step){s.step=step;head();[renderGoals,renderQ,renderPlan][step]();main.scrollTop=0;}
+
+/* paso 1 */
+function renderGoals(){
+  main.innerHTML=`<div class="fade"><h1>Hola, ${NAME}. ¿Qué quieres conseguir este año?</h1>
+  <p class="lead">Elige hasta 2. El primero será tu objetivo principal.</p></div>
+  <div class="goals fade" id="goals" role="group" aria-label="Objetivos">${GOALS.map(g=>`
+    <button class="goal" type="button" data-id="${g.id}" aria-pressed="false">
+      ${goalIcon(g)}
+      <strong>${g.name}</strong><small>${g.desc}</small></button>`).join("")}</div>
+  <div class="hint" id="hint" aria-live="polite"></div>`;
+  syncGoals();
+}
+function syncGoals(){
+  document.querySelectorAll(".goal").forEach(b=>{
+    const i=s.goals.indexOf(b.dataset.id);
+    b.setAttribute("aria-pressed",i>-1);
+    b.style.background=i>-1?G(b.dataset.id).pastel:"";
+    b.style.color=i>-1?"var(--pastel-ink)":"";
+    b.querySelector("small").style.color=i>-1?"var(--pastel-ink)":"";
+    const old=b.querySelector(".badge");if(old)old.remove();
+    if(i>-1)b.insertAdjacentHTML("beforeend",`<span class="badge">${i===0?"Principal":"2.º"}</span>`);
+  });
+  cta.textContent="Continuar";cta.disabled=!s.goals.length;
+}
+main.addEventListener("click",e=>{
+  const b=e.target.closest(".goal");
+  if(b){
+    const id=b.dataset.id,i=s.goals.indexOf(id);
+    if(i>-1)s.goals.splice(i,1);
+    else if(s.goals.length<2)s.goals.push(id);
+    else{$("#hint").textContent="Puedes elegir hasta 2. Quita uno para cambiar.";return;}
+    $("#hint").textContent="";
+    syncGoals();return;
+  }
+  const o=e.target.closest(".opt");
+  if(o){
+    const q=QB.find(q=>q.id===o.dataset.q),key=o.dataset.k,skip=o.dataset.skip==="1",v=skip?"":o.dataset.v;
+    if(key===q.id){
+      const ids=a=>JSON.stringify(pickCustom(a).map(x=>x.id));
+      const withA={...s.answers,[q.id]:v},without={...s.answers,[q.id]:""};
+      delete s.answers[q.id+"_f"];
+      s.answers[q.id]=v;
+      track("question_answered",{pregunta:q.id,respuesta:skip?null:v,prefiero_no_decirlo:skip,cambia_recomendacion:ids(withA)!==ids(without)});
+    }else{
+      s.answers[key]=v;
+      track("question_answered",{pregunta:q.id,importe:skip?null:v,prefiero_no_decirlo:skip});
+    }
+    renderQ(false);
+    return;
+  }
+  const sw=e.target.closest(".sw");
+  if(sw){
+    const id=sw.dataset.id,it=plan.find(p=>p.id===id);
+    s.on[id]=!s.on[id];
+    track("benefit_toggled",{beneficio:id,tipo:it.kind==="fijo"?"fijo":"personalizado",activado:s.on[id]});
+    updatePlan();return;
+  }
+  const ed=e.target.closest("[data-edit]");
+  if(ed){const id=ed.dataset.edit;s.open[id]=!s.open[id];updatePlan();return;}
+  const st=e.target.closest("[data-step]");
+  if(st){
+    const id=st.dataset.id,b=B[id],v=val(id),nv=Math.max(b.min,Math.min(b.max,v+Number(st.dataset.step)*b.step));
+    if(nv!==v){s.vals[id]=nv;track("estimate_edited",{beneficio:id,valor_anterior:v,valor_nuevo:nv});updatePlan();}
+    return;
+  }
+  const ab=e.target.closest("[data-allbtn]");
+  if(ab){s.showAll=!s.showAll;drawAll();return;}
+  const ad=e.target.closest("[data-add]");
+  if(ad){
+    const id=ad.dataset.add,st=main.scrollTop;
+    s.extra=s.extra||[];s.extra.push(id);s.on[id]=true;
+    track("benefit_added",{beneficio:id,origen:"ver_todos"});
+    renderPlan(true);main.scrollTop=st;return;
+  }
+  const fo=e.target.closest("[data-fold]");
+  if(fo){const id=fo.dataset.fold;s.fold[id]=!s.fold[id];updatePlan();return;}
+  const inf=e.target.closest("[data-info]");
+  if(inf){
+    const id=inf.dataset.info;s.tips[id]=!s.tips[id];
+    if(s.tips[id])track("why_opened",{beneficio:id});
+    updatePlan();return;
+  }
+});
+
+/* paso 2 */
+function renderQ(anim=true){
+  const qs=questions(),st=main.scrollTop,fd=anim?" fade":"";
+  const list=(q,key,labels)=>{const c=s.answers[key];
+    return labels.map(o=>`<button class="opt" type="button" role="radio" aria-checked="${c===o}" data-q="${q.id}" data-k="${key}" data-v="${o}">${o}</button>`).join("")
+      +`<button class="opt skip" type="button" role="radio" aria-checked="${c===""}" data-q="${q.id}" data-k="${key}" data-skip="1">Prefiero no decirlo</button>`;};
+  main.innerHTML=`<div class="${fd.trim()}"><h1>Afinamos tu plan</h1><p class="lead">Solo preguntamos lo que cambia tu cálculo.</p></div>
+  ${qs.map(q=>{const f=q.follow&&q.follow[s.answers[q.id]];return `<div class="q${fd}"><span class="tagline">${G(q.goal).name}</span><h2>${q.text}</h2>
+    <div class="opts" role="radiogroup" aria-label="${q.text}">${list(q,q.id,optsOf(q))}</div>
+    ${f?`<div class="follow"><h3>${f.text}</h3><div class="opts" role="radiogroup" aria-label="${f.text}">${list(q,q.id+"_f",f.opts.map(o=>o[0]))}</div></div>`:""}
+    <p class="use">${q.use}</p></div>`;}).join("")}`;
+  if(anim)qs.forEach((q,i)=>track("question_shown",{pregunta:q.id,posicion:i+1}));
+  cta.textContent="Ver mi plan";cta.disabled=!qs.every(done);
+  main.scrollTop=st;
+}
+
+/* paso 3 */
+let counted=false;
+/* sin chips: la línea de la cifra dice de dónde sale el ahorro */
+function perOf(it){const b=B[it.id];if(b.noSave)return "";if(it.id==="descuentos")return "al año en descuentos";if(it.id==="bienestar")return "al año frente a un gimnasio";if(it.id==="pensiones")return "al año en impuestos hoy";return "al año en impuestos";}
+function tagOf(it){return "";const b=B[it.id];if(it.kind==="fijo")return "";if(it.id==="formacion"&&existing("formacion"))return "Tu curso";if(existing(it.id))return "Ya lo pagas";if(b.est)return "Estimado";if(b.price)return "7 días gratis";return "";}
+/* dato corto que acompaña al valor editable; lo largo va dentro de "¿Por qué?" */
+function inline(it){if(it.id==="comida"&&s.mode==="intensiva")return " · sin julio";return "";}
+function renderPlan(quiet){
+  buildPlan();
+  main.innerHTML=`<div class="hero fade"><span class="kick">Podrías ahorrar</span>
+    <div class="total" aria-live="polite" aria-atomic="true"><span id="total">0 €</span> <small>${nextYear()?`en ${YEAR+1}`:"al año"}</small></div>
+    <span class="sub" id="fullline"></span></div>
+  <div class="cards fade">${plan.map(it=>{const b=B[it.id];return `
+    <article class="card" data-id="${it.id}">
+      <div class="row">
+        ${bubble(it.id)}
+        <div class="hd">
+          <div class="nm"><h3>${b.name()}</h3><button class="info" type="button" data-info="${it.id}" aria-label="¿Por qué te lo recomendamos?" aria-expanded="false" aria-controls="tip-${it.id}">i</button></div>
+          <div class="amt"><span class="v" data-save></span><span class="per">${perOf(it)}</span>${tagOf(it)?`<span class="tag ${tagOf(it)==="Ya lo pagas"||tagOf(it)==="Tu curso"?"paid":b.price?"trial":""}">${tagOf(it)}</span>`:""}</div>
+        </div>
+        ${b.noSave?"":`<button class="chev" type="button" data-fold="${it.id}" aria-expanded="false" aria-controls="more-${it.id}" aria-label="Ver y ajustar ${b.name()}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>`}
+        <button class="sw" type="button" role="switch" data-id="${it.id}" aria-label="Activar ${b.name()}" aria-checked="true"></button>
+      </div>
+      <div class="tip" id="tip-${it.id}" role="note" hidden><p data-why></p>${note(it)?`<p class="warn"><b>A tener en cuenta:</b> ${note(it)}</p>`:""}<span class="fine">Redactado por IA con tus respuestas. ${it.id==="bienestar"?"Estimado frente al precio de un gimnasio en España (30–50 € al mes de media; low cost desde 20 €) y el precio de referencia de Wellhub. No suma al total.":b.est?"La cifra es una estimación según perfiles parecidos al tuyo y no suma al total.":b.price?"Precio de referencia de Wellhub en España; con Cobee puede ser menor. No suma al total de ahorro.":"Las cifras las calculan reglas fiscales."}</span></div>
+      ${b.noSave?"":`<div class="more" id="more-${it.id}" hidden>
+        <div class="est"><span data-est></span><button class="link" type="button" data-edit="${it.id}">Ajustar</button></div>
+        <div class="stepper" data-stepper><button type="button" data-step="-1" data-id="${it.id}" aria-label="Menos">−</button><output data-out></output><button type="button" data-step="1" data-id="${it.id}" aria-label="Más">+</button><button class="link" type="button" data-edit="${it.id}">Listo</button></div>
+      </div>`}
+    </article>`;}).join("")}</div>
+  <button class="allbtn link" type="button" data-allbtn aria-expanded="false" aria-controls="allb"></button>
+  <div class="allb" id="allb" hidden></div>
+  <details class="foot-note"><summary>¿Cómo lo calculamos?</summary><p>Como el simulador de Cobee: importe × tu tipo de IRPF (${Math.round(T()*100)} %), con los límites exentos. Empieza en tu nómina de ${MES[startM()-1]}${nextYear()?` de ${YEAR+1}`:""}. Las cifras con ≈ son estimados según perfiles parecidos al tuyo y no suman al total. Todo es orientativo y puedes editarlo.</p></details>`;
+  if(!quiet)track("plan_viewed",{beneficios:plan.map(p=>p.id),marcas:plan.some(p=>p.id==="descuentos")?brands():[],ahorro_total_estimado:Math.round(totalOf(true))});
+  drawAll();updatePlan(!counted);counted=true;
+}
+/* total = ahorro fiscal de un año, calculado como el simulador; los estimados no suman */
+const DESC={transporte:"Abono de transporte desde la nómina",comida:"Tarjeta restaurante para tus comidas",guarderia:"Paga la guardería antes de impuestos",seguro:"Seguro médico privado desde la nómina",descuentos:"Hasta un 11 % en marcas conocidas",formacion:"Cursos relacionados con tu trabajo",bienestar:"Gimnasios y apps de bienestar con Wellhub",pensiones:"Aporta a tu plan y tributa menos hoy"};
+/* resto del catálogo activo de la empresa, para quien no se queda con los 4 propuestos */
+function drawAll(){
+  const box=$("#allb"),btn=$("[data-allbtn]");if(!box)return;
+  const rest=Object.keys(B).filter(id=>activo(id)&&!B[id].noSave&&!plan.some(p=>p.id===id)&&!(id==="transporte"&&!cur().transporte));
+  btn.hidden=!rest.length;
+  btn.setAttribute("aria-expanded",!!s.showAll);
+  btn.textContent=s.showAll?"Ocultar el resto":`Ver todos los beneficios (${rest.length} más)`;
+  box.hidden=!s.showAll||!rest.length;
+  box.innerHTML=rest.map(id=>`<div class="more-b">${bubble(id)}<div class="mb"><b>${B[id].name()}</b><span>${DESC[id]||""}</span><em>${money(id)} al año</em></div><button class="addb" type="button" data-add="${id}" aria-label="Añadir ${B[id].name()} a mi plan">Añadir</button></div>`).join("");
+}
+const totalOf=(full=false)=>plan.reduce((a,it)=>a+(s.on[it.id]&&!B[it.id].est&&!B[it.id].gift?saveOf(it.id,full):0),0);
+const estOf=()=>plan.reduce((a,it)=>a+(s.on[it.id]&&B[it.id].est?saveOf(it.id,true):0),0);
+const money=(id,full=true)=>(B[id].est?"≈ ":"")+fmt(saveOf(id,full));
+function updatePlan(anim){
+  let n=0;
+  plan.forEach(it=>{
+    const c=main.querySelector(`.card[data-id="${it.id}"]`),b=B[it.id],on=s.on[it.id];
+    if(on)n++;
+    c.classList.toggle("off",!on);
+    const tp=c.querySelector(".tip"),ib=c.querySelector("[data-info]");
+    tp.hidden=!s.tips[it.id];ib.setAttribute("aria-expanded",!!s.tips[it.id]);
+    if(s.tips[it.id])tp.querySelector("[data-why]").textContent=why(it);
+    c.querySelector(".sw").setAttribute("aria-checked",on);
+    c.querySelector("[data-save]").textContent=b.price?`Desde ${eur2(whPlan().p)}`:b.noSave?b.valueText:money(it.id);
+    if(!b.noSave){
+      c.querySelector("[data-est]").textContent=b.label(val(it.id))+inline(it);c.querySelector(".est").hidden=!!s.open[it.id];
+      c.querySelector("[data-out]").textContent=b.label(val(it.id));
+      c.querySelector("[data-stepper]").classList.toggle("open",!!s.open[it.id]);
+      const mo=c.querySelector(".more"),fb=c.querySelector("[data-fold]");mo.hidden=!s.fold[it.id];fb.setAttribute("aria-expanded",!!s.fold[it.id]);
+    }
+  });
+  const tot=totalOf(true),el=$("#total");
+  if(anim&&!reduce){const a=performance.now();(function f(t){const p=Math.min(1,(t-a)/700);el.textContent=fmt(tot*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f);else el.textContent=fmt(tot);})(a);}
+  else el.textContent=fmt(tot);
+  $("#fullline").textContent=prorated()?`${fmt(totalOf())} de aquí a diciembre`:"";
+  cta.textContent=n?`Activar mi plan · ${n} beneficio${n>1?"s":""}`:"Activa al menos un beneficio";
+  cta.disabled=!n;
+}
+
+/* wrapped */
+let wi=0,paused=false;
+/* equivalencias para la tarjeta de compartir: varían según el objetivo, el importe y el perfil.
+   Precios de referencia aproximados (supuestos a validar); en producción las elige la IA con el mismo método. */
+const EQ_SMALL=[
+  {m:1,p:35,one:"cena fuera de casa",many:"cenas fuera de casa",g:["disfrutar","ahorrar","familia"]},
+  {m:1,p:40,one:"mes de gimnasio",many:"meses de gimnasio",g:["salud","disfrutar"]},
+  {m:1,p:10,one:"entrada de cine",many:"entradas de cine",g:["disfrutar","familia"]},
+  {m:1,p:22,one:"brunch de domingo",many:"brunchs de domingo",g:["disfrutar","ahorrar"]},
+  {m:1,p:60,one:"entrada de concierto",many:"entradas de concierto",g:["disfrutar"]},
+  {m:1,p:90,one:"par de zapatillas",many:"pares de zapatillas",g:["salud","disfrutar"]},
+  {m:1,p:18,one:"libro nuevo",many:"libros nuevos",g:["crecer"]},
+  {p:25,one:"clase particular de idiomas",many:"clases particulares de idiomas",g:["crecer"]},
+  {m:1,p:150,one:"curso online",many:"cursos online",g:["crecer"]},
+  {m:1,p:100,one:"compra grande del súper",many:"compras grandes del súper",g:["ahorrar","familia"]},
+  {p:70,one:"depósito de gasolina",many:"depósitos de gasolina",g:["ahorrar"]},
+  {p:45,one:"sesión de fisioterapia",many:"sesiones de fisioterapia",g:["salud"]},
+  {p:60,one:"sesión con un psicólogo",many:"sesiones con un psicólogo",g:["salud"]},
+  {p:45,one:"mes de seguro médico",many:"meses de seguro médico",g:["salud","familia"]},
+  {p:350,one:"mes de guardería",many:"meses de guardería",g:["familia"]},
+  {p:60,one:"tarde de planes en familia",many:"tardes de planes en familia",g:["familia"]},
+  {p:100,one:"mes de aportación a tu plan de pensiones",many:"meses de aportación a tu plan de pensiones",g:["futuro"]}
+];
+const EQ_BIG=[
+  {p:300,one:"fin de semana fuera",many:"fines de semana fuera"},
+  {p:500,one:"bici nueva",many:"bicis nuevas"},
+  {p:600,one:"móvil nuevo",many:"móviles nuevos"},
+  {p:1200,one:"semana de vacaciones",many:"semanas de vacaciones"}
+];
+function rng(seed){let a=0;for(const ch of seed)a=(a*31+ch.charCodeAt(0))|0;return()=>{a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+function pickEq(tot){
+  const r=rng(`${Math.round(tot)}|${s.goals.join()}|${s.mode}|${s.t}`),pick=a=>a[Math.floor(r()*a.length)];
+  const n=(it,x=tot)=>Math.round(x/it.p),txt=(it,k)=>`${k} ${k===1?it.one:it.many}`;
+  const ok=it=>n(it)>=2&&n(it)<=(it.one.startsWith("mes")?18:36);
+  /* mezcla: algo grande y algo pequeño ("2 fines de semana fuera y 21 cenas") */
+  if(tot>=700&&r()<.45){
+    const bigs=EQ_BIG.filter(b=>tot/b.p>=1.4&&tot/b.p<=4);
+    if(bigs.length){const b=pick(bigs),nb=Math.max(1,Math.floor(tot*.6/b.p)),rest=tot-nb*b.p;
+      const fit=EQ_SMALL.filter(i=>i.m&&rest/i.p>=2&&rest/i.p<=30),sm=fit.filter(i=>i.g.some(g=>s.goals.includes(g))).length?fit.filter(i=>i.g.some(g=>s.goals.includes(g))):fit;
+      if(sm.length){const i=pick(sm);return {main:`${txt(b,nb)} y ${txt(i,n(i,rest))}`,alt:""};}}
+  }
+  const mine=EQ_SMALL.filter(i=>ok(i)&&i.g.includes(s.goals[0])),any=EQ_SMALL.filter(ok);
+  const a=pick(mine.length?mine:any);
+  const others=any.filter(i=>i!==a&&!(i.g.length===1&&i.g[0]===a.g[0]&&a.g.length===1));
+  const pref=others.filter(i=>!i.g.some(g=>a.g.includes(g)));
+  const b=pick(pref.length?pref:others);
+  return {main:txt(a,n(a)),alt:`o ${txt(b,n(b))}.`};
+}
+function slides(){
+  const g=G(s.goals[0]),act=plan.filter(p=>s.on[p.id]),tot=totalOf(true);
+  const max=Math.max(...act.map(p=>saveOf(p.id,true)),1);
+  const eq=pickEq(tot);
+  return [
+    `<p style="text-transform:uppercase;letter-spacing:.1em;font-size:13px">Cobee Wrapped · ${NAME}</p>
+     <div class="big">${fmt(tot)}</div><h2>que podrías ahorrar ${nextYear()?`en ${YEAR+1}`:"al año"}</h2>`,
+    `<h2>Así se reparte</h2><div class="bd">${[...act].sort((x,y)=>saveOf(y.id,true)-saveOf(x.id,true)).map(p=>`<div><div class="l"><span>${B[p.id].name()}</span><span>${B[p.id].price?`${eur2(whPlan().p)}/mes`:B[p.id].noSave?B[p.id].valueText:money(p.id)}</span></div><div class="tr"><i style="width:${B[p.id].noSave?12:Math.max(8,saveOf(p.id,true)/max*100)}%"></i></div></div>`).join("")}</div>`,
+    `<p style="text-transform:uppercase;letter-spacing:.1em;font-size:13px">Lo que significa para ti</p>
+     <h2>Es como tener de vuelta…</h2><div class="eq">${eq.main}</div>${eq.alt?`<p>${eq.alt}</p>`:""}<p style="font-size:15px;opacity:.85">Dinero que ya era tuyo.</p>
+     <div class="wbtns"><button class="btn ghost" type="button" id="share">Cuéntaselo a un compañero</button><button class="btn" type="button" id="done">Ir a mi Cobee</button></div>`
+  ];
+}
+const WSET={green:{bg:"#31f14c",fg:"#221C46",soft:"rgba(34,28,70,.2)"},mint:{bg:"#d6f7da",fg:"#221C46",soft:"rgba(34,28,70,.16)"},light:{bg:"#f4f2fd",fg:"#221C46",soft:"rgba(34,28,70,.14)"},dark:{bg:"#252354",fg:"#FFFFFF",soft:"rgba(255,255,255,.25)"}};
+function wrapStart(){
+  const g=G(s.goals[0]),w=$("#wrapped");
+  const c=WSET[g.set];
+  w.style.setProperty("--w-bg",c.bg);w.style.setProperty("--w-fg",c.fg);w.style.setProperty("--w-soft",c.soft);
+  w.hidden=false;wi=0;paused=false;showSlide();
+}
+function showSlide(){
+  const w=$("#wrapped"),sl=slides();
+  w.classList.toggle("paused",paused);
+  const set=G(s.goals[0]).set,cs=WSET[set];
+  w.style.setProperty("--w-bg",cs.bg);w.style.setProperty("--w-fg",cs.fg);w.style.setProperty("--w-soft",cs.soft);
+  w.innerHTML=`<div class="segs">${sl.map((_,i)=>`<div class="seg ${i<wi?"done":i===wi&&!reduce?"cur":""}"><i></i></div>`).join("")}</div>
+   <div class="wtools"><span>${wi+1} / ${sl.length}</span><button type="button" id="pp" aria-label="${paused?"Reanudar":"Pausar"}">${ico(paused?"play":"pause",16)}</button></div>
+   <div class="slide" id="slide">${sl[wi].split('<div class="wbtns">')[0]}</div>
+   <div class="art${wi===sl.length-1?" big":""}" aria-hidden="true"><div class="artimg" style="background-image:url(assets/wrap-${set}-${["tower","confetti","podium"][wi]}.jpg)"></div></div>
+   ${sl[wi].includes('<div class="wbtns">')?'<div class="wbtns">'+sl[wi].split('<div class="wbtns">')[1]:""}`;
+  const c=w.querySelector(".seg.cur i");
+  if(c)c.addEventListener("animationend",()=>next());
+  const dn=$("#done");if(dn)dn.onclick=e=>{e.stopPropagation();finish();};
+  const sh=$("#share");if(sh)sh.onclick=e=>{e.stopPropagation();track("wrapped_shared",{canal:"tarjeta",cifras:false});sh.textContent="Listo, sin cifras ni importes";sh.disabled=true;};
+}
+/* confeti en la última story; se repite al tocar la ilustración. No se lanza con movimiento reducido */
+let confRun=0;
+function confetti(){
+  if(reduce)return;
+  const cv=$("#conf"),box=$("#phone").getBoundingClientRect();let ctx=null;
+  try{ctx=cv.getContext("2d");}catch(e){}
+  if(!ctx)return;
+  const dpr=window.devicePixelRatio||1,W=box.width,H=box.height,id=++confRun;
+  cv.width=W*dpr;cv.height=H*dpr;cv.hidden=false;ctx.setTransform(dpr,0,0,dpr,0,0);
+  const cols=["#01EB5E","#17CCF9","#FFDC37","#FF7375","#4A19B5","#FFCCEA"];
+  const ps=Array.from({length:110},(_,i)=>{const side=i%3,ang=side===0?-Math.PI/2+(Math.random()-.5)*1.1:side===1?-Math.PI/2.6+(Math.random()-.5)*.5:-Math.PI+Math.PI/2.6+(Math.random()-.5)*.5,sp=7+Math.random()*9;
+    return {x:side===0?W/2:side===1?0:W,y:side===0?H*.55:H*.4,vx:Math.cos(ang)*sp,vy:Math.sin(ang)*sp,r:Math.random()*6.28,vr:(Math.random()-.5)*.4,w:5+Math.random()*6,h:3+Math.random()*5,c:cols[i%cols.length],round:Math.random()<.3};});
+  const t0=performance.now();
+  (function f(now){
+    if(id!==confRun)return;
+    const t=(now-t0)/1000;ctx.clearRect(0,0,W,H);
+    ps.forEach(q=>{q.vy+=.28;q.vx*=.992;q.x+=q.vx;q.y+=q.vy;q.r+=q.vr;
+      ctx.save();ctx.globalAlpha=Math.max(0,Math.min(1,(3.6-t)/1.2));ctx.translate(q.x,q.y);ctx.rotate(q.r);ctx.fillStyle=q.c;
+      if(q.round){ctx.beginPath();ctx.arc(0,0,q.w/2,0,6.28);ctx.fill();}else ctx.fillRect(-q.w/2,-q.h/2,q.w,q.h);ctx.restore();});
+    if(t<3.6)requestAnimationFrame(f);else{ctx.clearRect(0,0,W,H);cv.hidden=true;}
+  })(t0);
+}
+function next(){const n=slides().length;if(wi<n-1){wi++;showSlide();if(wi===n-1){track("wrapped_completed",{pantallas_vistas:n});confetti();}}}
+function prev(){if(wi>0){wi--;showSlide();}}
+$("#wrapped").addEventListener("click",e=>{
+  if(e.target.closest("#pp")){paused=!paused;showSlide();return;}
+  if(e.target.closest(".wbtns"))return;
+  if(wi===slides().length-1&&e.target.closest(".art")){confetti();return;}
+  const r=$("#wrapped").getBoundingClientRect();
+  if(e.clientX-r.left<r.width/3)prev();else next();
+});
+/* RF-5.1 y RF-5.2: lo que falta para que cada beneficio funcione, dicho como la acción concreta que debe hacer el empleado */
+const PENDING={guarderia:"Sube el último recibo",seguro:"Añade tu póliza",formacion:"Indica el curso y el centro",pensiones:"Elige tu plan y la aportación",bienestar:"Elige tu centro o plan",comida:"Activa tu tarjeta restaurante",transporte:"Elige tu zona",descuentos:"Ninguno",reconocimiento:"Ninguno"};
+function finish(){
+  $("#wrapped").hidden=true;confRun++;$("#conf").hidden=true;
+  const act=plan.filter(p=>s.on[p.id]&&PENDING[p.id]!=="Ninguno");
+  const e=$("#end");e.hidden=false;
+  e.innerHTML=`<main class="fade" style="justify-content:center"><img class="endimg" src="assets/plan-activado.jpg" alt="" width="220" height="220">
+   <h1>Tu plan está en marcha</h1>
+   <p class="lead">${act.length?"Ya tienes activos tus beneficios. Para que empiecen a ahorrarte, necesitamos un par de datos de cada uno. Los completas desde la app, beneficio a beneficio.":"No necesitas hacer nada más: ya puedes usar tus beneficios."}</p>
+   ${act.length?`<div class="todos" role="list" aria-label="Por completar">${act.map(p=>`<div class="todo" role="listitem"><span class="ck" aria-hidden="true"></span><span><b>${B[p.id].name()}</b><span class="sub">${PENDING[p.id]}</span></span></div>`).join("")}</div>
+   <p class="fine">Te lo recordaremos si quedan pendientes.</p>`:""}</main>
+   <div class="foot"><button class="btn" id="again" type="button">Volver a empezar</button></div>`;
+  $("#again").onclick=()=>reset();
+}
+
+/* acciones */
+cta.addEventListener("click",()=>{
+  if(s.step===0){
+    track("goal_selected",{objetivos:s.goals,principal:s.goals[0]});
+    s.answers={};s.ans={};
+    const qs=questions();QB.filter(q=>s.goals.includes(q.goal)).forEach(q=>{const ev=evaluate(q);track("question_evaluated",{pregunta:q.id,valor:ev.value,respuesta_probable:ev.likely,prob:Math.round(ev.pmax*100)+"%",preguntada:qs.includes(q),asumida:s.assumed[q.id]||null});});
+    if(qs.length)go(1);
+    else{track("step2_skipped",{motivo:"sin pregunta decisiva"});go(2);}
+  }else if(s.step===1){go(2);}
+  else if(s.step===2){
+    track("plan_activated",{beneficios:plan.filter(p=>s.on[p.id]).map(p=>p.id),ahorro_total:Math.round(totalOf()),segundos:Math.round((Date.now()-t0)/1000)});
+    s.step=3;head();wrapStart();
+  }
+});
+$("#back").addEventListener("click",()=>{
+  if(s.step===2)go(questions().length?1:0);else go(Math.max(0,s.step-1));
+});
+$("#mode").addEventListener("change",()=>reset());
+$("#tramo").addEventListener("change",()=>reset());
+$("#catalogo").addEventListener("change",()=>reset());
+$("#alta").addEventListener("change",()=>reset());
+$("#alta").value=String(new Date().getMonth()+1);
+$("#restart").addEventListener("click",()=>reset());
+$("#evbtn").addEventListener("click",()=>{const o=$("#log").classList.toggle("open");$("#evbtn").setAttribute("aria-expanded",o);});
+function reset(){
+  s=fresh($("#mode").value);plan=[];evs=[];t0=Date.now();counted=false;
+  $("#wrapped").hidden=true;$("#end").hidden=true;$("#evn").textContent="0";$("#log").innerHTML="";
+  track("onboarding_started",{variante:"B",empresa:"Demo S.L.",modalidad:s.mode});
+  go(0);
+}
+reset();
+})();
+</script>
+</body>
+</html>
