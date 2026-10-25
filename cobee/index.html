@@ -811,6 +811,8 @@ function pickEq(tot){
   const b=pick(pref.length?pref:others);
   return {main:txt(a,n(a)),alt:`o ${txt(b,n(b))}.`};
 }
+/* botón de cierre: invita a usar el plan según el objetivo principal */
+const START_CTA={ahorrar:"Empieza a ahorrar",salud:"Empieza a cuidarte",crecer:"Empieza a crecer",familia:"Empieza a disfrutar en familia",futuro:"Empieza a construir tu futuro",disfrutar:"Empieza a disfrutar"};
 function slides(){
   const g=G(s.goals[0]),act=plan.filter(p=>s.on[p.id]),tot=totalOf(true);
   const max=Math.max(...act.map(p=>saveOf(p.id,true)),1);
@@ -821,7 +823,7 @@ function slides(){
     `<h2>Así se reparte</h2><div class="bd">${[...act].sort((x,y)=>saveOf(y.id,true)-saveOf(x.id,true)).map(p=>`<div><div class="l"><span>${B[p.id].name()}</span><span>${B[p.id].price?`${eur2(whPlan().p)}/mes`:B[p.id].noSave?B[p.id].valueText:money(p.id)}</span></div><div class="tr"><i style="width:${B[p.id].noSave?12:Math.max(8,saveOf(p.id,true)/max*100)}%"></i></div></div>`).join("")}</div>`,
     `<p style="text-transform:uppercase;letter-spacing:.1em;font-size:13px">Lo que significa para ti</p>
      <h2>Es como tener de vuelta…</h2><div class="eq">${eq.main}</div>${eq.alt?`<p>${eq.alt}</p>`:""}<p style="font-size:15px;opacity:.85">Dinero que ya era tuyo.</p>
-     <div class="wbtns"><button class="btn ghost" type="button" id="share">Cuéntaselo a un compañero</button><button class="btn" type="button" id="done">Ir a mi Cobee</button></div>`
+     <div class="wbtns"><button class="btn ghost" type="button" id="share">Cuéntaselo a un compañero</button><button class="btn" type="button" id="start">${START_CTA[g.id]}</button></div>`
   ];
 }
 const WSET={green:{bg:"#31f14c",fg:"#221C46",soft:"rgba(34,28,70,.2)"},mint:{bg:"#d6f7da",fg:"#221C46",soft:"rgba(34,28,70,.16)"},light:{bg:"#f4f2fd",fg:"#221C46",soft:"rgba(34,28,70,.14)"},dark:{bg:"#252354",fg:"#FFFFFF",soft:"rgba(255,255,255,.25)"}};
@@ -843,7 +845,7 @@ function showSlide(){
    ${sl[wi].includes('<div class="wbtns">')?'<div class="wbtns">'+sl[wi].split('<div class="wbtns">')[1]:""}`;
   const c=w.querySelector(".seg.cur i");
   if(c)c.addEventListener("animationend",()=>next());
-  const dn=$("#done");if(dn)dn.onclick=e=>{e.stopPropagation();finish();};
+  const st=$("#start");if(st)st.onclick=e=>{e.stopPropagation();track("start_clicked",{objetivo:s.goals[0]});reset();};
   const sh=$("#share");if(sh)sh.onclick=e=>{e.stopPropagation();track("wrapped_shared",{canal:"tarjeta",cifras:false});sh.textContent="Listo, sin cifras ni importes";sh.disabled=true;};
 }
 /* confeti en la última story; se repite al tocar la ilustración. No se lanza con movimiento reducido */
@@ -877,21 +879,6 @@ $("#wrapped").addEventListener("click",e=>{
   const r=$("#wrapped").getBoundingClientRect();
   if(e.clientX-r.left<r.width/3)prev();else next();
 });
-/* RF-5.1 y RF-5.2: lo que falta para que cada beneficio funcione, dicho como la acción concreta que debe hacer el empleado */
-const PENDING={guarderia:"Sube el último recibo",seguro:"Añade tu póliza",formacion:"Indica el curso y el centro",pensiones:"Elige tu plan y la aportación",bienestar:"Elige tu centro o plan",comida:"Activa tu tarjeta restaurante",transporte:"Elige tu zona",descuentos:"Ninguno",reconocimiento:"Ninguno"};
-function finish(){
-  $("#wrapped").hidden=true;confRun++;$("#conf").hidden=true;
-  const act=plan.filter(p=>s.on[p.id]&&PENDING[p.id]!=="Ninguno");
-  const e=$("#end");e.hidden=false;
-  e.innerHTML=`<main class="fade" style="justify-content:center"><img class="endimg" src="assets/plan-activado.jpg" alt="" width="220" height="220">
-   <h1>Tu plan está en marcha</h1>
-   <p class="lead">${act.length?"Ya tienes activos tus beneficios. Para que empiecen a ahorrarte, necesitamos un par de datos de cada uno. Los completas desde la app, beneficio a beneficio.":"No necesitas hacer nada más: ya puedes usar tus beneficios."}</p>
-   ${act.length?`<div class="todos" role="list" aria-label="Por completar">${act.map(p=>`<div class="todo" role="listitem"><span class="ck" aria-hidden="true"></span><span><b>${B[p.id].name()}</b><span class="sub">${PENDING[p.id]}</span></span></div>`).join("")}</div>
-   <p class="fine">Te lo recordaremos si quedan pendientes.</p>`:""}</main>
-   <div class="foot"><button class="btn" id="again" type="button">Volver a empezar</button></div>`;
-  $("#again").onclick=()=>reset();
-}
-
 /* acciones */
 cta.addEventListener("click",()=>{
   if(s.step===0){
