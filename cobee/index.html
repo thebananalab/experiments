@@ -21,6 +21,8 @@
   --pastel-ink:#221C46; --danger:#B30100; --shadow:0 18px 50px rgba(34,28,70,.12);
   --display:"Outfit","TT Travels",Arial,Verdana,sans-serif; --body:"Figtree",Arial,Verdana,sans-serif;
   --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+  /* escala tipográfica. Outfit solo para cifras y títulos; Figtree para el resto. Pesos: 400, 500 y 600 */
+  --fs-hero:56px; --fs-hero-w:72px; --fs-punch:40px; --fs-title:28px; --fs-sub:20px; --fs-body:16px; --fs-small:14px; --fs-label:11px;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#150E2E; --surface:#221C46; --ink:#FAF8FF; --muted:#B9B3D6; --line:#3A3262;
@@ -30,7 +32,7 @@
   --accent-ink:#01EB5E; --focus:#96F7D4; --danger:#FF7375; --shadow:0 18px 50px rgba(0,0,0,.45); color-scheme:dark}
 *{box-sizing:border-box}
 html,body{min-height:100%}
-body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45;
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:var(--fs-body);line-height:1.45;
   padding-block:12px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 button{font:inherit;color:inherit;cursor:pointer;background:none;border:0;padding:0}
 :focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:8px}
@@ -38,11 +40,11 @@ h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:.02em;margin:
 .wrap{max-width:420px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
 
 /* barra de prototipo */
-.proto{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center;justify-content:center;font-size:11px;color:var(--muted);opacity:.7;transition:opacity .2s}
+.proto{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center;justify-content:center;font-size:var(--fs-label);color:var(--muted);opacity:.7;transition:opacity .2s}
 .proto:hover,.proto:focus-within{opacity:1}
 .proto label{display:flex;align-items:center;gap:4px}
 .proto select{font:inherit;color:inherit;background:transparent;border:0;border-bottom:1px dotted var(--muted);padding:2px 0;min-width:0;cursor:pointer}
-.proto button{font-size:11px;color:inherit;text-decoration:underline;text-underline-offset:3px}
+.proto button{font-size:var(--fs-label);color:inherit;text-decoration:underline;text-underline-offset:3px}
 .log{display:none;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 10px;max-height:130px;overflow:auto;font:11px/1.5 var(--mono);color:var(--muted)}
 .log.open{display:block}
 .log b{color:var(--ink);font-weight:600}
@@ -54,15 +56,16 @@ h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:.02em;margin:
 .back{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);background:var(--surface);flex:none}
 .back[hidden]{display:none}
 .stepinfo{flex:1;min-width:0}
-.steplabel{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.steplabel{font-size:var(--fs-label);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .bar{height:4px;background:var(--line);border-radius:4px;margin-top:6px;overflow:hidden}
 .bar i{display:block;height:100%;background:var(--accent);border-radius:4px;transition:width .35s}
-main{flex:1;overflow:auto;padding:14px 20px 20px;display:flex;flex-direction:column;gap:16px}
+main{flex:1;overflow:auto;scrollbar-gutter:stable;padding:14px 20px 20px;display:flex;flex-direction:column;gap:16px}
+main>*{flex-shrink:0}
 .foot{padding:12px 20px 18px;border-top:1px solid var(--line);background:var(--bg)}
-.btn{width:100%;background:var(--accent);color:var(--on-accent);font-weight:600;font-size:16px;border-radius:999px;padding:15px 24px;font-family:var(--body)}
+.btn{width:100%;background:var(--accent);color:var(--on-accent);font-weight:600;font-size:var(--fs-body);border-radius:999px;padding:15px 24px;font-family:var(--body)}
 .btn:disabled{background:var(--line);color:var(--muted);cursor:not-allowed}
 .btn.ghost{background:transparent;border:2px solid var(--ink);color:var(--ink)}
-h1{font-size:28px;line-height:1.15}
+h1{font-size:var(--fs-title);line-height:1.15}
 .lead{color:var(--muted);margin:6px 0 0}
 .fade{animation:in .3s ease both}
 @keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
@@ -73,39 +76,42 @@ h1{font-size:28px;line-height:1.15}
 .goal .ic{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:var(--pastel-ink)}
 .goal .ic.big{width:48px;height:46px;border-radius:0;background:none}
 .goal .ic.big img{width:46px;height:auto;display:block}
-.goal strong{font-family:var(--display);font-weight:600;font-size:17px;letter-spacing:.02em}
-.goal small{color:var(--muted);font-size:13px;line-height:1.3}
+.goal strong{font-family:var(--display);font-weight:600;font-size:var(--fs-body);letter-spacing:.02em}
+.goal small{color:var(--muted);font-size:var(--fs-small);line-height:1.3}
 .goal[aria-pressed="true"]{border-color:var(--accent-ink)}
-.goal .badge{position:absolute;top:10px;right:10px;font-size:11px;font-weight:600;background:var(--accent);color:var(--on-accent);border-radius:999px;padding:2px 8px}
-.hint{font-size:13px;color:var(--muted);min-height:20px}
+.goal .badge{position:absolute;top:10px;right:10px;font-size:var(--fs-label);font-weight:600;background:var(--accent);color:var(--on-accent);border-radius:999px;padding:2px 8px}
+.hint{font-size:var(--fs-small);color:var(--muted);min-height:20px}
 
 /* paso 2 */
 .fixed{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
-.fixed h3{font-size:15px;color:var(--muted);font-weight:500;letter-spacing:.04em;text-transform:uppercase}
+.fixed h3{font-size:var(--fs-body);color:var(--muted);font-weight:500;letter-spacing:.04em;text-transform:uppercase}
 .fixed .r{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
-.fixed .r b{font-family:var(--display);font-size:20px;font-weight:600}
-.q{display:flex;flex-direction:column;gap:10px}
-.q .tagline{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.q h2{font-size:21px;line-height:1.2}
+.fixed .r b{font-family:var(--display);font-size:var(--fs-sub);font-weight:600}
+.q{display:flex;flex-direction:column;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px;box-shadow:0 4px 16px rgba(34,28,70,.08)}
+.q .qt{display:flex;align-items:flex-start;gap:10px;justify-content:space-between}
+.q .qt .info{margin-top:2px}
+.q .tip{background:var(--bg);color:var(--muted);border:1px solid var(--line);border-radius:12px;padding:8px 12px;font-size:var(--fs-small);line-height:1.4}
+.q .tagline{font-size:var(--fs-label);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.q h2{font-size:var(--fs-sub);line-height:1.2}
 .opts{display:flex;flex-wrap:wrap;gap:8px}
-.opt{border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:9px 14px;font-weight:500;font-size:15px}
+.opt{border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:9px 14px;font-weight:500;font-size:var(--fs-body)}
 .opt[aria-checked="true"]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
-.opt.skip{border:0;background:none;padding:9px 4px;color:var(--muted);text-decoration:underline;text-underline-offset:3px;font-size:14px}
+.opt.skip{border:0;background:none;padding:9px 4px;color:var(--muted);text-decoration:underline;text-underline-offset:3px;font-size:var(--fs-small)}
 .opt.skip[aria-checked="true"]{background:none;color:var(--ink);font-weight:600}
-.follow{display:flex;flex-direction:column;gap:8px;padding-top:4px}
-.follow h3{font-family:var(--body);font-weight:600;font-size:15px;letter-spacing:0}
-.use{font-size:13px;color:var(--muted);margin:0}
+.follow{display:flex;flex-direction:column;gap:8px;border-top:1px dashed var(--line);padding-top:12px}
+.follow h3{font-family:var(--body);font-weight:600;font-size:var(--fs-body);letter-spacing:0}
+.use{font-size:var(--fs-small);color:var(--muted);margin:0}
 
 /* paso 3: una tarjeta = nombre, cifra, un dato editable y un enlace. El detalle va en "¿Por qué?" */
 .hero{display:flex;flex-direction:column;gap:4px}
-.hero .kick{font-size:15px;color:var(--muted)}
-.total{font-family:var(--display);font-weight:600;font-size:46px;line-height:1.05;letter-spacing:.01em;font-variant-numeric:tabular-nums}
-.total small{font-size:18px;font-weight:500;color:var(--muted);letter-spacing:.02em}
-.sub{font-size:14px;color:var(--muted)}
+.hero .kick{font-size:var(--fs-body);color:var(--muted)}
+.total{font-family:var(--display);font-weight:600;font-size:var(--fs-hero);line-height:1.05;letter-spacing:.01em;font-variant-numeric:tabular-nums}
+.total small{font-size:var(--fs-sub);font-weight:500;color:var(--muted);letter-spacing:.02em}
+.sub{font-size:var(--fs-small);color:var(--muted)}
 .gift{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 14px}
 .gift .bubble{width:36px;height:36px}
-.gift b{display:block;font-size:15px}
-.gift span{font-size:13px;color:var(--muted)}
+.gift b{display:block;font-size:var(--fs-body)}
+.gift span{font-size:var(--fs-small);color:var(--muted)}
 .cards{display:flex;flex-direction:column;gap:10px}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;transition:opacity .2s}
 .card.off{opacity:.55}
@@ -115,17 +121,17 @@ h1{font-size:28px;line-height:1.15}
 .bubble{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;flex:none;color:var(--pastel-ink)}
 .hd{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
 .nm{display:flex;align-items:center;gap:6px}
-.card h3{font-size:16px;line-height:1.25}
-.info{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--muted);color:var(--muted);font:600 12px/1 var(--display);display:grid;place-items:center;flex:none}
+.card h3{font-size:var(--fs-body);line-height:1.25}
+.info{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--muted);color:var(--muted);font:600 14px/1 var(--display);display:grid;place-items:center;flex:none}
 .info[aria-expanded="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
-.chev{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;flex:none;color:var(--muted);transition:transform .2s}
+.chev{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;flex:none;color:var(--ink);background:var(--bg);border:1.5px solid var(--muted);transition:transform .2s;position:relative}
 .chev[aria-expanded="true"]{transform:rotate(180deg)}
 .more{display:flex;flex-direction:column;gap:8px;padding-left:48px}
 .more[hidden]{display:none}
 .amt{display:flex;align-items:baseline;flex-wrap:wrap;gap:2px 6px}
-.amt .v{font-family:var(--display);font-weight:600;font-size:18px;font-variant-numeric:tabular-nums;white-space:nowrap}
-.amt .per{font-size:13px;color:var(--muted)}
-.tag{font-size:12px;font-weight:600;color:#221C46;background:#E3E2FA;border-radius:999px;padding:2px 9px;white-space:nowrap}
+.amt .v{font-family:var(--display);font-weight:600;font-size:var(--fs-sub);font-variant-numeric:tabular-nums;white-space:nowrap}
+.amt .per{font-size:var(--fs-small);color:var(--muted)}
+.tag{font-size:var(--fs-label);font-weight:600;color:#221C46;background:#E3E2FA;border-radius:999px;padding:2px 9px;white-space:nowrap}
 .tag.paid{background:#C7FCCA}
 .tag.trial{background:#FFCCEA}
 .sw{width:46px;height:28px;border-radius:999px;background:var(--line);position:relative;flex:none;transition:background .2s}
@@ -133,20 +139,24 @@ h1{font-size:28px;line-height:1.15}
 .sw[aria-checked="true"]{background:var(--accent)}
 .sw[aria-checked="true"]::after{transform:translateX(18px);background:var(--brand)}
 .est[hidden]{display:none}
-.est{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--muted);flex-wrap:wrap}
-.link{color:var(--accent-ink);font-weight:600;text-decoration:underline;text-underline-offset:3px;font-size:14px}
-.whylink{align-self:flex-start;font-size:13px;color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+.est{display:flex;align-items:center;gap:6px;font-size:var(--fs-small);color:var(--muted);flex-wrap:wrap}
+.link{color:var(--accent-ink);font-weight:600;text-decoration:underline;text-underline-offset:3px;font-size:var(--fs-small)}
+.whylink{align-self:flex-start;font-size:var(--fs-small);color:var(--muted);text-decoration:underline;text-underline-offset:3px}
 .stepper{display:none;align-items:center;gap:12px}
 .stepper.open{display:flex}
-.stepper button{width:36px;height:36px;border-radius:50%;border:2px solid var(--line);font-size:20px;line-height:1;display:grid;place-items:center}
-.stepper .link{width:auto;height:auto;border:0;border-radius:0;font-size:14px;margin-left:auto;display:inline}
+.stepper button{width:36px;height:36px;border-radius:50%;border:2px solid var(--line);font-size:var(--fs-sub);line-height:1;display:grid;place-items:center}
+.stepper .link{width:auto;height:auto;border:0;border-radius:0;font-size:var(--fs-small);margin-left:auto;display:inline}
 .stepper output{font-weight:600;min-width:120px;text-align:center;font-variant-numeric:tabular-nums}
-.tip{background:var(--ink);color:var(--bg);border-radius:12px;padding:10px 12px;font-size:14px;line-height:1.45;display:flex;flex-direction:column;gap:6px}
+.tip{background:var(--ink);color:var(--bg);border-radius:12px;padding:10px 12px;font-size:var(--fs-small);line-height:1.45;display:flex;flex-direction:column;gap:6px}
 .tip[hidden]{display:none}
 .tip p{margin:0}
-.tip .warn{font-size:13px}
-.tip .fine{font-size:12px;color:inherit;opacity:.7}
-.foot-note{font-size:13px;color:var(--muted);margin:0}
+.tip .warn{font-size:var(--fs-small)}
+.tip .fine{font-size:var(--fs-small);color:inherit;opacity:.7}
+.coachon .card:first-child .chev{animation:pulse 1.6s ease-in-out 3}
+.bub{position:absolute;top:calc(100% + 8px);right:-6px;background:var(--ink);color:var(--bg);font:500 12px/1 var(--body);padding:7px 10px;border-radius:10px;white-space:nowrap;z-index:2;pointer-events:none}
+.bub::before{content:"";position:absolute;top:-4px;right:18px;width:8px;height:8px;background:var(--ink);transform:rotate(45deg)}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(1,235,94,.7)}60%{box-shadow:0 0 0 8px rgba(1,235,94,0)}}
+.foot-note{font-size:var(--fs-small);color:var(--muted);margin:0}
 .foot-note summary{cursor:pointer;color:var(--accent-ink);font-weight:600}
 .foot-note p{margin:6px 0 0}
 
@@ -160,45 +170,54 @@ h1{font-size:28px;line-height:1.15}
 .seg.cur i{animation:fill 5s linear forwards}
 .paused .seg.cur i{animation-play-state:paused}
 @keyframes fill{to{width:100%}}
-.wtools{display:flex;justify-content:space-between;align-items:center;padding:0 16px;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.wtools{display:flex;justify-content:space-between;align-items:center;padding:0 16px;font-size:var(--fs-label);font-weight:600;letter-spacing:.1em;text-transform:uppercase}
 .wtools button{width:36px;height:36px;border-radius:50%;background:var(--w-soft);color:var(--w-fg);display:grid;place-items:center}
 .slide{flex:none;padding:8px 24px 0;display:flex;flex-direction:column;justify-content:flex-start;gap:14px;animation:in .4s ease both}
-.slide .big{font-family:var(--display);font-weight:600;font-size:64px;line-height:1;letter-spacing:.01em;font-variant-numeric:tabular-nums}
-.slide .eq{font-family:var(--display);font-weight:600;font-size:34px;line-height:1.1;letter-spacing:.01em}
-.slide h2{font-size:30px;line-height:1.1}
-.slide p{margin:0;font-size:18px}
+.slide .big{font-family:var(--display);font-weight:600;font-size:var(--fs-hero-w);line-height:1.05;letter-spacing:0;font-variant-numeric:tabular-nums}
+.slide .big .eur{font-size:.55em;font-weight:500;margin-left:.08em}
+.slide .eq{font-family:var(--display);font-weight:600;font-size:var(--fs-punch);line-height:1.1;letter-spacing:0}
+.slide h2{font-size:var(--fs-title);line-height:1.15}
+.slide .wsub{color:inherit;font-family:var(--body);font-weight:500;font-size:var(--fs-sub);line-height:1.3;letter-spacing:0;margin:0}
+.slide .lbl{font-size:var(--fs-label);font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin:0}
+.slide .note{font-size:var(--fs-small);line-height:1.4;opacity:.85}
+.slide p{margin:0;font-size:var(--fs-body);line-height:1.5}
 .bd{display:flex;flex-direction:column;gap:14px}
-.bd .l{display:flex;justify-content:space-between;gap:10px;font-weight:600;margin-bottom:5px}
+.bd .l{display:flex;justify-content:space-between;gap:10px;font-size:var(--fs-body);font-weight:500;margin-bottom:5px}
+.bd .l span:last-child{font-weight:600;font-variant-numeric:tabular-nums}
 .bd .tr{height:10px;background:var(--w-soft);border-radius:10px;overflow:hidden}
 .bd .tr i{display:block;height:100%;background:var(--w-fg);border-radius:10px}
 .chip{align-self:flex-start;background:var(--w-fg);color:var(--w-bg);border-radius:999px;padding:8px 16px;font-weight:600}
 .art{flex:1;min-height:160px;position:relative;display:flex;align-items:flex-end;justify-content:center;overflow:hidden}
 .artimg{width:100%;height:100%;background-size:contain;background-position:center bottom;background-repeat:no-repeat;-webkit-mask-image:radial-gradient(ellipse 74% 74% at 50% 54%,#000 58%,transparent 100%);mask-image:radial-gradient(ellipse 74% 74% at 50% 54%,#000 58%,transparent 100%)}
-.art.big .artimg{transform:scale(1.2);transform-origin:50% 100%;animation:bob 3.4s ease-in-out infinite}
-@keyframes bob{0%,100%{transform:scale(1.2) translateY(0)}50%{transform:scale(1.2) translateY(-8px)}}
+.art.left{justify-content:flex-end;padding-right:14px}
+.art.left .artimg{width:60%;height:88%}
+/* última story: ilustración recortada, sin fondo; solo se difuminan los lados para integrarla */
+.art.big .artimg{-webkit-mask-image:linear-gradient(to right,transparent 0,#000 9%,#000 91%,transparent 100%),linear-gradient(to bottom,transparent 0,#000 14%);-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent 0,#000 9%,#000 91%,transparent 100%),linear-gradient(to bottom,transparent 0,#000 14%);mask-composite:intersect;transform:scale(1.06);transform-origin:50% 100%;animation:bob 3.4s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:scale(1.06) translateY(0)}50%{transform:scale(1.06) translateY(-6px)}}
 .conf{position:absolute;inset:0;width:100%;height:100%;z-index:8;pointer-events:none}
 .conf[hidden]{display:none}
 .wbtns{display:flex;flex-direction:column;gap:10px;padding:8px 24px 24px}
 .wbtns .btn{background:var(--w-fg);color:var(--w-bg)}
 .wbtns .btn.ghost{background:transparent;border-color:var(--w-fg);color:var(--w-fg)}
-.allbtn{align-self:center;font-size:15px}
+.allbtn{align-self:center;font-size:var(--fs-body)}
 .allbtn[hidden]{display:none}
 .allb{display:flex;flex-direction:column;gap:8px}
 .allb[hidden]{display:none}
-.more-b{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px dashed var(--line);border-radius:16px;padding:12px 14px}
+.more-b{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px dashed var(--line);border-radius:18px;padding:14px 16px}
+.more-b .bubble{margin-right:4px}
 .more-b .mb{flex:1;min-width:0;display:flex;flex-direction:column}
-.more-b b{font-size:15px}
-.more-b span{font-size:13px;color:var(--muted)}
-.more-b em{font-style:normal;font-size:13px;font-weight:600;color:var(--accent-ink)}
-.addb{border:2px solid var(--ink);border-radius:999px;padding:6px 14px;font-weight:600;font-size:14px;flex:none}
+.more-b b{font-size:var(--fs-body)}
+.more-b span{font-size:var(--fs-small);color:var(--muted)}
+.more-b em{font-style:normal;font-size:var(--fs-small);font-weight:600;color:var(--accent-ink)}
+.addb{border:2px solid var(--ink);border-radius:999px;padding:6px 14px;font-weight:600;font-size:var(--fs-small);flex:none}
 .todos{display:flex;flex-direction:column;gap:8px}
 .todo{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 14px}
 .todo .ck{width:24px;height:24px;border-radius:7px;border:2px solid var(--muted);display:grid;place-items:center;flex:none;color:var(--on-accent)}
 .todo.done .ck{background:var(--accent);border-color:var(--accent)}
-.todo b{display:block;font-size:15px}
-.todo .sub{display:block;font-size:13px;color:var(--muted)}
+.todo b{display:block;font-size:var(--fs-body)}
+.todo .sub{display:block;font-size:var(--fs-small);color:var(--muted)}
 .todo.done b{color:var(--muted);text-decoration:line-through}
-.later{display:block;margin:10px auto 0;font-size:14px;color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+.later{display:block;margin:10px auto 0;font-size:var(--fs-small);color:var(--muted);text-decoration:underline;text-underline-offset:3px}
 .later:disabled{text-decoration:none;cursor:default}
 .endimg{width:100%;max-width:220px;height:auto;align-self:center;border-radius:24px}
 /* pantalla final siempre en claro (también con tema oscuro) para que la ilustración se vea bien */
@@ -206,7 +225,7 @@ h1{font-size:28px;line-height:1.15}
 .end[hidden]{display:none}
 @media (max-width:480px){
   .phone{border-radius:24px}
-  h1{font-size:26px}
+:root{--fs-title:26px}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
@@ -224,7 +243,7 @@ h1{font-size:28px;line-height:1.15}
     </div>
     <main id="main"></main>
     <div class="foot"><button class="btn" id="cta" type="button"></button></div>
-    <section class="wrapped" id="wrapped" hidden aria-label="Cobee Wrapped"></section>
+    <section class="wrapped" id="wrapped" hidden aria-label="Tu resumen Cobee"></section>
     <section class="end" id="end" hidden></section>
     <canvas class="conf" id="conf" hidden aria-hidden="true"></canvas>
   </div>
@@ -258,6 +277,13 @@ h1{font-size:28px;line-height:1.15}
         <option value="1">enero</option><option value="2">febrero</option><option value="3">marzo</option><option value="4">abril</option>
         <option value="5">mayo</option><option value="6">junio</option><option value="7">julio</option><option value="8">agosto</option>
         <option value="9">septiembre</option><option value="10">octubre</option><option value="11">noviembre</option><option value="12">diciembre</option>
+      </select>
+    </label>
+    <label>Tema
+      <select id="theme" aria-label="Tema de color">
+        <option value="">Sistema</option>
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
       </select>
     </label>
     <button id="restart" type="button">Reiniciar</button>
@@ -370,22 +396,22 @@ const GU=[["Menos de 250 €",200],["250–400 €",325],["400–600 €",500],[
 const FOR=[["Menos de 500 €",400],["500–1.500 €",1000],["1.500–3.000 €",2250],["Más de 3.000 €",3500]];
 /* cada pregunta mide una variable del cálculo: situación + importe en rangos */
 const QB=[
-  {id:"AH",goal:"ahorrar",text:"¿Cuál de estos gastos pagas tú?",use:"Pasamos ese gasto a retribución flexible y calculamos tu ahorro con tu importe real.",
+  {id:"AH",goal:"ahorrar",text:"¿Cuál de estos gastos pagas tú?",use:"Estos gastos se pueden pagar desde tu nómina antes de impuestos. Con tu respuesta calculamos cuánto te ahorrarías.",
     opts:["Seguro médico","Guardería","Un curso que pago o voy a pagar","Ninguno"],
     follow:{"Guardería":{text:"¿Cuánto pagas al mes?",opts:GU},"Un curso que pago o voy a pagar":{text:"¿Cuánto te queda por pagar en los próximos 12 meses?",opts:FOR}}},
-  {id:"SA",goal:"salud",sensitive:true,text:"¿Pagas tú un seguro médico privado?",use:"Decide si te recomendamos pasar tu seguro a Cobee, contratar uno o, si ya te lo paga la empresa, bienestar.",
+  {id:"SA",goal:"salud",sensitive:true,text:"¿Pagas tú un seguro médico privado?",use:"Así sabemos si te conviene pasar tu seguro a Cobee, contratar uno nuevo o ninguna de las dos cosas.",
     opts:["Sí, lo pago yo","Sí, me lo paga la empresa","No"]},
-  {id:"CR",goal:"crecer",text:"¿Vas a pagar alguna formación relacionada con tu trabajo en los próximos 12 meses?",use:"Solo cuentan los pagos que aún no has hecho: es el importe con el que calculamos tu ahorro.",
+  {id:"CR",goal:"crecer",text:"¿Vas a pagar alguna formación relacionada con tu trabajo en los próximos 12 meses?",use:"Solo cuenta lo que vas a pagar, no lo que ya pagaste. Con ese importe calculamos cuánto te ahorrarías.",
     opts:["Sí","Aún no lo sé","No"],follow:{"Sí":{text:"¿Cuánto, más o menos?",opts:FOR}}},
-  {id:"FA",goal:"familia",sensitive:true,text:"¿Tienes hijos menores de 3 años?",use:"Decide si te recomendamos guardería, y con qué cuota calculamos.",
+  {id:"FA",goal:"familia",sensitive:true,text:"¿Tienes hijos menores de 3 años?",use:"Solo si tienes hijos pequeños te proponemos la guardería. La cuota nos sirve para calcular tu ahorro.",
     opts:["Sí","No"],follow:{"Sí":{text:"¿Cuánto pagas al mes de guardería?",opts:GU}}},
-  {id:"FU",goal:"futuro",text:"¿Aportas ya a un plan de pensiones?",use:"Decide si te proponemos empezar un plan o aportar un poco más al que ya tienes.",
+  {id:"FU",goal:"futuro",text:"¿Aportas ya a un plan de pensiones?",use:"Así sabemos si te proponemos empezar un plan de pensiones o aportar un poco más al que ya tienes.",
     opts:["No","Sí"]}
 ];
 
 /* estado */
 let s,plan,evs,t0;
-function fresh(mode){return {step:0,goals:[],answers:{},mode,t:Number($("#tramo").value),alta:Number($("#alta").value),vals:{},on:{},open:{},tips:{},ans:{},cat:$("#catalogo").value,assumed:{},fold:{}};}
+function fresh(mode){return {step:0,goals:[],answers:{},mode,t:Number($("#tramo").value),alta:Number($("#alta").value),vals:{},on:{},open:{},tips:{},ans:{},cat:$("#catalogo").value,assumed:{},fold:{},extra:[],shown:{},coachDone:false};}
 const cur=()=>MODES[s.mode];
 const T=()=>s.t;
 
@@ -473,7 +499,11 @@ function pickCustom(a0=s.answers){
   return out.map(id=>({id,kind:"ia",goal:src[id]}));
 }
 function buildPlan(){
-  plan=[...fixedList().map(id=>({id,kind:"fijo"})),...pickCustom(),...(s.extra||[]).map(id=>({id,kind:"extra"}))];
+  /* guardarraíl: un beneficio aparece una sola vez. Si uno añadido desde "Ver todos" pasa a ser propuesto, se descarta el añadido */
+  const base=[...fixedList().map(id=>({id,kind:"fijo"})),...pickCustom()].filter((it,i,a)=>a.findIndex(x=>x.id===it.id)===i);
+  const seen=new Set(base.map(x=>x.id));
+  s.extra=[...new Set(s.extra||[])].filter(id=>!seen.has(id)&&activo(id));
+  plan=[...base,...s.extra.map(id=>({id,kind:"extra"}))];
   plan.forEach(it=>{if(s.on[it.id]===undefined)s.on[it.id]=true;});
 }
 
@@ -578,7 +608,7 @@ function track(name,props={}){
 }
 
 /* shell */
-const STEPS=["Tu objetivo","Afinamos tu plan","Tu plan","Cobee Wrapped"];
+const STEPS=["Tu objetivo","Afinamos tu plan","Tu plan","Tu resumen"];
 function head(){
   const idx=Math.min(s.step,3);
   $("#steplabel").textContent=`Paso ${idx+1} de 4 · ${STEPS[idx]}`;
@@ -662,10 +692,13 @@ main.addEventListener("click",e=>{
     renderPlan(true);main.scrollTop=st;return;
   }
   const fo=e.target.closest("[data-fold]");
-  if(fo){const id=fo.dataset.fold;s.fold[id]=!s.fold[id];updatePlan();return;}
+  if(fo){const id=fo.dataset.fold;endCoach();s.fold[id]=!s.fold[id];updatePlan();return;}
+  const qi=e.target.closest("[data-qinfo]");
+  if(qi){const id=qi.dataset.qinfo;s.qtip=s.qtip===id?null:id;syncQTips();return;}
   const inf=e.target.closest("[data-info]");
   if(inf){
-    const id=inf.dataset.info;s.tips[id]=!s.tips[id];
+    const id=inf.dataset.info,was=!!s.tips[id];endCoach();
+    s.tips={};s.tips[id]=!was;
     if(s.tips[id])track("why_opened",{beneficio:id});
     updatePlan();return;
   }
@@ -678,11 +711,12 @@ function renderQ(anim=true){
     return labels.map(o=>`<button class="opt" type="button" role="radio" aria-checked="${c===o}" data-q="${q.id}" data-k="${key}" data-v="${o}">${o}</button>`).join("")
       +`<button class="opt skip" type="button" role="radio" aria-checked="${c===""}" data-q="${q.id}" data-k="${key}" data-skip="1">Prefiero no decirlo</button>`;};
   main.innerHTML=`<div class="${fd.trim()}"><h1>Afinamos tu plan</h1><p class="lead">Solo preguntamos lo que cambia tu cálculo.</p></div>
-  ${qs.map(q=>{const f=q.follow&&q.follow[s.answers[q.id]];return `<div class="q${fd}"><span class="tagline">${G(q.goal).name}</span><h2>${q.text}</h2>
+  ${qs.map(q=>{const f=q.follow&&q.follow[s.answers[q.id]];return `<div class="q${fd}"><span class="tagline">${G(q.goal).name}</span><div class="qt"><h2>${q.text}</h2><button class="info" type="button" data-qinfo="${q.id}" aria-label="¿Para qué usamos tu respuesta?" aria-expanded="${s.qtip===q.id}" aria-controls="qtip-${q.id}">i</button></div>
+    <div class="tip" id="qtip-${q.id}" role="note"${s.qtip===q.id?"":" hidden"}><p>${q.use}</p></div>
     <div class="opts" role="radiogroup" aria-label="${q.text}">${list(q,q.id,optsOf(q))}</div>
     ${f?`<div class="follow"><h3>${f.text}</h3><div class="opts" role="radiogroup" aria-label="${f.text}">${list(q,q.id+"_f",f.opts.map(o=>o[0]))}</div></div>`:""}
-    <p class="use">${q.use}</p></div>`;}).join("")}`;
-  if(anim)qs.forEach((q,i)=>track("question_shown",{pregunta:q.id,posicion:i+1}));
+    </div>`;}).join("")}`;
+  if(anim){s.shown=s.shown||{};qs.forEach((q,i)=>{if(!s.shown[q.id]){s.shown[q.id]=1;track("question_shown",{pregunta:q.id,posicion:i+1});}});}
   cta.textContent="Ver mi plan";cta.disabled=!qs.every(done);
   main.scrollTop=st;
 }
@@ -690,16 +724,24 @@ function renderQ(anim=true){
 /* paso 3 */
 let counted=false;
 /* sin chips: la línea de la cifra dice de dónde sale el ahorro */
-function perOf(it){const b=B[it.id];if(b.noSave)return "";if(it.id==="descuentos")return "al año en descuentos";if(it.id==="bienestar")return "al año frente a un gimnasio";if(it.id==="pensiones")return "al año en impuestos hoy";return "al año en impuestos";}
+function perOf(it){const b=B[it.id];if(b.noSave)return "";if(it.id==="descuentos")return "al año en descuentos";if(it.id==="bienestar")return "al año frente a un gimnasio";return "al año";}
 function tagOf(it){return "";const b=B[it.id];if(it.kind==="fijo")return "";if(it.id==="formacion"&&existing("formacion"))return "Tu curso";if(existing(it.id))return "Ya lo pagas";if(b.est)return "Estimado";if(b.price)return "7 días gratis";return "";}
 /* dato corto que acompaña al valor editable; lo largo va dentro de "¿Por qué?" */
 function inline(it){if(it.id==="comida"&&s.mode==="intensiva")return " · sin julio";return "";}
+/* tutorial de la primera tarjeta: se cierra al usarlo o con "Entendido" */
+/* la "i" de las preguntas: una abierta a la vez, sin volver a pintar la pantalla */
+function syncQTips(){
+  document.querySelectorAll("[data-qinfo]").forEach(b=>{const on=s.qtip===b.dataset.qinfo;b.setAttribute("aria-expanded",on);const tp=document.getElementById("qtip-"+b.dataset.qinfo);if(tp)tp.hidden=!on;});
+}
+let coachT=0;
+function endCoach(){clearTimeout(coachT);if(s.coachDone)return;s.coachDone=true;document.querySelectorAll(".bub").forEach(b=>b.remove());const cs=$(".cards");if(cs)cs.classList.remove("coachon");}
+const CHEV_SVG='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
 function renderPlan(quiet){
   buildPlan();
-  main.innerHTML=`<div class="hero fade"><span class="kick">Podrías ahorrar</span>
+  main.innerHTML=`<div class="hero${quiet?"":" fade"}"><span class="kick">Podrías ahorrar</span>
     <div class="total" aria-live="polite" aria-atomic="true"><span id="total">0 €</span> <small>${nextYear()?`en ${YEAR+1}`:"al año"}</small></div>
     <span class="sub" id="fullline"></span></div>
-  <div class="cards fade">${plan.map(it=>{const b=B[it.id];return `
+  <div class="cards${quiet?"":" fade"}${s.coachDone?"":" coachon"}">${plan.map(it=>{const b=B[it.id];return `
     <article class="card" data-id="${it.id}">
       <div class="row">
         ${bubble(it.id)}
@@ -707,7 +749,7 @@ function renderPlan(quiet){
           <div class="nm"><h3>${b.name()}</h3><button class="info" type="button" data-info="${it.id}" aria-label="¿Por qué te lo recomendamos?" aria-expanded="false" aria-controls="tip-${it.id}">i</button></div>
           <div class="amt"><span class="v" data-save></span><span class="per">${perOf(it)}</span>${tagOf(it)?`<span class="tag ${tagOf(it)==="Ya lo pagas"||tagOf(it)==="Tu curso"?"paid":b.price?"trial":""}">${tagOf(it)}</span>`:""}</div>
         </div>
-        ${b.noSave?"":`<button class="chev" type="button" data-fold="${it.id}" aria-expanded="false" aria-controls="more-${it.id}" aria-label="Ver y ajustar ${b.name()}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>`}
+        ${b.noSave?"":`<button class="chev" type="button" data-fold="${it.id}" aria-expanded="false" aria-controls="more-${it.id}" aria-label="Ver y ajustar ${b.name()}">${CHEV_SVG}${!s.coachDone&&it.id===plan[0].id?'<span class="bub" role="tooltip">Toca para ajustar</span>':""}</button>`}
         <button class="sw" type="button" role="switch" data-id="${it.id}" aria-label="Activar ${b.name()}" aria-checked="true"></button>
       </div>
       <div class="tip" id="tip-${it.id}" role="note" hidden><p data-why></p>${note(it)?`<p class="warn"><b>A tener en cuenta:</b> ${note(it)}</p>`:""}<span class="fine">Redactado por IA con tus respuestas. ${it.id==="bienestar"?"Estimado frente al precio de un gimnasio en España (30–50 € al mes de media; low cost desde 20 €) y el precio de referencia de Wellhub. No suma al total.":b.est?"La cifra es una estimación según perfiles parecidos al tuyo y no suma al total.":b.price?"Precio de referencia de Wellhub en España; con Cobee puede ser menor. No suma al total de ahorro.":"Las cifras las calculan reglas fiscales."}</span></div>
@@ -719,8 +761,9 @@ function renderPlan(quiet){
   <button class="allbtn link" type="button" data-allbtn aria-expanded="false" aria-controls="allb"></button>
   <div class="allb" id="allb" hidden></div>
   <details class="foot-note"><summary>¿Cómo lo calculamos?</summary><p>Como el simulador de Cobee: importe × tu tipo de IRPF (${Math.round(T()*100)} %), con los límites exentos. Empieza en tu nómina de ${MES[startM()-1]}${nextYear()?` de ${YEAR+1}`:""}. Las cifras con ≈ son estimados según perfiles parecidos al tuyo y no suman al total. Todo es orientativo y puedes editarlo.</p></details>`;
-  if(!quiet)track("plan_viewed",{beneficios:plan.map(p=>p.id),marcas:plan.some(p=>p.id==="descuentos")?brands():[],ahorro_total_estimado:Math.round(totalOf(true))});
+  if(!quiet&&!s.planSeen){s.planSeen=true;track("plan_viewed",{beneficios:plan.map(p=>p.id),marcas:plan.some(p=>p.id==="descuentos")?brands():[],ahorro_total_estimado:Math.round(totalOf(true))});}
   drawAll();updatePlan(!counted);counted=true;
+  clearTimeout(coachT);if(!s.coachDone)coachT=setTimeout(endCoach,7000);
 }
 /* total = ahorro fiscal de un año, calculado como el simulador; los estimados no suman */
 const DESC={transporte:"Abono de transporte desde la nómina",comida:"Tarjeta restaurante para tus comidas",guarderia:"Paga la guardería antes de impuestos",seguro:"Seguro médico privado desde la nómina",descuentos:"Hasta un 11 % en marcas conocidas",formacion:"Cursos relacionados con tu trabajo",bienestar:"Gimnasios y apps de bienestar con Wellhub",pensiones:"Aporta a tu plan y tributa menos hoy"};
@@ -765,6 +808,8 @@ function updatePlan(anim){
 
 /* wrapped */
 let wi=0,paused=false;
+/* GUARDARRAÍL: las equivalencias nunca revelan salud, hijos o maternidad, situación familiar ni financiera.
+   Solo planes cotidianos y neutros (cenas, ocio, compras, libros...). */
 /* equivalencias para la tarjeta de compartir: varían según el objetivo, el importe y el perfil.
    Precios de referencia aproximados (supuestos a validar); en producción las elige la IA con el mismo método. */
 const EQ_SMALL=[
@@ -779,12 +824,6 @@ const EQ_SMALL=[
   {m:1,p:150,one:"curso online",many:"cursos online",g:["crecer"]},
   {m:1,p:100,one:"compra grande del súper",many:"compras grandes del súper",g:["ahorrar","familia"]},
   {p:70,one:"depósito de gasolina",many:"depósitos de gasolina",g:["ahorrar"]},
-  {p:45,one:"sesión de fisioterapia",many:"sesiones de fisioterapia",g:["salud"]},
-  {p:60,one:"sesión con un psicólogo",many:"sesiones con un psicólogo",g:["salud"]},
-  {p:45,one:"mes de seguro médico",many:"meses de seguro médico",g:["salud","familia"]},
-  {p:350,one:"mes de guardería",many:"meses de guardería",g:["familia"]},
-  {p:60,one:"tarde de planes en familia",many:"tardes de planes en familia",g:["familia"]},
-  {p:100,one:"mes de aportación a tu plan de pensiones",many:"meses de aportación a tu plan de pensiones",g:["futuro"]}
 ];
 const EQ_BIG=[
   {p:300,one:"fin de semana fuera",many:"fines de semana fuera"},
@@ -795,7 +834,7 @@ const EQ_BIG=[
 function rng(seed){let a=0;for(const ch of seed)a=(a*31+ch.charCodeAt(0))|0;return()=>{a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
 function pickEq(tot){
   const r=rng(`${Math.round(tot)}|${s.goals.join()}|${s.mode}|${s.t}`),pick=a=>a[Math.floor(r()*a.length)];
-  const n=(it,x=tot)=>Math.round(x/it.p),txt=(it,k)=>`${k} ${k===1?it.one:it.many}`;
+  const n=(it,x=tot)=>Math.max(1,Math.round(x/it.p)),txt=(it,k)=>`${k} ${k===1?it.one:it.many}`;
   const ok=it=>n(it)>=2&&n(it)<=(it.one.startsWith("mes")?18:36);
   /* mezcla: algo grande y algo pequeño ("2 fines de semana fuera y 21 cenas") */
   if(tot>=700&&r()<.45){
@@ -804,25 +843,31 @@ function pickEq(tot){
       const fit=EQ_SMALL.filter(i=>i.m&&rest/i.p>=2&&rest/i.p<=30),sm=fit.filter(i=>i.g.some(g=>s.goals.includes(g))).length?fit.filter(i=>i.g.some(g=>s.goals.includes(g))):fit;
       if(sm.length){const i=pick(sm);return {main:`${txt(b,nb)} y ${txt(i,n(i,rest))}`,alt:""};}}
   }
-  const mine=EQ_SMALL.filter(i=>ok(i)&&i.g.includes(s.goals[0])),any=EQ_SMALL.filter(ok);
+  let any=EQ_SMALL.filter(ok);
+  /* con importes muy bajos o muy altos se amplía el rango para no quedarse sin equivalencias */
+  if(any.length<2)any=EQ_SMALL.filter(i=>tot/i.p>=1&&tot/i.p<=80);
+  if(any.length<2)any=[...EQ_SMALL];
+  const mine=any.filter(i=>i.g.includes(s.goals[0]));
   const a=pick(mine.length?mine:any);
   const others=any.filter(i=>i!==a&&!(i.g.length===1&&i.g[0]===a.g[0]&&a.g.length===1));
   const pref=others.filter(i=>!i.g.some(g=>a.g.includes(g)));
-  const b=pick(pref.length?pref:others);
+  const b=pick(pref.length?pref:others.length?others:any);
   return {main:txt(a,n(a)),alt:`o ${txt(b,n(b))}.`};
 }
 /* botón de cierre: invita a usar el plan según el objetivo principal */
 const START_CTA={ahorrar:"Empieza a ahorrar",salud:"Empieza a cuidarte",crecer:"Empieza a crecer",familia:"Empieza a disfrutar en familia",futuro:"Empieza a construir tu futuro",disfrutar:"Empieza a disfrutar"};
+/* la cifra grande lleva el € más pequeño para que el protagonista sea el número */
+const fmtHero=n=>fmt(n).replace(/\s?€$/,"")+'<span class="eur">€</span>';
 function slides(){
   const g=G(s.goals[0]),act=plan.filter(p=>s.on[p.id]),tot=totalOf(true);
   const max=Math.max(...act.map(p=>saveOf(p.id,true)),1);
   const eq=pickEq(tot);
   return [
-    `<p style="text-transform:uppercase;letter-spacing:.1em;font-size:13px">Cobee Wrapped · ${NAME}</p>
-     <div class="big">${fmt(tot)}</div><h2>que podrías ahorrar ${nextYear()?`en ${YEAR+1}`:"al año"}</h2>`,
+    `<p class="lbl">Tu resumen Cobee · ${NAME}</p>
+     <div class="big">${fmtHero(tot)}</div><h2 class="wsub">que podrías ahorrar ${nextYear()?`en ${YEAR+1}`:"al año"}</h2>`,
     `<h2>Así se reparte</h2><div class="bd">${[...act].sort((x,y)=>saveOf(y.id,true)-saveOf(x.id,true)).map(p=>`<div><div class="l"><span>${B[p.id].name()}</span><span>${B[p.id].price?`${eur2(whPlan().p)}/mes`:B[p.id].noSave?B[p.id].valueText:money(p.id)}</span></div><div class="tr"><i style="width:${B[p.id].noSave?12:Math.max(8,saveOf(p.id,true)/max*100)}%"></i></div></div>`).join("")}</div>`,
-    `<p style="text-transform:uppercase;letter-spacing:.1em;font-size:13px">Lo que significa para ti</p>
-     <h2>Es como tener de vuelta…</h2><div class="eq">${eq.main}</div>${eq.alt?`<p>${eq.alt}</p>`:""}<p style="font-size:15px;opacity:.85">Dinero que ya era tuyo.</p>
+    `<p class="lbl">Lo que significa para ti</p>
+     <h2 class="wsub">Es como tener de vuelta…</h2><div class="eq">${eq.main}</div>${eq.alt?`<p class="wsub">${eq.alt}</p>`:""}<p class="note">Dinero que ya era tuyo.</p>
      <div class="wbtns"><button class="btn ghost" type="button" id="share">Cuéntaselo a un compañero</button><button class="btn" type="button" id="start">${START_CTA[g.id]}</button></div>`
   ];
 }
@@ -841,7 +886,7 @@ function showSlide(){
   w.innerHTML=`<div class="segs">${sl.map((_,i)=>`<div class="seg ${i<wi?"done":i===wi&&!reduce?"cur":""}"><i></i></div>`).join("")}</div>
    <div class="wtools"><span>${wi+1} / ${sl.length}</span><button type="button" id="pp" aria-label="${paused?"Reanudar":"Pausar"}">${ico(paused?"play":"pause",16)}</button></div>
    <div class="slide" id="slide">${sl[wi].split('<div class="wbtns">')[0]}</div>
-   <div class="art${wi===sl.length-1?" big":""}" aria-hidden="true"><div class="artimg" style="background-image:url(assets/wrap-${set}-${["tower","confetti","podium"][wi]}.jpg)"></div></div>
+   <div class="art${wi===sl.length-1?" big":""}${wi===0?" left":""}" aria-hidden="true"><div class="artimg" style="background-image:url(${wi===sl.length-1?`assets/wrap-${set}-podium-cut.webp`:`assets/wrap-${set}-${["tower","confetti"][wi]}.jpg`})"></div></div>
    ${sl[wi].includes('<div class="wbtns">')?'<div class="wbtns">'+sl[wi].split('<div class="wbtns">')[1]:""}`;
   const c=w.querySelector(".seg.cur i");
   if(c)c.addEventListener("animationend",()=>next());
@@ -883,7 +928,8 @@ $("#wrapped").addEventListener("click",e=>{
 cta.addEventListener("click",()=>{
   if(s.step===0){
     track("goal_selected",{objetivos:s.goals,principal:s.goals[0]});
-    s.answers={};s.ans={};
+    /* al volver a elegir objetivos se parte de cero: nada de lo anterior se arrastra */
+    s.answers={};s.ans={};s.extra=[];s.vals={};s.on={};s.open={};s.fold={};s.tips={};s.shown={};s.planSeen=false;s.qtip=null;
     const qs=questions();QB.filter(q=>s.goals.includes(q.goal)).forEach(q=>{const ev=evaluate(q);track("question_evaluated",{pregunta:q.id,valor:ev.value,respuesta_probable:ev.likely,prob:Math.round(ev.pmax*100)+"%",preguntada:qs.includes(q),asumida:s.assumed[q.id]||null});});
     if(qs.length)go(1);
     else{track("step2_skipped",{motivo:"sin pregunta decisiva"});go(2);}
@@ -893,9 +939,18 @@ cta.addEventListener("click",()=>{
     s.step=3;head();wrapStart();
   }
 });
+/* cerrar la "i" al tocar fuera (o con Escape) */
+$("#phone").addEventListener("click",e=>{
+  if(s&&s.step===1&&s.qtip&&!e.target.closest("[data-qinfo]")&&!e.target.closest(".tip")){s.qtip=null;syncQTips();}
+  if(!s||s.step!==2||e.target.closest("[data-info]")||e.target.closest(".tip"))return;
+  if(Object.values(s.tips||{}).some(Boolean)){s.tips={};updatePlan();}
+},true);
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&s&&s.step===1&&s.qtip){s.qtip=null;syncQTips();}
+  if(e.key==="Escape"&&s&&s.step===2&&Object.values(s.tips||{}).some(Boolean)){s.tips={};updatePlan();}});
 $("#back").addEventListener("click",()=>{
   if(s.step===2)go(questions().length?1:0);else go(Math.max(0,s.step-1));
 });
+$("#theme").addEventListener("change",e=>{const v=e.target.value,r=document.documentElement;if(v)r.setAttribute("data-theme",v);else r.removeAttribute("data-theme");});
 $("#mode").addEventListener("change",()=>reset());
 $("#tramo").addEventListener("change",()=>reset());
 $("#catalogo").addEventListener("change",()=>reset());
