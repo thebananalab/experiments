@@ -123,7 +123,7 @@ h1{font-size:var(--fs-title);line-height:1.15}
 .nm{display:flex;align-items:center;gap:6px}
 .card h3{font-size:var(--fs-body);line-height:1.25}
 .info{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--muted);color:var(--muted);font:600 14px/1 var(--display);display:grid;place-items:center;flex:none}
-.info[aria-expanded="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.info[aria-expanded="true"]{background:var(--bg);border-color:var(--ink);color:var(--ink)}
 .chev{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;flex:none;color:var(--ink);background:var(--bg);border:1.5px solid var(--muted);transition:transform .2s;position:relative}
 .chev[aria-expanded="true"]{transform:rotate(180deg)}
 .more{display:flex;flex-direction:column;gap:8px;padding-left:48px}
@@ -147,11 +147,12 @@ h1{font-size:var(--fs-title);line-height:1.15}
 .stepper button{width:36px;height:36px;border-radius:50%;border:2px solid var(--line);font-size:var(--fs-sub);line-height:1;display:grid;place-items:center}
 .stepper .link{width:auto;height:auto;border:0;border-radius:0;font-size:var(--fs-small);margin-left:auto;display:inline}
 .stepper output{font-weight:600;min-width:120px;text-align:center;font-variant-numeric:tabular-nums}
-.tip{background:var(--ink);color:var(--bg);border-radius:12px;padding:10px 12px;font-size:var(--fs-small);line-height:1.45;display:flex;flex-direction:column;gap:6px}
+.tip{background:var(--bg);color:var(--muted);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:var(--fs-small);line-height:1.45;display:flex;flex-direction:column;gap:6px}
 .tip[hidden]{display:none}
 .tip p{margin:0}
 .tip .warn{font-size:var(--fs-small)}
-.tip .fine{font-size:var(--fs-small);color:inherit;opacity:.7}
+.tip .fine{font-size:var(--fs-small);color:inherit;opacity:.8}
+.tip b{color:var(--ink);font-weight:600}
 .coachon .card:first-child .chev{animation:pulse 1.6s ease-in-out 3}
 .bub{position:absolute;top:calc(100% + 8px);right:-6px;background:var(--ink);color:var(--bg);font:500 12px/1 var(--body);padding:7px 10px;border-radius:10px;white-space:nowrap;z-index:2;pointer-events:none}
 .bub::before{content:"";position:absolute;top:-4px;right:18px;width:8px;height:8px;background:var(--ink);transform:rotate(45deg)}
@@ -447,7 +448,7 @@ const B={
   comida:{name:()=>"Comida",pastel:"#FDEEC1",min:1,max:20,step:1,
     def:()=>cur().days,label:v=>`${v} días al mes`,
     save:v=>Math.min(v*COMIDA_DIA,COMIDA_MAX)*months("comida")*T()},
-  descuentos:{name:()=>{const g=s.goals.find(x=>["ahorrar","crecer","disfrutar"].includes(x));return g==="ahorrar"?"Descuentos en compras":g==="crecer"?"Descuentos para aprender":g==="disfrutar"?"Planes y ocio":"Descuentos";},pastel:"#C7FCCA",est:true,min:50,max:800,step:50,
+  descuentos:{name:()=>{const g=s.goals.find(x=>["ahorrar","crecer","disfrutar"].includes(x));return g==="ahorrar"||g==="crecer"?"Descuentos":g==="disfrutar"?"Planes y ocio":"Descuentos";},pastel:"#C7FCCA",est:true,min:50,max:800,step:50,
     def:()=>est().desc,label:v=>`${v} € al mes en ${brands().join(", ")}`,save:v=>v*months("all")*DESC_PCT},
   seguro:{name:()=>"Seguro médico",pastel:"#FCC1BE",min:10,max:150,step:5,
     def:()=>given("seguro")??40,label:v=>`Prima de ${v} € al mes`,save:v=>Math.min(v*months("all"),SEGURO_MAX)*T()},
@@ -724,7 +725,7 @@ function renderQ(anim=true){
 /* paso 3 */
 let counted=false;
 /* sin chips: la línea de la cifra dice de dónde sale el ahorro */
-function perOf(it){const b=B[it.id];if(b.noSave)return "";if(it.id==="descuentos")return "al año en descuentos";if(it.id==="bienestar")return "al año frente a un gimnasio";return "al año";}
+function perOf(it){const b=B[it.id];if(b.noSave)return "";return "al año";}
 function tagOf(it){return "";const b=B[it.id];if(it.kind==="fijo")return "";if(it.id==="formacion"&&existing("formacion"))return "Tu curso";if(existing(it.id))return "Ya lo pagas";if(b.est)return "Estimado";if(b.price)return "7 días gratis";return "";}
 /* dato corto que acompaña al valor editable; lo largo va dentro de "¿Por qué?" */
 function inline(it){if(it.id==="comida"&&s.mode==="intensiva")return " · sin julio";return "";}
