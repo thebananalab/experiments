@@ -80,6 +80,10 @@ h1{font-size:var(--fs-title);line-height:1.15}
 .goal small{color:var(--muted);font-size:var(--fs-small);line-height:1.3}
 .goal[aria-pressed="true"]{border-color:var(--accent-ink)}
 .goal .badge{position:absolute;top:10px;right:10px;font-size:var(--fs-label);font-weight:600;background:var(--accent);color:var(--on-accent);border-radius:999px;padding:2px 8px}
+.gcount{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:var(--fs-small);color:var(--muted)}
+.gd{width:10px;height:10px;border-radius:50%;border:2px solid var(--line)}
+.gd.on{background:var(--accent);border-color:var(--accent)}
+.gcount span:last-child{margin-left:4px}
 .hint{font-size:var(--fs-small);color:var(--muted);min-height:20px}
 
 /* paso 2 */
@@ -96,6 +100,12 @@ h1{font-size:var(--fs-title);line-height:1.15}
 .opts{display:flex;flex-wrap:wrap;gap:8px}
 .opt{border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:9px 14px;font-weight:500;font-size:var(--fs-body)}
 .opt[aria-checked="true"]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.frows{display:flex;flex-direction:column;gap:10px}
+.frow{display:flex;flex-direction:column;gap:4px;font-size:var(--fs-small);color:var(--muted)}
+.frow select{font:inherit;font-size:var(--fs-body);color:var(--ink);background:var(--surface);border:2px solid var(--line);border-radius:12px;padding:9px 10px;width:100%}
+.frow select:focus-visible{border-color:var(--accent)}
+.qsub{font-size:var(--fs-small);color:var(--muted);margin:-2px 0 0}
+.multi{font-size:var(--fs-small);color:var(--muted);margin:-4px 0 0;display:block}
 .opt.skip{border:0;background:none;padding:9px 4px;color:var(--muted);text-decoration:underline;text-underline-offset:3px;font-size:var(--fs-small)}
 .opt.skip[aria-checked="true"]{background:none;color:var(--ink);font-weight:600}
 .follow{display:flex;flex-direction:column;gap:8px;border-top:1px dashed var(--line);padding-top:12px}
@@ -113,6 +123,10 @@ h1{font-size:var(--fs-title);line-height:1.15}
 .gift b{display:block;font-size:var(--fs-body)}
 .gift span{font-size:var(--fs-small);color:var(--muted)}
 .cards{display:flex;flex-direction:column;gap:10px}
+.grp{font-size:var(--fs-small);font-weight:600;color:var(--ink);margin:10px 2px -2px}
+.grp span{font-weight:400;color:var(--muted)}
+.grp span::before{content:"· "}
+
 .card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;transition:opacity .2s}
 .card.off{opacity:.55}
 .card .row{display:flex;align-items:center;gap:8px}
@@ -153,8 +167,10 @@ h1{font-size:var(--fs-title);line-height:1.15}
 .tip .warn{font-size:var(--fs-small)}
 .tip .fine{font-size:var(--fs-small);color:inherit;opacity:.8}
 .tip b{color:var(--ink);font-weight:600}
-.coachon .card:first-child .chev{animation:pulse 1.6s ease-in-out 3}
+.coachon .card:first-of-type .chev{animation:pulse 1.6s ease-in-out 3}
 .bub{position:absolute;top:calc(100% + 8px);right:-6px;background:var(--ink);color:var(--bg);font:500 12px/1 var(--body);padding:7px 10px;border-radius:10px;white-space:nowrap;z-index:2;pointer-events:none}
+.bub.up{top:auto;bottom:calc(100% + 8px);right:-4px}
+.bub.up::before{top:auto;bottom:-4px;right:14px}
 .bub::before{content:"";position:absolute;top:-4px;right:18px;width:8px;height:8px;background:var(--ink);transform:rotate(45deg)}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(1,235,94,.7)}60%{box-shadow:0 0 0 8px rgba(1,235,94,0)}}
 .foot-note{font-size:var(--fs-small);color:var(--muted);margin:0}
@@ -179,6 +195,7 @@ h1{font-size:var(--fs-title);line-height:1.15}
 .slide .eq{font-family:var(--display);font-weight:600;font-size:var(--fs-punch);line-height:1.1;letter-spacing:0}
 .slide h2{font-size:var(--fs-title);line-height:1.15}
 .slide .wsub{color:inherit;font-family:var(--body);font-weight:500;font-size:var(--fs-sub);line-height:1.3;letter-spacing:0;margin:0}
+.slide .wafter{font-family:var(--display);font-weight:600;font-size:var(--fs-punch);line-height:1.1;letter-spacing:0;margin:0}
 .slide .lbl{font-size:var(--fs-label);font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin:0}
 .slide .note{font-size:var(--fs-small);line-height:1.4;opacity:.85}
 .slide p{margin:0;font-size:var(--fs-body);line-height:1.5}
@@ -244,7 +261,7 @@ h1{font-size:var(--fs-title);line-height:1.15}
     </div>
     <main id="main"></main>
     <div class="foot"><button class="btn" id="cta" type="button"></button></div>
-    <section class="wrapped" id="wrapped" hidden aria-label="Tu resumen Cobee"></section>
+    <section class="wrapped" id="wrapped" hidden aria-label="Cobee Wrapped"></section>
     <section class="end" id="end" hidden></section>
     <canvas class="conf" id="conf" hidden aria-hidden="true"></canvas>
   </div>
@@ -392,21 +409,26 @@ const MODES={
   intensiva:{office:5,days:20,months:MESES-1,transporte:true,tNote:"",cNote:"Sin julio por tu jornada intensiva (agosto ya cuenta como vacaciones)"}
 };
 
-const MO=[["Menos de 30 €",25],["30–45 €",40],["Más de 45 €",50]];
-const GU=[["Menos de 250 €",200],["250–400 €",325],["400–600 €",500],["Más de 600 €",700]];
-const FOR=[["Menos de 500 €",400],["500–1.500 €",1000],["1.500–3.000 €",2250],["Más de 3.000 €",3500]];
+/* Perfiles parecidos (datos sintéticos): % de empleados con tu misma modalidad que usa cada beneficio del día a día */
+const COHORT={presencial:{n:1240,transporte:.82,comida:.74},hibrido:{n:968,transporte:.71,comida:.68},remoto:{n:512,comida:.55},intensiva:{n:344,transporte:.78,comida:.70}};
+const COHORT_B={seguro:.31,guarderia:.12,formacion:.18,descuentos:.64,bienestar:.27,pensiones:.22};
+const dec=p=>Math.max(1,Math.min(9,Math.round(p*10)));
+function cohortLine(){const c=COHORT[s.mode],fx=fixedList(),d=fx.map(id=>dec(c[id])),lo=Math.min(...d),hi=Math.max(...d);return `${lo===hi?lo:lo+"-"+hi} de cada 10 como tú ${fx.length>1?"los usan":"lo usan"}`;}
+const MO=[["Hasta 30 €",25],["30–45 €",40],["Más de 45 €",55]];
+const GU=[["Hasta 300 €",250],["300–500 €",400],["Más de 500 €",650]];
+const FOR=[["Hasta 1.000 €",600],["1.000–3.000 €",2000],["Más de 3.000 €",4000]];
 /* cada pregunta mide una variable del cálculo: situación + importe en rangos */
 const QB=[
-  {id:"AH",goal:"ahorrar",text:"¿Cuál de estos gastos pagas tú?",use:"Estos gastos se pueden pagar desde tu nómina antes de impuestos. Con tu respuesta calculamos cuánto te ahorrarías.",
+  {id:"AH",sub:"Así vemos cuánto podrías ahorrar en lo que ya pagas.",goal:"ahorrar",multi:true,text:"¿Qué gastos pagas de tu bolsillo hoy?",use:"Estos gastos puedes pagarlos desde tu nómina y pagar menos impuestos. Marca todos los que apliquen y elegimos los que más te ahorran.",
     opts:["Seguro médico","Guardería","Un curso que pago o voy a pagar","Ninguno"],
-    follow:{"Guardería":{text:"¿Cuánto pagas al mes?",opts:GU},"Un curso que pago o voy a pagar":{text:"¿Cuánto te queda por pagar en los próximos 12 meses?",opts:FOR}}},
-  {id:"SA",goal:"salud",sensitive:true,text:"¿Pagas tú un seguro médico privado?",use:"Así sabemos si te conviene pasar tu seguro a Cobee, contratar uno nuevo o ninguna de las dos cosas.",
-    opts:["Sí, lo pago yo","Sí, me lo paga la empresa","No"]},
-  {id:"CR",goal:"crecer",text:"¿Vas a pagar alguna formación relacionada con tu trabajo en los próximos 12 meses?",use:"Solo cuenta lo que vas a pagar, no lo que ya pagaste. Con ese importe calculamos cuánto te ahorrarías.",
+    follow:{"Seguro médico":{text:"¿Cuánto pagas al mes?",opts:MO},"Guardería":{text:"¿Cuánto pagas al mes?",opts:GU},"Un curso que pago o voy a pagar":{text:"¿Cuánto te queda por pagar este año?",opts:FOR}}},
+  {id:"SA",sub:"Así sabemos si te conviene pagar tu seguro con Cobee.",goal:"salud",sensitive:true,text:"¿Pagas tú un seguro médico privado?",use:"Si ya lo pagas, lo pasas a Cobee y ahorras. Si no, te decimos cuánto ahorrarías al contratarlo.",
+    opts:["Sí, lo pago yo","Sí, me lo paga la empresa","No"],follow:{"Sí, lo pago yo":{text:"¿Cuánto pagas al mes?",opts:MO}}},
+  {id:"CR",sub:"Así calculamos cuánto ahorrarías en tu formación.",goal:"crecer",text:"¿Vas a pagar alguna formación para tu trabajo este año?",use:"Solo cuenta lo que aún vas a pagar. Con el importe calculamos tu ahorro.",
     opts:["Sí","Aún no lo sé","No"],follow:{"Sí":{text:"¿Cuánto, más o menos?",opts:FOR}}},
-  {id:"FA",goal:"familia",sensitive:true,text:"¿Tienes hijos menores de 3 años?",use:"Solo si tienes hijos pequeños te proponemos la guardería. La cuota nos sirve para calcular tu ahorro.",
+  {id:"FA",sub:"Así sabemos si te proponemos la guardería y cuánto ahorrarías.",goal:"familia",sensitive:true,text:"¿Tienes hijos menores de 3 años?",use:"Solo si tienes hijos pequeños te proponemos la guardería. Con la cuota calculamos tu ahorro.",
     opts:["Sí","No"],follow:{"Sí":{text:"¿Cuánto pagas al mes de guardería?",opts:GU}}},
-  {id:"FU",goal:"futuro",text:"¿Aportas ya a un plan de pensiones?",use:"Así sabemos si te proponemos empezar un plan de pensiones o aportar un poco más al que ya tienes.",
+  {id:"FU",sub:"Así sabemos si te conviene empezar o aportar más.",goal:"futuro",text:"¿Aportas ya a un plan de pensiones?",use:"Así sabemos si te proponemos empezar un plan de pensiones o aportar algo más.",
     opts:["No","Sí"]}
 ];
 
@@ -425,19 +447,22 @@ function qv(qid){
   if(f){const o=f.opts.find(o=>o[0]===fa);if(o)return o[1];}
   return undefined;
 }
+const ahSel=(a=s.answers)=>String(a.AH||"").split("|").filter(Boolean);
+const ahHas=(o,a=s.answers)=>ahSel(a).includes(o);
+function qvAH(o,a=s.answers){const f=QB.find(x=>x.id==="AH").follow[o];if(!f)return undefined;const op=f.opts.find(x=>x[0]===a["AH_f_"+o]);return op?op[1]:undefined;}
 function given(id){
   const a=s.answers;
-  if(id==="seguro")return a.SA==="Sí, lo pago yo"?qv("SA"):a.AH==="Seguro médico"?qv("AH"):undefined;
-  if(id==="guarderia")return a.FA==="Sí"?qv("FA"):a.AH==="Guardería"?qv("AH"):undefined;
-  if(id==="formacion")return qv("CR")!==undefined?qv("CR"):a.AH==="Un curso que pago o voy a pagar"?qv("AH"):undefined;
+  if(id==="seguro")return a.SA==="Sí, lo pago yo"?qv("SA"):ahHas("Seguro médico")?qvAH("Seguro médico"):undefined;
+  if(id==="guarderia")return a.FA==="Sí"?qv("FA"):ahHas("Guardería")?qvAH("Guardería"):undefined;
+  if(id==="formacion")return qv("CR")!==undefined?qv("CR"):ahHas("Un curso que pago o voy a pagar")?qvAH("Un curso que pago o voy a pagar"):undefined;
   return undefined;
 }
 /* lo que el empleado ya paga se presenta como traslado, no como contratación nueva */
 function existing(id){
   const a=s.answers;
-  if(id==="seguro")return a.SA==="Sí, lo pago yo"||a.AH==="Seguro médico";
-  if(id==="guarderia")return a.AH==="Guardería"||given("guarderia")!==undefined;
-  if(id==="formacion")return a.CR==="Sí"||a.AH==="Un curso que pago o voy a pagar";
+  if(id==="seguro")return a.SA==="Sí, lo pago yo"||ahHas("Seguro médico");
+  if(id==="guarderia")return ahHas("Guardería")||given("guarderia")!==undefined;
+  if(id==="formacion")return a.CR==="Sí"||ahHas("Un curso que pago o voy a pagar");
   if(id==="pensiones")return a.FU==="Sí";
   return false;
 }
@@ -446,24 +471,24 @@ const B={
     def:()=>cur().office,label:v=>`${v} día${v>1?"s":""} de oficina a la semana`,
     save:v=>TRANSPORTE_MAX*(v/5)*months("t")*T()},
   comida:{name:()=>"Comida",pastel:"#FDEEC1",min:1,max:20,step:1,
-    def:()=>cur().days,label:v=>`${v} días al mes`,
+    def:()=>cur().days,label:v=>`Comes fuera ${v} días al mes`,
     save:v=>Math.min(v*COMIDA_DIA,COMIDA_MAX)*months("comida")*T()},
   descuentos:{name:()=>{const g=s.goals.find(x=>["ahorrar","crecer","disfrutar"].includes(x));return g==="ahorrar"||g==="crecer"?"Descuentos":g==="disfrutar"?"Planes y ocio":"Descuentos";},pastel:"#C7FCCA",est:true,min:50,max:800,step:50,
-    def:()=>est().desc,label:v=>`${v} € al mes en ${brands().join(", ")}`,save:v=>v*months("all")*DESC_PCT},
+    def:()=>est().desc,label:v=>`Gastas ${v} € al mes en ${brands().join(", ")}`,save:v=>v*months("all")*DESC_PCT},
   seguro:{name:()=>"Seguro médico",pastel:"#FCC1BE",min:10,max:150,step:5,
-    def:()=>given("seguro")??40,label:v=>`Prima de ${v} € al mes`,save:v=>Math.min(v*months("all"),SEGURO_MAX)*T()},
+    def:()=>given("seguro")??40,label:v=>`Pagas ${v} € al mes`,save:v=>Math.min(v*months("all"),SEGURO_MAX)*T()},
   guarderia:{name:()=>"Guardería",pastel:"#FDEEC1",min:100,max:900,step:25,
-    def:()=>given("guarderia")??350,label:v=>`Cuota de ${v} € al mes`,save:v=>v*months("t")*T()},
+    def:()=>given("guarderia")??350,label:v=>`Pagas ${v} € al mes`,save:v=>v*months("t")*T()},
   formacion:{name:()=>"Formación",pastel:"#E3E2FA",min:200,max:12000,step:100,
-    def:()=>given("formacion")??1000,label:v=>`${fmt(v)} al año`,save:v=>v*T()},
+    def:()=>given("formacion")??1000,label:v=>`${fmt(v)} en cursos al año`,save:v=>v*T()},
   /* bienestar = Wellhub en Cobee. No es retribución flexible (no ahorra IRPF): se muestra el plan que encaja y su precio */
   /* ahorro estimado = (cuota de un gimnasio por tu cuenta − precio de referencia del plan Wellhub) × meses.
      Gimnasio medio en España 30–50 €/mes y low cost desde 20 € (elDiario.es, ene. 2025). Editable */
   bienestar:{name:()=>"Wellhub",pastel:"#FFCCEA",est:true,min:10,max:100,step:5,
-    def:()=>whPlan()===WELLHUB.basic?40:20,label:v=>`Frente a un gimnasio de ${v} € al mes · plan ${whPlan().n}, ${eur2(whPlan().p)}`,
+    def:()=>whPlan()===WELLHUB.basic?40:20,label:v=>`Si hoy pagas ${v} € al mes por un gimnasio · Wellhub ${whPlan().n} cuesta ${eur2(whPlan().p)}`,
     save:v=>Math.max(0,v-whPlan().p)*months("all")},
   pensiones:{name:()=>"Plan de pensiones",pastel:"#C3EBFB",est:true,min:25,max:125,step:25,
-    def:()=>existing("pensiones")?50:est().pen,label:v=>existing("pensiones")?`${v} € más al mes`:`Aportación de ${v} € al mes`,save:v=>Math.min(v*months("all"),PEN_MAX)*T()},
+    def:()=>existing("pensiones")?50:est().pen,label:v=>existing("pensiones")?`Aportas ${v} € más al mes`:`Aportas ${v} € al mes`,save:v=>Math.min(v*months("all"),PEN_MAX)*T()},
   reconocimiento:{name:()=>"Reconocimiento",pastel:"#FFCCEA",noSave:true,def:()=>0,valueText:"Valor",valueSub:"sin ahorro fiscal"},
 };
 const val=id=>s.vals[id]!==undefined?s.vals[id]:B[id].def();
@@ -477,18 +502,23 @@ function cand(g,a=s.answers){
   let l;
   if(g==="ahorrar"){
     /* Ahorrar = sacar más a lo que ya gastas: si no paga nada de la lista, no se le propone gastar más */
-    const m={"Seguro médico":"seguro","Guardería":"guarderia","Un curso que pago o voy a pagar":"formacion"}[a.AH];
-    l=a.AH==="Ninguno"?["descuentos"]:m?[m,"descuentos"]:["seguro","formacion","descuentos","bienestar"];
+    /* puede marcar varios gastos: se proponen los de mayor ahorro estimado según las reglas */
+    const map={"Seguro médico":"seguro","Guardería":"guarderia","Un curso que pago o voy a pagar":"formacion"};
+    const mm=ahSel(a).map(o=>map[o]).filter(Boolean).filter(activo).sort((x,y)=>saveOf(y,true)-saveOf(x,true));
+    l=ahHas("Ninguno",a)&&!mm.length?["descuentos"]:mm.length?[...mm,"descuentos"]:["seguro","formacion","descuentos","bienestar"];
   }else if(g==="salud"){
     l=a.SA==="Sí, me lo paga la empresa"?["bienestar","descuentos","formacion"]:["seguro","bienestar","descuentos"];
   }else if(g==="crecer"){l=a.CR==="No"?["descuentos","bienestar"]:["formacion","descuentos","bienestar"];}
   /* guardería solo si ha dicho que tiene hijos menores de 3 años; si no se preguntó, no se asume */
-  else if(g==="familia"){l=a.FA==="Sí"||a.AH==="Guardería"?["guarderia","seguro","bienestar"]:["seguro","bienestar","descuentos"];}
+  else if(g==="familia"){l=a.FA==="Sí"||ahHas("Guardería",a)?["guarderia","seguro","bienestar"]:["seguro","bienestar","descuentos"];}
   else if(g==="futuro"){l=["pensiones","seguro","formacion","descuentos","bienestar"];}
   else{l=["descuentos","bienestar"];}
   return [...new Set(l)].filter(activo);
 }
 function fixedList(){const o=[];if(cur().transporte)o.push("transporte");o.push("comida");return o;}
+/* beneficios que sirven a cada objetivo: el relleno del plan solo usa estos */
+const GBEN={ahorrar:["descuentos"],salud:["seguro","bienestar"],crecer:["formacion","descuentos"],familia:["guarderia","seguro"],futuro:["pensiones"],disfrutar:["descuentos","bienestar"]};
+const fitsGoals=id=>s.goals.filter(g=>(GBEN[g]||[]).includes(id));
 function pickCustom(a0=s.answers){
   const a={...s.assumed,...a0};
   const n=4-fixedList().length, out=[], src={};
@@ -496,7 +526,7 @@ function pickCustom(a0=s.answers){
   const gs=s.goals, lists=gs.map(g=>cand(g,a));
   if(gs.length===2){add(lists[0][0],gs[0]);add(lists[1].find(x=>!out.includes(x)),gs[1]);}
   gs.forEach((g,i)=>lists[i].forEach(id=>add(id,g)));
-  if(!(gs.length===1&&gs[0]==="ahorrar"&&a.AH==="Ninguno"))["descuentos","seguro","bienestar","formacion"].filter(activo).forEach(id=>add(id,gs[0]));
+  if(!(gs.length===1&&gs[0]==="ahorrar"&&ahHas("Ninguno",a)))["descuentos","seguro","bienestar","formacion"].filter(activo).filter(id=>fitsGoals(id).length).forEach(id=>add(id,gs[0]));
   return out.map(id=>({id,kind:"ia",goal:src[id]}));
 }
 function buildPlan(){
@@ -534,13 +564,15 @@ function evaluate(q){
   const sum=opts.reduce((t,o)=>t+pr[o],0)||1;
   const likely=opts.reduce((m,o)=>pr[o]>pr[m]?o:m,opts[0]);
   const pmax=pr[likely]/sum;
-  const variants=o=>{const f=q.follow&&q.follow[o];return f?f.opts.map(x=>({a:{[q.id]:o,[q.id+"_f"]:x[0]},w:1/f.opts.length})):[{a:{[q.id]:o},w:1}];};
+  const variants=o=>{const f=q.follow&&q.follow[o];return f?f.opts.map(x=>({a:{[q.id]:o,[q.id+(q.multi?"_f_"+o:"_f")]:x[0]},w:1/f.opts.length})):[{a:{[q.id]:o},w:1}];};
   const base=scenario({[q.id]:likely});
   let value=0;
   opts.forEach(o=>variants(o).forEach(({a,w})=>{const r=scenario(a);const d=Math.abs(r.tot-base.tot)+(r.ids!==base.ids?100:0);if(d>0)value+=pr[o]/sum*w*Math.max(d,r.ids!==base.ids?100:0);}));
   return {likely,pmax,value:Math.round(value)};
 }
 /* reglas 1, 5, 7 y 8: una pregunta por objetivo, en orden de prioridad (el principal primero), máx. 2 y máx. 1 sensible */
+const DYN_DI={id:"V_descuentos",gen:true,benefit:"descuentos",goal:"disfrutar",text:"¿Cuánto gastas al mes en ocio y compras?",sub:"Así estimamos cuánto ahorrarías con los descuentos.",use:"Con lo que gastas al mes estimamos tu ahorro en descuentos.",opts:["Menos de 100 €","100–200 €","Más de 200 €"],vals:{"Menos de 100 €":50,"100–200 €":150,"Más de 200 €":300},sensitive:false};
+const qById=id=>id===DYN_DI.id?DYN_DI:QB.find(q=>q.id===id);
 function questions(){
   const out=[];s.assumed={};
   s.goals.forEach(g=>{
@@ -551,52 +583,53 @@ function questions(){
     if(isSensitive(q)&&out.some(isSensitive)){return;}
     out.push(q);
   });
+  if(s.goals.includes("disfrutar")&&out.length<2&&activo("descuentos")){if(s.goals[0]==="disfrutar")out.unshift(DYN_DI);else out.push(DYN_DI);}
   return out.slice(0,2);
 }
-const done=q=>{const a=s.answers[q.id];if(a===undefined)return false;if(a==="")return true;return !(q.follow&&q.follow[a])||s.answers[q.id+"_f"]!==undefined;};
+const done=q=>{const a=s.answers[q.id];if(a===undefined)return false;if(a==="")return true;if(q.multi)return ahSel().every(o=>!(q.follow&&q.follow[o])||s.answers["AH_f_"+o]!==undefined);return !(q.follow&&q.follow[a])||s.answers[q.id+"_f"]!==undefined;};
 
 /* explicaciones: en producción las redacta el LLM de Anthropic con el contexto del empleado.
    Aquí son plantillas que citan cifras ya calculadas por las reglas (la IA no calcula). */
 function why(it){
   const id=it.id,a=s.answers,m=cur(),v=val(id),sv=saveOf(id,true),y=fmt(sv),has=given(id)!==undefined,cuotas=(sv/Math.max(v,1)).toFixed(1).replace(".",",");
   const f={
-    transporte:()=>m.tNote
-      ?`Solo cuentan los días que vas a la oficina: con ${v} a la semana, pagar el transporte desde la nómina te ahorra ${y} al año.`
-      :`Vas a la oficina todos los días, así que el transporte es uno de tus gastos más constantes. Pagarlo desde la nómina, hasta ${TRANSPORTE_MAX} € al mes, te ahorra ${y} al año.`,
+    transporte:()=>(m.tNote||v<5)
+      ?`Solo cuentan los días que vas a la oficina. Con ${v} a la semana, pagarlo desde la nómina te ahorra ${y} al año.`
+      :`Es un gasto que repites cada semana. Pagarlo desde la nómina, antes de impuestos, te ahorra ${y} al año.`,
     comida:()=>s.mode==="remoto"
-      ?`Trabajando desde casa también comes entre semana: con ${v} días al mes ahorras ${y} al año. Estamos validando cómo se aplica en teletrabajo, así que la cifra se confirma al activarlo.`
+      ?`Comes en casa entre semana, así que también cuenta: con ${v} días al mes ahorras ${y} al año. La cifra se confirma al activarlo.`
       :s.mode==="intensiva"
-      ?`Tu jornada intensiva deja fuera julio y ya lo hemos descontado: con ${v} días al mes ahorras ${y} al año.`
-      :`Comer fuera es un gasto que repites cada día. Con ${v} días al mes, a ${COMIDA_DIA} € al día, pagarlo con la tarjeta restaurante te ahorra ${y} al año.`,
-    descuentos:()=>{const b=brands();return `Por tus objetivos te enseñamos ${b.slice(0,-1).join(", ")} y ${b.at(-1)}, con descuentos de hasta el 11 %. Si gastas unos ${v} € al mes en ellas, con un descuento medio del ${DESC_PCT*100} % ahorrarías ${y} al año. Puedes usarlos desde hoy, sin cambiar nada en tu nómina. No es ahorro fiscal, así que lo marcamos como estimado.`;},
+      ?`Tu jornada intensiva deja fuera julio, ya descontado: con ${v} días al mes ahorras ${y} al año.`
+      :`Con ${v} días al mes comiendo fuera, pagar con la tarjeta restaurante te ahorra ${y} al año.`,
+    descuentos:()=>{const b=brands();return `Descuentos de hasta el 11 % en ${b.slice(0,-1).join(", ")} y ${b.at(-1)}. Si gastas ${v} € al mes, ahorrarías unos ${y} al año. No es ahorro fiscal: es un descuento, por eso es una estimación.`;},
     seguro:()=>existing("seguro")
-      ?`${has?`Nos dijiste que pagas unos ${v} € al mes por tu seguro médico.`:"Nos dijiste que ya pagas tu seguro médico."} Si tu aseguradora está en el catálogo de tu empresa, mantienes tu seguro: pagarlo por Cobee hace que salga antes de impuestos y ahorras ${y} al año con la misma cobertura.`
+      ?`${has?`Pagas unos ${v} € al mes por tu seguro.`:"Ya pagas tu seguro."} Pagarlo con Cobee sale antes de impuestos: ahorras ${y} al año con la misma cobertura.`
       :a.SA==="No"
-      ?`Todavía no tienes seguro privado. Si lo contratas desde la nómina, con una prima de ${v} € al mes ahorras ${y} al año frente a contratarlo por tu cuenta.`
-      :`Con una prima de ${v} € al mes pagada desde la nómina, el seguro te sale más barato: ahorras ${y} al año.`,
+      ?`Aún no tienes seguro privado. Contratarlo desde la nómina te ahorra ${y} al año frente a hacerlo por tu cuenta.`
+      :`Pagar el seguro desde la nómina te sale más barato: ahorras ${y} al año.`,
     guarderia:()=>has
-      ?`Nos dijiste que pagas unos ${v} € al mes de guardería. No cambias de guardería: pagarla desde la nómina te ahorra ${y} al año: unas ${cuotas} cuotas que dejas de pagar.`
-      :`Con un peque menor de 3 años, la guardería suele ser el mayor gasto fijo. Pagarla desde la nómina te ahorra ${y} al año.`,
+      ?`Pagas unos ${v} € al mes de guardería. Sin cambiar de guardería, pagarla desde la nómina te ahorra ${y} al año.`
+      :`La guardería suele ser el mayor gasto fijo con un peque. Pagarla desde la nómina te ahorra ${y} al año.`,
     formacion:()=>has
-      ?`Nos dijiste que te quedan unos ${fmt(v)} de formación por pagar. Si Cobee paga esas cuotas al centro desde tu nómina, a ti te cuesta ${fmt(v-sv)}: los otros ${y} los pone el ahorro fiscal.`
+      ?`Te quedan unos ${fmt(v)} de formación por pagar. Con Cobee te cuesta ${fmt(v-sv)}: el resto (${y}) lo ahorras en impuestos.`
       :a.CR==="Aún no lo sé"
-      ?`Si en los próximos meses haces un curso de ${fmt(v)} relacionado con tu trabajo, pagarlo con Cobee te ahorra ${y}. Ajusta el importe al curso que te interese.`
-      :`Con ${fmt(v)} al año en formación, a ti te cuesta ${fmt(v-sv)}: los otros ${y} los pone el ahorro fiscal.`,
-    bienestar:()=>{const w=whPlan();return `Si hoy pagarías unos ${v} € al mes por un gimnasio, con el plan ${w.n} de Wellhub ahorrarías ${y} al año, y además tendrías más centros y apps. Con Wellhub accedes a gimnasios, estudios y apps de bienestar en toda España (más de 1.000 centros). ${s.goals.includes("salud")?`Como quieres cuidar tu salud, te proponemos el plan ${w.n}`:`Para empezar, te proponemos el plan ${w.n}`} (desde ${eur2(w.p)} al mes, ${w.apps} apps de yoga, meditación y entrenamiento)${s.goals.includes("familia")?" y puedes añadir a tu familia":""}. Uso ilimitado en los centros de tu plan, se paga cada mes con tu tarjeta Cobee, sin permanencia y con 7 días de prueba gratis.`;},
+      ?`Si haces un curso de ${fmt(v)} para tu trabajo, pagarlo con Cobee te ahorra ${y}. Ajusta el importe.`
+      :`Con ${fmt(v)} al año en formación, te cuesta ${fmt(v-sv)}: el resto (${y}) lo ahorras en impuestos.`,
+    bienestar:()=>{const w=whPlan();return `Wellhub te da gimnasios y apps de bienestar desde ${eur2(w.p)} al mes. No es ahorro fiscal: lo comparamos con un gimnasio de ${v} € al mes y ahorrarías unos ${y} al año. Sin permanencia y con 7 días gratis.`;},
     pensiones:()=>existing("pensiones")
-      ?`Ya aportas a un plan. Si aportas ${v} € más al mes, esa parte deja de tributar hoy: unos ${y} al año. Tributará cuando lo rescates, por eso lo marcamos como estimado.`
-      :`Aportar ${v} € al mes reduce lo que tributas hoy en unos ${y} al año y empieza tu colchón para más adelante. Tributará cuando lo rescates, por eso lo marcamos como estimado.`,
-    reconocimiento:()=>"No ahorra impuestos, pero es lo que más pesa en cómo vives tu trabajo.",
+      ?`Si aportas ${v} € más al mes, pagas menos impuestos hoy: unos ${y} al año. Los pagarás al rescatarlo, por eso es una estimación.`
+      :`Aportar ${v} € al mes reduce tus impuestos de hoy en unos ${y} al año. Los pagarás al rescatarlo, por eso es una estimación.`,
+    reconocimiento:()=>"No ahorra impuestos, pero se nota en cómo vives tu trabajo.",
   };
   return f[id]();
 }
 function note(it){
   if(it.id==="comida"&&s.mode==="remoto")return cur().cNote;
-  if(it.id==="bienestar")return "Wellhub no está exento de IRPF, así que no hay ahorro fiscal, pero a través de Cobee sale más barato que contratarlo por tu cuenta. Tu empresa puede pagar una parte o todo; si mejoras el plan, pagas la diferencia. Cuenta para el límite de retribución en especie y Cobee te avisa antes de pasarte.";
-  if(it.id==="descuentos")return "Hasta un 11 % de descuento. Se usan desde hoy, sin tocar tu nómina.";
-  if(it.id==="formacion")return "Debe estar relacionada con tu trabajo y Cobee la paga directamente al centro. Lo que ya has pagado no se puede pasar.";
-  if(it.id==="guarderia")return "Si te aplicas la deducción por maternidad por gastos de guardería (hasta 1.000 €), lo que pagues con Cobee se resta de esa deducción: tu ahorro real puede ser menor.";
-  if(it.id==="seguro"&&val("seguro")*12>SEGURO_MAX)return `Tu seguro cuesta ${fmt(val("seguro")*12)} al año; el ahorro se calcula sobre ${SEGURO_MAX} €, el máximo exento.`;
+  if(it.id==="bienestar")return "Wellhub no ahorra impuestos, pero por Cobee sale más barato. Tu empresa puede pagar una parte; si mejoras el plan, pagas la diferencia.";
+  if(it.id==="descuentos")return "Los descuentos se usan desde hoy, sin tocar tu nómina.";
+  if(it.id==="formacion")return "Tiene que estar relacionada con tu trabajo. Cobee la paga al centro. Lo que ya has pagado no cuenta.";
+  if(it.id==="guarderia")return "Si ya aplicas la deducción por maternidad por guardería (hasta 1.000 €), tu ahorro real puede ser algo menor.";
+  if(it.id==="seguro"&&val("seguro")*12>SEGURO_MAX)return `Tu seguro cuesta ${fmt(val("seguro")*12)} al año; el ahorro cuenta hasta ${SEGURO_MAX} €, el máximo exento.`;
   return "";
 }
 
@@ -609,7 +642,7 @@ function track(name,props={}){
 }
 
 /* shell */
-const STEPS=["Tu objetivo","Afinamos tu plan","Tu plan","Tu resumen"];
+const STEPS=["Tu objetivo","Tus respuestas","Tu plan","Cobee Wrapped"];
 function head(){
   const idx=Math.min(s.step,3);
   $("#steplabel").textContent=`Paso ${idx+1} de 4 · ${STEPS[idx]}`;
@@ -621,8 +654,9 @@ function go(step){s.step=step;head();[renderGoals,renderQ,renderPlan][step]();ma
 
 /* paso 1 */
 function renderGoals(){
-  main.innerHTML=`<div class="fade"><h1>Hola, ${NAME}. ¿Qué quieres conseguir este año?</h1>
-  <p class="lead">Elige hasta 2. El primero será tu objetivo principal.</p></div>
+  main.innerHTML=`<div class="fade"><h1>Hola, ${NAME}. ¿Qué te gustaría conseguir este año?</h1>
+  <p class="lead">Elige hasta 2 y te preparamos un plan con lo que podrías ahorrar. El primero que elijas es el más importante para ti.</p>
+  <div class="gcount" id="gcount" aria-live="polite"></div></div>
   <div class="goals fade" id="goals" role="group" aria-label="Objetivos">${GOALS.map(g=>`
     <button class="goal" type="button" data-id="${g.id}" aria-pressed="false">
       ${goalIcon(g)}
@@ -638,24 +672,45 @@ function syncGoals(){
     b.style.color=i>-1?"var(--pastel-ink)":"";
     b.querySelector("small").style.color=i>-1?"var(--pastel-ink)":"";
     const old=b.querySelector(".badge");if(old)old.remove();
-    if(i>-1)b.insertAdjacentHTML("beforeend",`<span class="badge">${i===0?"Principal":"2.º"}</span>`);
+    if(i>-1)b.insertAdjacentHTML("beforeend",`<span class="badge">${i===0?"Principal":"Segundo"}</span>`);
   });
+  const n=s.goals.length,gc=$("#gcount");
+  if(gc)gc.innerHTML=`<span class="gd${n>0?" on":""}"></span><span class="gd${n>1?" on":""}"></span><span>${n} de 2</span>`;
+  const h=$("#hint");if(h)h.textContent=n===2?"Con 2 objetivos tu plan queda más a tu medida. El resto de beneficios los verás al final.":"";
   cta.textContent="Continuar";cta.disabled=!s.goals.length;
 }
+main.addEventListener("change",e=>{
+  const sl=e.target.closest("select[data-fk]");if(!sl)return;
+  const q=qById(sl.dataset.q),k=sl.dataset.fk,v=sl.value==="__skip"?"":sl.value;
+  s.answers[k]=v;
+  if(q.gen&&k===q.id){if(v===""||q.vals[v]===undefined)delete s.vals[q.benefit];else s.vals[q.benefit]=q.vals[v];}
+  track("question_answered",{pregunta:q.id,importe:v===""?null:v,prefiero_no_decirlo:v===""});
+  renderQ(false);
+});
 main.addEventListener("click",e=>{
   const b=e.target.closest(".goal");
   if(b){
     const id=b.dataset.id,i=s.goals.indexOf(id);
     if(i>-1)s.goals.splice(i,1);
     else if(s.goals.length<2)s.goals.push(id);
-    else{$("#hint").textContent="Puedes elegir hasta 2. Quita uno para cambiar.";return;}
-    $("#hint").textContent="";
+    else{const old=s.goals[1];s.goals[1]=id;syncGoals();$("#hint").textContent=`Listo: cambiamos ${G(old).name} por ${G(id).name}.`;return;}
     syncGoals();return;
   }
   const o=e.target.closest(".opt");
   if(o){
-    const q=QB.find(q=>q.id===o.dataset.q),key=o.dataset.k,skip=o.dataset.skip==="1",v=skip?"":o.dataset.v;
-    if(key===q.id){
+    const q=qById(o.dataset.q),key=o.dataset.k,skip=o.dataset.skip==="1",v=skip?"":o.dataset.v;
+    if(key===q.id&&q.multi){
+      const sel=skip?[]:ahSel();
+      if(!skip){const i=sel.indexOf(v);if(i>-1)sel.splice(i,1);else{if(v==="Ninguno")sel.length=0;else{const n=sel.indexOf("Ninguno");if(n>-1)sel.splice(n,1);}sel.push(v);}}
+      Object.keys(s.answers).filter(k=>k.startsWith("AH_f_")&&!sel.includes(k.slice(5))).forEach(k=>delete s.answers[k]);
+      s.answers.AH=skip?"":sel.join("|");
+      if(!skip&&!sel.length)delete s.answers.AH;
+      track("question_answered",{pregunta:q.id,respuesta:skip?null:sel.join("|"),prefiero_no_decirlo:skip});
+    }else if(key===q.id&&q.gen){
+      s.answers[q.id]=v;
+      if(skip||q.vals[v]===undefined)delete s.vals[q.benefit];else s.vals[q.benefit]=q.vals[v];
+      track("question_answered",{pregunta:q.id,respuesta:skip?null:v,prefiero_no_decirlo:skip,generada_por_ia:true});
+    }else if(key===q.id){
       const ids=a=>JSON.stringify(pickCustom(a).map(x=>x.id));
       const withA={...s.answers,[q.id]:v},without={...s.answers,[q.id]:""};
       delete s.answers[q.id+"_f"];
@@ -706,16 +761,32 @@ main.addEventListener("click",e=>{
 });
 
 /* paso 2 */
+const AHPH={"Seguro médico":"un seguro médico","Guardería":"la guardería","Un curso que pago o voy a pagar":"un curso o formación"};
+const ahSingle=q=>q.id==="AH"&&optsOf(q).filter(o=>o!=="Ninguno").length===1;
+function qtitle(q){
+  if(ahSingle(q))return `¿Pagas ${AHPH[optsOf(q).find(o=>o!=="Ninguno")]} de tu bolsillo?`;
+  return q.text;
+}
 function renderQ(anim=true){
   const qs=questions(),st=main.scrollTop,fd=anim?" fade":"";
   const list=(q,key,labels)=>{const c=s.answers[key];
     return labels.map(o=>`<button class="opt" type="button" role="radio" aria-checked="${c===o}" data-q="${q.id}" data-k="${key}" data-v="${o}">${o}</button>`).join("")
       +`<button class="opt skip" type="button" role="radio" aria-checked="${c===""}" data-q="${q.id}" data-k="${key}" data-skip="1">Prefiero no decirlo</button>`;};
-  main.innerHTML=`<div class="${fd.trim()}"><h1>Afinamos tu plan</h1><p class="lead">Solo preguntamos lo que cambia tu cálculo.</p></div>
-  ${qs.map(q=>{const f=q.follow&&q.follow[s.answers[q.id]];return `<div class="q${fd}"><span class="tagline">${G(q.goal).name}</span><div class="qt"><h2>${q.text}</h2><button class="info" type="button" data-qinfo="${q.id}" aria-label="¿Para qué usamos tu respuesta?" aria-expanded="${s.qtip===q.id}" aria-controls="qtip-${q.id}">i</button></div>
+  const selRow=(q,key,labels,span,aria)=>{const c=s.answers[key],ea=v=>String(v).replace(/"/g,"&quot;");return `<label class="frow">${span?`<span>${span}</span>`:""}<select data-q="${q.id}" data-fk="${key}" aria-label="${ea(aria)}"><option value=""${c===undefined?" selected":""} disabled>Elige…</option>${labels.map(l=>`<option value="${l}"${c===l?" selected":""}>${l}</option>`).join("")}<option value="__skip"${c===""?" selected":""}>Prefiero no decirlo</option></select></label>`;};
+  const multi=q=>{const sel=ahSel(),c=s.answers[q.id];
+    return optsOf(q).map(o=>`<button class="opt" type="button" role="checkbox" aria-checked="${sel.includes(o)}" data-q="${q.id}" data-k="${q.id}" data-v="${o}">${ahSingle(q)?(o==="Ninguno"?"No":"Sí"):o}</button>`).join("")
+      +`<button class="opt skip" type="button" role="radio" aria-checked="${c===""}" data-q="${q.id}" data-k="${q.id}" data-skip="1">Prefiero no decirlo</button>`;};
+  /* los importes siempre van en desplegable (useSel=false los mostraría como chips) */
+  const nAmt=qs.reduce((n,q)=>n+(q.gen?1:q.multi?ahSel().filter(o=>q.follow&&q.follow[o]).length:(q.follow&&q.follow[s.answers[q.id]]?1:0)),0);
+  const useSel=true,ea=v=>String(v).replace(/"/g,"&quot;");
+  const amt=(q,key,labels,head,aria)=>useSel?`<div class="frows">${selRow(q,key,labels,head,aria)}</div>`:`<div class="follow">${head?`<h3>${head}</h3>`:""}<div class="opts" role="radiogroup" aria-label="${ea(aria)}">${list(q,key,labels)}</div></div>`;
+  main.innerHTML=`<div class="${fd.trim()}"><h1>Cuéntanos un poco más</h1><p class="lead">${qs.length===1?"Una pregunta rápida":qs.length===2?"Dos preguntas rápidas":qs.length+" preguntas rápidas"} para calcular tu ahorro.</p></div>
+  ${qs.map((q,qi)=>{const f=q.follow&&q.follow[s.answers[q.id]];return `<div class="q${fd}"><span class="tagline">${qs.length>1?"Pregunta "+(qi+1)+" de "+qs.length:"Pregunta"} · ${G(q.goal).name}</span><div class="qt"><h2>${qtitle(q)}</h2><button class="info" type="button" data-qinfo="${q.id}" aria-label="¿Para qué usamos tu respuesta?" aria-expanded="${s.qtip===q.id}" aria-controls="qtip-${q.id}">i</button></div>
     <div class="tip" id="qtip-${q.id}" role="note"${s.qtip===q.id?"":" hidden"}><p>${q.use}</p></div>
-    <div class="opts" role="radiogroup" aria-label="${q.text}">${list(q,q.id,optsOf(q))}</div>
-    ${f?`<div class="follow"><h3>${f.text}</h3><div class="opts" role="radiogroup" aria-label="${f.text}">${list(q,q.id+"_f",f.opts.map(o=>o[0]))}</div></div>`:""}
+    ${(()=>{const nt=q.multi&&!ahSingle(q)?"Puedes marcar varios":"";return nt?`<span class="multi">${nt}</span>`:"";})()}
+    ${q.gen?amt(q,q.id,q.opts,"",q.text):`<div class="opts" role="${q.multi?"group":"radiogroup"}" aria-label="${qtitle(q)}">${q.multi?multi(q):list(q,q.id,optsOf(q))}</div>`}
+    ${q.multi?ahSel().filter(o=>q.follow&&q.follow[o]).map(o=>amt(q,"AH_f_"+o,q.follow[o].opts.map(x=>x[0]),o+" · "+q.follow[o].text,o+": "+q.follow[o].text)).join(""):""}
+    ${!q.multi&&f?amt(q,q.id+"_f",f.opts.map(o=>o[0]),f.text,f.text):""}
     </div>`;}).join("")}`;
   if(anim){s.shown=s.shown||{};qs.forEach((q,i)=>{if(!s.shown[q.id]){s.shown[q.id]=1;track("question_shown",{pregunta:q.id,posicion:i+1});}});}
   cta.textContent="Ver mi plan";cta.disabled=!qs.every(done);
@@ -739,10 +810,11 @@ function endCoach(){clearTimeout(coachT);if(s.coachDone)return;s.coachDone=true;
 const CHEV_SVG='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
 function renderPlan(quiet){
   buildPlan();
+  const shown=[...plan.filter(x=>x.kind!=="fijo"),...plan.filter(x=>x.kind==="fijo")],nCustom=plan.filter(x=>x.kind!=="fijo").length;
   main.innerHTML=`<div class="hero${quiet?"":" fade"}"><span class="kick">Podrías ahorrar</span>
     <div class="total" aria-live="polite" aria-atomic="true"><span id="total">0 €</span> <small>${nextYear()?`en ${YEAR+1}`:"al año"}</small></div>
     <span class="sub" id="fullline"></span></div>
-  <div class="cards${quiet?"":" fade"}${s.coachDone?"":" coachon"}">${plan.map(it=>{const b=B[it.id];return `
+  <div class="cards${quiet?"":" fade"}${s.coachDone?"":" coachon"}">${shown.map((it,ix)=>{const b=B[it.id];const head=ix===nCustom?`<p class="grp">Los más usados <span>${cohortLine()}</span></p>`:(ix===0?`<p class="grp">Pensados para ti <span>por lo que nos contaste</span></p>`:"");return head+`
     <article class="card" data-id="${it.id}">
       <div class="row">
         ${bubble(it.id)}
@@ -750,10 +822,10 @@ function renderPlan(quiet){
           <div class="nm"><h3>${b.name()}</h3><button class="info" type="button" data-info="${it.id}" aria-label="¿Por qué te lo recomendamos?" aria-expanded="false" aria-controls="tip-${it.id}">i</button></div>
           <div class="amt"><span class="v" data-save></span><span class="per">${perOf(it)}</span>${tagOf(it)?`<span class="tag ${tagOf(it)==="Ya lo pagas"||tagOf(it)==="Tu curso"?"paid":b.price?"trial":""}">${tagOf(it)}</span>`:""}</div>
         </div>
-        ${b.noSave?"":`<button class="chev" type="button" data-fold="${it.id}" aria-expanded="false" aria-controls="more-${it.id}" aria-label="Ver y ajustar ${b.name()}">${CHEV_SVG}${!s.coachDone&&it.id===plan[0].id?'<span class="bub" role="tooltip">Toca para ajustar</span>':""}</button>`}
-        <button class="sw" type="button" role="switch" data-id="${it.id}" aria-label="Activar ${b.name()}" aria-checked="true"></button>
+        ${b.noSave?"":`<button class="chev" type="button" data-fold="${it.id}" aria-expanded="false" aria-controls="more-${it.id}" aria-label="Ver y ajustar ${b.name()}">${CHEV_SVG}${!s.coachDone&&it.id===shown[0].id?'<span class="bub" role="tooltip">Toca para ajustar</span>':""}</button>`}
+        <button class="sw" type="button" role="switch" data-id="${it.id}" aria-label="Activar ${b.name()}" title="Actívalo o desactívalo cuando quieras" aria-checked="true">${!s.coachDone&&it.id===shown[0].id?'<span class="bub up" role="tooltip">Actívalo o desactívalo</span>':""}</button>
       </div>
-      <div class="tip" id="tip-${it.id}" role="note" hidden><p data-why></p>${note(it)?`<p class="warn"><b>A tener en cuenta:</b> ${note(it)}</p>`:""}<span class="fine">Redactado por IA con tus respuestas. ${it.id==="bienestar"?"Estimado frente al precio de un gimnasio en España (30–50 € al mes de media; low cost desde 20 €) y el precio de referencia de Wellhub. No suma al total.":b.est?"La cifra es una estimación según perfiles parecidos al tuyo y no suma al total.":b.price?"Precio de referencia de Wellhub en España; con Cobee puede ser menor. No suma al total de ahorro.":"Las cifras las calculan reglas fiscales."}</span></div>
+      <div class="tip" id="tip-${it.id}" role="note" hidden><p data-why></p>${note(it)?`<p class="warn"><b>A tener en cuenta:</b> ${note(it)}</p>`:""}<span class="fine">Redactado por IA con tus respuestas. ${it.id==="bienestar"?"Es una estimación y no suma al total.":b.est?"Estimación según perfiles parecidos; no suma al total.":b.price?"Precio de referencia; con Cobee puede ser menor. No suma al total.":"Cifra calculada con reglas fiscales."}</span></div>
       ${b.noSave?"":`<div class="more" id="more-${it.id}" hidden>
         <div class="est"><span data-est></span><button class="link" type="button" data-edit="${it.id}">Ajustar</button></div>
         <div class="stepper" data-stepper><button type="button" data-step="-1" data-id="${it.id}" aria-label="Menos">−</button><output data-out></output><button type="button" data-step="1" data-id="${it.id}" aria-label="Más">+</button><button class="link" type="button" data-edit="${it.id}">Listo</button></div>
@@ -761,13 +833,13 @@ function renderPlan(quiet){
     </article>`;}).join("")}</div>
   <button class="allbtn link" type="button" data-allbtn aria-expanded="false" aria-controls="allb"></button>
   <div class="allb" id="allb" hidden></div>
-  <details class="foot-note"><summary>¿Cómo lo calculamos?</summary><p>Como el simulador de Cobee: importe × tu tipo de IRPF (${Math.round(T()*100)} %), con los límites exentos. Empieza en tu nómina de ${MES[startM()-1]}${nextYear()?` de ${YEAR+1}`:""}. Las cifras con ≈ son estimados según perfiles parecidos al tuyo y no suman al total. Todo es orientativo y puedes editarlo.</p></details>`;
+  <details class="foot-note"><summary>¿Cómo lo calculamos?</summary><p>Calculamos los impuestos que dejarías de pagar: lo que gastas en cada beneficio por tu porcentaje de IRPF (${Math.round(T()*100)} %), respetando los topes de la ley. Cuenta desde tu nómina de ${MES[startM()-1]}${nextYear()?` de ${YEAR+1}`:""}. Las cifras con ≈ son estimaciones de perfiles parecidos al tuyo y no suman al total. Todo es orientativo y puedes editarlo.</p></details>`;
   if(!quiet&&!s.planSeen){s.planSeen=true;track("plan_viewed",{beneficios:plan.map(p=>p.id),marcas:plan.some(p=>p.id==="descuentos")?brands():[],ahorro_total_estimado:Math.round(totalOf(true))});}
   drawAll();updatePlan(!counted);counted=true;
   clearTimeout(coachT);if(!s.coachDone)coachT=setTimeout(endCoach,7000);
 }
 /* total = ahorro fiscal de un año, calculado como el simulador; los estimados no suman */
-const DESC={transporte:"Abono de transporte desde la nómina",comida:"Tarjeta restaurante para tus comidas",guarderia:"Paga la guardería antes de impuestos",seguro:"Seguro médico privado desde la nómina",descuentos:"Hasta un 11 % en marcas conocidas",formacion:"Cursos relacionados con tu trabajo",bienestar:"Gimnasios y apps de bienestar con Wellhub",pensiones:"Aporta a tu plan y tributa menos hoy"};
+const DESC={transporte:"Paga tu abono antes de impuestos",comida:"Tarjeta restaurante para tus comidas",guarderia:"Paga la guardería antes de impuestos",seguro:"Seguro médico privado desde la nómina",descuentos:"Hasta un 11 % en marcas conocidas",formacion:"Cursos relacionados con tu trabajo",bienestar:"Gimnasios y apps de bienestar con Wellhub",pensiones:"Aporta a tu plan y paga menos impuestos hoy"};
 /* resto del catálogo activo de la empresa, para quien no se queda con los 4 propuestos */
 function drawAll(){
   const box=$("#allb"),btn=$("[data-allbtn]");if(!box)return;
@@ -864,8 +936,8 @@ function slides(){
   const max=Math.max(...act.map(p=>saveOf(p.id,true)),1);
   const eq=pickEq(tot);
   return [
-    `<p class="lbl">Tu resumen Cobee · ${NAME}</p>
-     <div class="big">${fmtHero(tot)}</div><h2 class="wsub">que podrías ahorrar ${nextYear()?`en ${YEAR+1}`:"al año"}</h2>`,
+    `<p class="lbl">Cobee Wrapped · ${NAME}</p>
+     <div class="big">${fmtHero(tot)}</div><h2 class="wafter">que podrías ahorrar ${nextYear()?`en ${YEAR+1}`:"al año"}</h2>`,
     `<h2>Así se reparte</h2><div class="bd">${[...act].sort((x,y)=>saveOf(y.id,true)-saveOf(x.id,true)).map(p=>`<div><div class="l"><span>${B[p.id].name()}</span><span>${B[p.id].price?`${eur2(whPlan().p)}/mes`:B[p.id].noSave?B[p.id].valueText:money(p.id)}</span></div><div class="tr"><i style="width:${B[p.id].noSave?12:Math.max(8,saveOf(p.id,true)/max*100)}%"></i></div></div>`).join("")}</div>`,
     `<p class="lbl">Lo que significa para ti</p>
      <h2 class="wsub">Es como tener de vuelta…</h2><div class="eq">${eq.main}</div>${eq.alt?`<p class="wsub">${eq.alt}</p>`:""}<p class="note">Dinero que ya era tuyo.</p>
@@ -877,7 +949,7 @@ function wrapStart(){
   const g=G(s.goals[0]),w=$("#wrapped");
   const c=WSET[g.set];
   w.style.setProperty("--w-bg",c.bg);w.style.setProperty("--w-fg",c.fg);w.style.setProperty("--w-soft",c.soft);
-  w.hidden=false;wi=0;paused=false;showSlide();
+  w.hidden=false;wi=0;paused=false;showSlide();setTimeout(confetti,250);
 }
 function showSlide(){
   const w=$("#wrapped"),sl=slides();
