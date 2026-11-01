@@ -1091,7 +1091,8 @@ const AI={
   ctx(){return {objetivos:s.goals.map(g=>G(g).name),objetivo_principal:G(s.goals[0]).name,modalidad:MODNAME[s.mode],tramo_irpf:Math.round(s.t*100)+" %",beneficios_activos_en_la_empresa:Object.keys(B).filter(activo),nota_libre_del_empleado:s.ai.note||null,empleados_parecidos:{n:COHORT[s.mode].n,uso_dia_a_dia_pct:Object.fromEntries(fixedList().map(id=>[id,Math.round(COHORT[s.mode][id]*100)]))}};},
   log(step,via,data){s.ai.trace.push({step,via,...data});renderTrace();},
   async json(prompt){
-    if(!SAMPLE)throw {code:"no_disponible"};
+    /* sin IA (versión pública) se simula la espera para que el empleado vea la pantalla de "buscando" antes de las reglas */
+    if(!SAMPLE){await new Promise(r=>setTimeout(r,reduce?800:2200));throw {code:"no_disponible"};}
     return SAMPLE.json(prompt,{modelTier:"quick"});
   },
   async decideQuestions(){
