@@ -1,13 +1,5 @@
-<!doctype html>
-<html lang="es">
-<head>
+<title>Cobee Onboarding IA</title>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="robots" content="noindex">
-<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
-</head>
-<body>
-<title>Cobee Onboarding</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,6 +31,33 @@ button{font:inherit;color:inherit;cursor:pointer;background:none;border:0;paddin
 h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:.02em;margin:0;text-wrap:balance}
 .wrap{max-width:420px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
 
+/* capa de IA */
+.think{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;padding:64px 16px}
+.walk{height:170px;width:auto;display:block;margin-bottom:12px}
+.dizzy{position:relative;width:132px;height:112px;margin-bottom:8px;perspective:500px;animation:wob 1.6s ease-in-out infinite}
+.dizzy img{width:120px;height:auto;margin:6px;display:block;animation:flip 2.2s ease-in-out infinite;transform-origin:50% 50%}
+.dizzy .sp{position:absolute;font-style:normal;line-height:1;opacity:0;animation:twk 1.5s ease-in-out infinite}
+.dizzy .s1{left:-4px;top:6px;font-size:20px;color:#01EB5E;animation-delay:0s}
+.dizzy .s2{right:-6px;top:0;font-size:16px;color:#FFDC37;animation-delay:.3s}
+.dizzy .s3{right:-12px;top:52px;font-size:22px;color:#FF7375;animation-delay:.6s}
+.dizzy .s4{left:-12px;top:60px;font-size:14px;color:#17CCF9;animation-delay:.9s}
+.dizzy .s5{left:48px;top:-14px;font-size:18px;color:#01EB5E;animation-delay:1.2s}
+@keyframes flip{0%{transform:rotateY(0)}70%,100%{transform:rotateY(360deg)}}
+@keyframes wob{0%,100%{transform:rotate(-9deg) translateY(0)}25%{transform:rotate(7deg) translateY(-7px)}50%{transform:rotate(-6deg) translateY(2px)}75%{transform:rotate(10deg) translateY(-5px)}}
+@keyframes twk{0%{opacity:0;transform:scale(.2) rotate(0)}40%{opacity:1;transform:scale(1.15) rotate(90deg)}100%{opacity:0;transform:scale(.3) rotate(180deg)}}
+.note{display:flex;flex-direction:column;gap:6px;margin-top:14px;font-size:var(--fs-small);color:var(--muted)}
+.note em{font-style:normal;font-weight:600}
+.note textarea{font:inherit;color:var(--ink);background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:10px 12px;resize:none}
+.note small{font-size:var(--fs-label)}
+.aichip{display:inline-block;margin-top:8px;font-size:var(--fs-label);font-weight:600;background:var(--accent);color:var(--on-accent);border-radius:999px;padding:3px 10px}
+.aichip.off{background:var(--line);color:var(--muted)}
+#cmp{max-height:320px;font:12px/1.45 var(--body)}
+.cmpt{width:100%;border-collapse:collapse}
+.cmpt th,.cmpt td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.cmpt th{color:var(--ink);font-weight:600}
+#ailog{max-height:300px;font:11px/1.5 var(--mono)}
+#ailog pre{white-space:pre-wrap;margin:4px 0 10px;color:var(--muted)}
+#ailog .tr b{color:var(--ink)}
 /* barra de prototipo */
 .proto{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center;justify-content:center;font-size:var(--fs-label);color:var(--muted);opacity:.7;transition:opacity .2s}
 .proto:hover,.proto:focus-within{opacity:1}
@@ -209,8 +228,15 @@ h1{font-size:var(--fs-title);line-height:1.15}
 .artimg{width:100%;height:100%;background-size:contain;background-position:center bottom;background-repeat:no-repeat;-webkit-mask-image:radial-gradient(ellipse 74% 74% at 50% 54%,#000 58%,transparent 100%);mask-image:radial-gradient(ellipse 74% 74% at 50% 54%,#000 58%,transparent 100%)}
 .art.left{justify-content:flex-end;padding-right:14px}
 .art.left .artimg{width:60%;height:88%}
+.artvid{height:96%;aspect-ratio:9/16;object-fit:contain;display:block}
 /* última story: ilustración recortada, sin fondo; solo se difuminan los lados para integrarla */
 .art.big .artimg{-webkit-mask-image:linear-gradient(to right,transparent 0,#000 9%,#000 91%,transparent 100%),linear-gradient(to bottom,transparent 0,#000 14%);-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent 0,#000 9%,#000 91%,transparent 100%),linear-gradient(to bottom,transparent 0,#000 14%);mask-composite:intersect;transform:scale(1.06);transform-origin:50% 100%;animation:bob 3.4s ease-in-out infinite}
+/* el arte entra con el mismo fundido que el texto; en la story 2 la ilustración aparece con un pequeño rebote y flota */
+.art{animation:in .4s ease both}
+@keyframes pop{from{opacity:0;transform:translateY(16px) scale(.88)}to{opacity:1;transform:none}}
+@keyframes floaty{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-9px) rotate(1.4deg)}}
+@media (prefers-reduced-motion:no-preference){.art.fl .artimg{animation:pop .6s cubic-bezier(.2,.9,.3,1.2) both,floaty 4.2s ease-in-out .6s infinite}}
+@media (prefers-reduced-motion:reduce){.art{animation:none}}
 @keyframes bob{0%,100%{transform:scale(1.06) translateY(0)}50%{transform:scale(1.06) translateY(-6px)}}
 .conf{position:absolute;inset:0;width:100%;height:100%;z-index:8;pointer-events:none}
 .conf[hidden]{display:none}
@@ -306,8 +332,12 @@ h1{font-size:var(--fs-title);line-height:1.15}
     </label>
     <button id="restart" type="button">Reiniciar</button>
     <button id="evbtn" type="button" aria-expanded="false" aria-controls="log">Eventos <span id="evn">0</span></button>
+    <button id="aibtn" type="button" aria-expanded="false" aria-controls="ailog">Cómo decidió la IA</button>
+    <button id="cmpbtn" type="button" aria-expanded="false" aria-controls="cmp">Reglas frente a IA</button>
   </div>
   <div class="log" id="log" aria-live="off"></div>
+  <div class="log" id="ailog" aria-live="off"></div>
+  <div class="log" id="cmp" aria-live="off"></div>
 </div>
 
 <script>
@@ -433,8 +463,8 @@ const QB=[
 ];
 
 /* estado */
-let s,plan,evs,t0;
-function fresh(mode){return {step:0,goals:[],answers:{},mode,t:Number($("#tramo").value),alta:Number($("#alta").value),vals:{},on:{},open:{},tips:{},ans:{},cat:$("#catalogo").value,assumed:{},fold:{},extra:[],shown:{},coachDone:false};}
+let s,plan,evs,t0,SCN=0,runId=0;
+function fresh(mode){return {step:0,goals:[],answers:{},mode,t:Number($("#tramo").value),alta:Number($("#alta").value),vals:{},on:{},open:{},tips:{},ans:{},cat:$("#catalogo").value,assumed:{},fold:{},extra:[],shown:{},coachDone:false,ai:{qs:null,recs:null,whyR:{},motQ:{},txtQ:{},dyn:{},trace:[],note:""}};}
 const cur=()=>MODES[s.mode];
 const T=()=>s.t;
 
@@ -516,10 +546,8 @@ function cand(g,a=s.answers){
   return [...new Set(l)].filter(activo);
 }
 function fixedList(){const o=[];if(cur().transporte)o.push("transporte");o.push("comida");return o;}
-/* beneficios que sirven a cada objetivo: el relleno del plan solo usa estos */
-const GBEN={ahorrar:["descuentos"],salud:["seguro","bienestar"],crecer:["formacion","descuentos"],familia:["guarderia","seguro"],futuro:["pensiones"],disfrutar:["descuentos","bienestar"]};
-const fitsGoals=id=>s.goals.filter(g=>(GBEN[g]||[]).includes(id));
 function pickCustom(a0=s.answers){
+  if(s.ai&&s.ai.recs&&!SCN)return s.ai.recs.filter(activo).map(id=>({id,kind:"ia",goal:s.goals[0]}));
   const a={...s.assumed,...a0};
   const n=4-fixedList().length, out=[], src={};
   const add=(id,g)=>{if(id&&out.length<n&&!out.includes(id)){out.push(id);src[id]=g;}};
@@ -552,10 +580,10 @@ function optsOf(q){
 }
 const isSensitive=q=>q.sensitive||(q.id==="AH"&&optsOf(q).includes("Guardería"));
 function scenario(a){
-  const keep=s.answers;s.answers=a;
+  const keep=s.answers;s.answers=a;SCN++;
   const ids=[...fixedList(),...pickCustom(a).map(x=>x.id)];
   const tot=ids.reduce((t,id)=>t+saveOf(id,true),0);
-  s.answers=keep;return {ids:ids.join(","),tot};
+  SCN--;s.answers=keep;return {ids:ids.join(","),tot};
 }
 /* 4.2: valor = probabilidad de que la respuesta cambie la recomendación × diferencia de ahorro.
    Base = la respuesta más probable entre perfiles parecidos. Un cambio de beneficio cuenta como 100 € de diferencia mínima. */
@@ -571,9 +599,12 @@ function evaluate(q){
   return {likely,pmax,value:Math.round(value)};
 }
 /* reglas 1, 5, 7 y 8: una pregunta por objetivo, en orden de prioridad (el principal primero), máx. 2 y máx. 1 sensible */
-const DYN_DI={id:"V_descuentos",gen:true,benefit:"descuentos",goal:"disfrutar",text:"¿Cuánto gastas al mes en ocio y compras?",sub:"Así estimamos cuánto ahorrarías con los descuentos.",use:"Con lo que gastas al mes estimamos tu ahorro en descuentos.",opts:["Menos de 100 €","100–200 €","Más de 200 €"],vals:{"Menos de 100 €":50,"100–200 €":150,"Más de 200 €":300},sensitive:false};
-const qById=id=>id===DYN_DI.id?DYN_DI:QB.find(q=>q.id===id);
+const qById=id=>QB.find(q=>q.id===id)||(s.ai&&s.ai.dyn&&s.ai.dyn[id]);
 function questions(){
+  if(s.ai&&s.ai.qs)return s.ai.qs.map(qById).filter(Boolean);
+  return rulesQuestions();
+}
+function rulesQuestions(){
   const out=[];s.assumed={};
   s.goals.forEach(g=>{
     const q=QB.find(q=>q.goal===g);if(!q)return;
@@ -583,7 +614,6 @@ function questions(){
     if(isSensitive(q)&&out.some(isSensitive)){return;}
     out.push(q);
   });
-  if(s.goals.includes("disfrutar")&&out.length<2&&activo("descuentos")){if(s.goals[0]==="disfrutar")out.unshift(DYN_DI);else out.push(DYN_DI);}
   return out.slice(0,2);
 }
 const done=q=>{const a=s.answers[q.id];if(a===undefined)return false;if(a==="")return true;if(q.multi)return ahSel().every(o=>!(q.follow&&q.follow[o])||s.answers["AH_f_"+o]!==undefined);return !(q.follow&&q.follow[a])||s.answers[q.id+"_f"]!==undefined;};
@@ -591,6 +621,7 @@ const done=q=>{const a=s.answers[q.id];if(a===undefined)return false;if(a==="")r
 /* explicaciones: en producción las redacta el LLM de Anthropic con el contexto del empleado.
    Aquí son plantillas que citan cifras ya calculadas por las reglas (la IA no calcula). */
 function why(it){
+  if(s.ai&&s.ai.whyR&&s.ai.whyR[it.id])return s.ai.whyR[it.id];
   const id=it.id,a=s.answers,m=cur(),v=val(id),sv=saveOf(id,true),y=fmt(sv),has=given(id)!==undefined,cuotas=(sv/Math.max(v,1)).toFixed(1).replace(".",",");
   const f={
     transporte:()=>(m.tNote||v<5)
@@ -650,7 +681,7 @@ function head(){
   $("#back").hidden=s.step===0;
 }
 const main=$("#main"), cta=$("#cta");
-function go(step){s.step=step;head();[renderGoals,renderQ,renderPlan][step]();main.scrollTop=0;}
+function go(step){runId++;s.step=step;head();[renderGoals,renderQ,renderPlan][step]();main.scrollTop=0;}
 
 /* paso 1 */
 function renderGoals(){
@@ -684,7 +715,7 @@ main.addEventListener("change",e=>{
   const q=qById(sl.dataset.q),k=sl.dataset.fk,v=sl.value==="__skip"?"":sl.value;
   s.answers[k]=v;
   if(q.gen&&k===q.id){if(v===""||q.vals[v]===undefined)delete s.vals[q.benefit];else s.vals[q.benefit]=q.vals[v];}
-  track("question_answered",{pregunta:q.id,importe:v===""?null:v,prefiero_no_decirlo:v===""});
+  track("question_answered",{pregunta:q.id,importe:v===""?null:v,prefiero_no_decirlo:v==="",generada_por_ia:!!q.gen});
   renderQ(false);
 });
 main.addEventListener("click",e=>{
@@ -765,7 +796,7 @@ const AHPH={"Seguro médico":"un seguro médico","Guardería":"la guardería","U
 const ahSingle=q=>q.id==="AH"&&optsOf(q).filter(o=>o!=="Ninguno").length===1;
 function qtitle(q){
   if(ahSingle(q))return `¿Pagas ${AHPH[optsOf(q).find(o=>o!=="Ninguno")]} de tu bolsillo?`;
-  return q.text;
+  return (s.ai&&s.ai.txtQ&&s.ai.txtQ[q.id])||q.text;
 }
 function renderQ(anim=true){
   const qs=questions(),st=main.scrollTop,fd=anim?" fade":"";
@@ -780,11 +811,11 @@ function renderQ(anim=true){
   const nAmt=qs.reduce((n,q)=>n+(q.gen?1:q.multi?ahSel().filter(o=>q.follow&&q.follow[o]).length:(q.follow&&q.follow[s.answers[q.id]]?1:0)),0);
   const useSel=true,ea=v=>String(v).replace(/"/g,"&quot;");
   const amt=(q,key,labels,head,aria)=>useSel?`<div class="frows">${selRow(q,key,labels,head,aria)}</div>`:`<div class="follow">${head?`<h3>${head}</h3>`:""}<div class="opts" role="radiogroup" aria-label="${ea(aria)}">${list(q,key,labels)}</div></div>`;
-  main.innerHTML=`<div class="${fd.trim()}"><h1>Cuéntanos un poco más</h1><p class="lead">${qs.length===1?"Una pregunta rápida":qs.length===2?"Dos preguntas rápidas":qs.length+" preguntas rápidas"} para calcular tu ahorro.</p></div>
-  ${qs.map((q,qi)=>{const f=q.follow&&q.follow[s.answers[q.id]];return `<div class="q${fd}"><span class="tagline">${qs.length>1?"Pregunta "+(qi+1)+" de "+qs.length:"Pregunta"} · ${G(q.goal).name}</span><div class="qt"><h2>${qtitle(q)}</h2><button class="info" type="button" data-qinfo="${q.id}" aria-label="¿Para qué usamos tu respuesta?" aria-expanded="${s.qtip===q.id}" aria-controls="qtip-${q.id}">i</button></div>
-    <div class="tip" id="qtip-${q.id}" role="note"${s.qtip===q.id?"":" hidden"}><p>${q.use}</p></div>
+  main.innerHTML=`<div class="${fd.trim()}"><h1>Cuéntanos un poco más</h1><p class="lead">${qs.length===1?"Una pregunta rápida":qs.length===2?"Dos preguntas rápidas":qs.length+" preguntas rápidas"} para calcular tu ahorro.</p>${aiChip(s.ai&&s.ai.via)}</div>
+  ${qs.map((q,qi)=>{const f=q.follow&&q.follow[s.answers[q.id]];return `<div class="q${fd}"><span class="tagline">${qs.length>1?"Pregunta "+(qi+1)+" de "+qs.length:"Pregunta"}${q.goal?" · "+G(q.goal).name:""}</span><div class="qt"><h2>${esc(qtitle(q))}</h2><button class="info" type="button" data-qinfo="${q.id}" aria-label="¿Para qué usamos tu respuesta?" aria-expanded="${s.qtip===q.id}" aria-controls="qtip-${q.id}">i</button></div>
+    <div class="tip" id="qtip-${q.id}" role="note"${s.qtip===q.id?"":" hidden"}>${s.ai.motQ[q.id]?`<p><b>Por qué te lo preguntamos:</b> ${esc(s.ai.motQ[q.id])}</p>`:""}<p>${q.use}</p></div>
     ${(()=>{const nt=q.multi&&!ahSingle(q)?"Puedes marcar varios":"";return nt?`<span class="multi">${nt}</span>`:"";})()}
-    ${q.gen?amt(q,q.id,q.opts,"",q.text):`<div class="opts" role="${q.multi?"group":"radiogroup"}" aria-label="${qtitle(q)}">${q.multi?multi(q):list(q,q.id,optsOf(q))}</div>`}
+    ${q.gen?amt(q,q.id,q.opts,"",q.text):`<div class="opts" role="${q.multi?"group":"radiogroup"}" aria-label="${esc(qtitle(q))}">${q.multi?multi(q):list(q,q.id,optsOf(q))}</div>`}
     ${q.multi?ahSel().filter(o=>q.follow&&q.follow[o]).map(o=>amt(q,"AH_f_"+o,q.follow[o].opts.map(x=>x[0]),o+" · "+q.follow[o].text,o+": "+q.follow[o].text)).join(""):""}
     ${!q.multi&&f?amt(q,q.id+"_f",f.opts.map(o=>o[0]),f.text,f.text):""}
     </div>`;}).join("")}`;
@@ -811,8 +842,8 @@ const CHEV_SVG='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stro
 function renderPlan(quiet){
   buildPlan();
   const shown=[...plan.filter(x=>x.kind!=="fijo"),...plan.filter(x=>x.kind==="fijo")],nCustom=plan.filter(x=>x.kind!=="fijo").length;
-  main.innerHTML=`<div class="hero${quiet?"":" fade"}"><span class="kick">Podrías ahorrar</span>
-    <div class="total" aria-live="polite" aria-atomic="true"><span id="total">0 €</span> <small>${nextYear()?`en ${YEAR+1}`:"al año"}</small></div>
+  main.innerHTML=`<div class="hero${quiet?"":" fade"}"><span class="kick">Podrías ahorrar${prorated()?" hasta diciembre":""}</span>
+    <div class="total" aria-live="polite" aria-atomic="true"><span id="total">0 €</span> <small>${nextYear()?`en ${YEAR+1}`:prorated()?"":"al año"}</small></div>
     <span class="sub" id="fullline"></span></div>
   <div class="cards${quiet?"":" fade"}${s.coachDone?"":" coachon"}">${shown.map((it,ix)=>{const b=B[it.id];const head=ix===nCustom?`<p class="grp">Los más usados <span>${cohortLine()}</span></p>`:(ix===0?`<p class="grp">Pensados para ti <span>por lo que nos contaste</span></p>`:"");return head+`
     <article class="card" data-id="${it.id}">
@@ -850,6 +881,8 @@ function drawAll(){
   box.hidden=!s.showAll||!rest.length;
   box.innerHTML=rest.map(id=>`<div class="more-b">${bubble(id)}<div class="mb"><b>${B[id].name()}</b><span>${DESC[id]||""}</span><em>${money(id)} al año</em></div><button class="addb" type="button" data-add="${id}" aria-label="Añadir ${B[id].name()} a mi plan">Añadir</button></div>`).join("");
 }
+/* cifra grande: si te das de alta a mitad de año, lo que ahorras hasta diciembre; el año completo va en letra pequeña */
+const headTot=()=>totalOf(!prorated());
 const totalOf=(full=false)=>plan.reduce((a,it)=>a+(s.on[it.id]&&!B[it.id].est&&!B[it.id].gift?saveOf(it.id,full):0),0);
 const estOf=()=>plan.reduce((a,it)=>a+(s.on[it.id]&&B[it.id].est?saveOf(it.id,true):0),0);
 const money=(id,full=true)=>(B[id].est?"≈ ":"")+fmt(saveOf(id,full));
@@ -871,10 +904,10 @@ function updatePlan(anim){
       const mo=c.querySelector(".more"),fb=c.querySelector("[data-fold]");mo.hidden=!s.fold[it.id];fb.setAttribute("aria-expanded",!!s.fold[it.id]);
     }
   });
-  const tot=totalOf(true),el=$("#total");
+  const tot=headTot(),el=$("#total");
   if(anim&&!reduce){const a=performance.now();(function f(t){const p=Math.min(1,(t-a)/700);el.textContent=fmt(tot*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f);else el.textContent=fmt(tot);})(a);}
   else el.textContent=fmt(tot);
-  $("#fullline").textContent=prorated()?`${fmt(totalOf())} de aquí a diciembre`:"";
+  $("#fullline").textContent=prorated()?`${fmt(totalOf(true))} en un año completo`:"";
   cta.textContent=n?`Activar mi plan · ${n} beneficio${n>1?"s":""}`:"Activa al menos un beneficio";
   cta.disabled=!n;
 }
@@ -932,12 +965,12 @@ const START_CTA={ahorrar:"Empieza a ahorrar",salud:"Empieza a cuidarte",crecer:"
 /* la cifra grande lleva el € más pequeño para que el protagonista sea el número */
 const fmtHero=n=>fmt(n).replace(/\s?€$/,"")+'<span class="eur">€</span>';
 function slides(){
-  const g=G(s.goals[0]),act=plan.filter(p=>s.on[p.id]),tot=totalOf(true);
+  const g=G(s.goals[0]),act=plan.filter(p=>s.on[p.id]),tot=headTot();
   const max=Math.max(...act.map(p=>saveOf(p.id,true)),1);
   const eq=pickEq(tot);
   return [
     `<p class="lbl">Cobee Wrapped · ${NAME}</p>
-     <div class="big">${fmtHero(tot)}</div><h2 class="wafter">que podrías ahorrar ${nextYear()?`en ${YEAR+1}`:"al año"}</h2>`,
+     <div class="big">${fmtHero(tot)}</div><h2 class="wafter">que podrías ahorrar ${nextYear()?`en ${YEAR+1}`:prorated()?"hasta diciembre":"al año"}</h2>${prorated()?`<p class="wsub">${fmt(totalOf(true))} en un año completo</p>`:""}`,
     `<h2>Así se reparte</h2><div class="bd">${[...act].sort((x,y)=>saveOf(y.id,true)-saveOf(x.id,true)).map(p=>`<div><div class="l"><span>${B[p.id].name()}</span><span>${B[p.id].price?`${eur2(whPlan().p)}/mes`:B[p.id].noSave?B[p.id].valueText:money(p.id)}</span></div><div class="tr"><i style="width:${B[p.id].noSave?12:Math.max(8,saveOf(p.id,true)/max*100)}%"></i></div></div>`).join("")}</div>`,
     `<p class="lbl">Lo que significa para ti</p>
      <h2 class="wsub">Es como tener de vuelta…</h2><div class="eq">${eq.main}</div>${eq.alt?`<p class="wsub">${eq.alt}</p>`:""}<p class="note">Dinero que ya era tuyo.</p>
@@ -949,9 +982,22 @@ function wrapStart(){
   const g=G(s.goals[0]),w=$("#wrapped");
   const c=WSET[g.set];
   w.style.setProperty("--w-bg",c.bg);w.style.setProperty("--w-fg",c.fg);w.style.setProperty("--w-soft",c.soft);
-  w.hidden=false;wi=0;paused=false;showSlide();setTimeout(confetti,250);
+  w.hidden=false;wi=0;paused=false;preloadWrapped();showSlide();setTimeout(confetti,250);
 }
+/* texto e ilustración de cada story salen a la vez: se precarga el arte y la story solo se pinta cuando está listo (máx. 800 ms) */
+const artSrc=(set,i,last)=>i===0?`assets/coin-drop-${set==="dark"?"dark":"light"}${reduce?"-poster.png":".webp"}`:(i===last?`assets/wrap-${set}-podium-cut.webp`:`assets/wrap-${set}-${["tower","confetti"][i]}.jpg`);
+const artDone={};let artTok=0;
+function preloadArt(src){
+  if(artDone[src])return Promise.resolve();
+  return new Promise(res=>{const im=new Image();const ok=()=>{artDone[src]=1;res();};im.onload=ok;im.onerror=ok;im.src=src;if(im.decode)im.decode().then(ok,ok);});
+}
+function preloadWrapped(){const set=G(s.goals[0]).set,n=slides().length;for(let i=0;i<n;i++)preloadArt(artSrc(set,i,n-1));}
 function showSlide(){
+  const t=++artTok,set=G(s.goals[0]).set,n=slides().length,src=artSrc(set,wi,n-1);
+  if(artDone[src])return renderSlide();
+  Promise.race([preloadArt(src),new Promise(r=>setTimeout(r,800))]).then(()=>{if(t===artTok)renderSlide();});
+}
+function renderSlide(){
   const w=$("#wrapped"),sl=slides();
   w.classList.toggle("paused",paused);
   const set=G(s.goals[0]).set,cs=WSET[set];
@@ -959,7 +1005,7 @@ function showSlide(){
   w.innerHTML=`<div class="segs">${sl.map((_,i)=>`<div class="seg ${i<wi?"done":i===wi&&!reduce?"cur":""}"><i></i></div>`).join("")}</div>
    <div class="wtools"><span>${wi+1} / ${sl.length}</span><button type="button" id="pp" aria-label="${paused?"Reanudar":"Pausar"}">${ico(paused?"play":"pause",16)}</button></div>
    <div class="slide" id="slide">${sl[wi].split('<div class="wbtns">')[0]}</div>
-   <div class="art${wi===sl.length-1?" big":""}${wi===0?" left":""}" aria-hidden="true"><div class="artimg" style="background-image:url(${wi===sl.length-1?`assets/wrap-${set}-podium-cut.webp`:`assets/wrap-${set}-${["tower","confetti"][wi]}.jpg`})"></div></div>
+   <div class="art${wi===sl.length-1?" big":""}${wi===0?" left":""}${wi>0&&wi<sl.length-1?" fl":""}" aria-hidden="true">${wi===0?`<img class="artvid" src="${artSrc(set,0,sl.length-1)}" alt="">`:`<div class="artimg" style="background-image:url(${artSrc(set,wi,sl.length-1)})"></div>`}</div>
    ${sl[wi].includes('<div class="wbtns">')?'<div class="wbtns">'+sl[wi].split('<div class="wbtns">')[1]:""}`;
   const c=w.querySelector(".seg.cur i");
   if(c)c.addEventListener("animationend",()=>next());
@@ -998,16 +1044,264 @@ $("#wrapped").addEventListener("click",e=>{
   if(e.clientX-r.left<r.width/3)prev();else next();
 });
 /* acciones */
-cta.addEventListener("click",()=>{
+
+/* ===== capa de IA =====
+   Claude decide QUÉ preguntar y QUÉ recomendar entre las opciones que las reglas permiten.
+   Las reglas siguen filtrando (catálogo, sensibles, límites), validando y calculando los euros.
+   Si la IA no está disponible o responde algo no válido, se usa el motor de reglas y se avisa. */
+
+/* variables que alimentan el cálculo: la IA puede crear preguntas sobre ellas, con estas opciones cerradas */
+const VARS={
+  comida:{benefit:"comida",texto:"¿Cuántos días comes fuera de casa?",goals:["ahorrar","disfrutar"],use:"Con los días que comes fuera calculamos cuánto te ahorra la tarjeta restaurante.",ok:()=>true,
+    vals:{"Casi nunca":4,"1–2 días por semana":8,"3–4 días por semana":14,"Cada día laborable":20}},
+  transporte:{benefit:"transporte",texto:"¿Cuántos días a la semana vas a la oficina?",goals:["ahorrar"],use:"Solo cuentan los días que vas a la oficina.",ok:()=>cur().transporte,
+    vals:{"1 día":1,"2 días":2,"3 días":3,"4 días":4,"5 días":5}},
+  bienestar:{benefit:"bienestar",texto:"¿Cuánto pagas al mes por tu gimnasio?",goals:["salud","disfrutar"],use:"Comparamos tu gimnasio actual con el plan de Wellhub.",ok:()=>activo("bienestar"),
+    vals:{"Menos de 25 €":20,"25–40 €":35,"Más de 40 €":50}},
+  descuentos:{benefit:"descuentos",texto:"¿Cuánto gastas al mes en ocio y compras?",goals:["ahorrar","disfrutar","crecer"],use:"Con lo que gastas al mes estimamos tu ahorro en descuentos.",ok:()=>activo("descuentos"),
+    vals:{"Menos de 100 €":50,"100–200 €":150,"Más de 200 €":300}},
+  pensiones:{benefit:"pensiones",texto:"¿Cuánto podrías aportar al mes a un plan de pensiones?",goals:["futuro"],use:"Cuanto más aportas, menos impuestos pagas hoy.",ok:()=>activo("pensiones"),
+    vals:{"Hasta 25 €":25,"Unos 50 €":50,"75–100 €":100}}
+};
+const VARDESC={comida:"días al mes que come fuera de casa",transporte:"días a la semana que va a la oficina (solo si no es 100 % remoto)",bienestar:"lo que paga al mes por un gimnasio o actividad deportiva",descuentos:"lo que gasta al mes en ocio, compras y planes",pensiones:"lo que podría aportar al mes a un plan de pensiones"};
+const varFits=k=>VARS[k].ok()&&VARS[k].goals.some(g=>s.goals.includes(g));
+/* beneficios que sirven a cada objetivo (las mismas relaciones que usa el motor de reglas) */
+const GBEN={ahorrar:["descuentos"],salud:["seguro","bienestar"],crecer:["formacion","descuentos"],familia:["guarderia","seguro"],futuro:["pensiones"],disfrutar:["descuentos","bienestar"]};
+/* guardrail: lo que el empleado respondió se refleja en el plan.
+   Beneficios sobre los que respondió algo aplicable (tienen que aparecer) */
+function relBenefits(){
+  const a=s.answers,r=new Set(),fx=fixedList();
+  const m={"Seguro médico":"seguro","Guardería":"guarderia","Un curso que pago o voy a pagar":"formacion"};
+  ahSel(a).forEach(o=>{if(m[o])r.add(m[o]);});
+  if(a.SA==="Sí, lo pago yo")r.add("seguro");
+  if(a.CR==="Sí"||a.CR==="Aún no lo sé")r.add("formacion");
+  if(a.FA==="Sí")r.add("guarderia");
+  if(a.FU!==undefined&&a.FU!=="")r.add("pensiones");
+  Object.keys(a).filter(k=>k.startsWith("V_")&&a[k]!=="").forEach(k=>{const v=VARS[k.slice(2)];if(v)r.add(v.benefit);});
+  return [...r].filter(id=>activo(id)&&!fx.includes(id));
+}
+const fitsGoals=id=>s.goals.filter(g=>(GBEN[g]||[]).includes(id));
+function dynQ(variable,texto,motivo){
+  const v=VARS[variable];return {id:"V_"+variable,gen:true,benefit:v.benefit,goal:v.goals.find(g=>s.goals.includes(g))||null,text:texto,use:v.use,opts:Object.keys(v.vals),vals:v.vals,sensitive:false,motivo};
+}
+let SAMPLE=null;
+(async()=>{try{SAMPLE=window.claude?await window.claude.use("sample"):null;}catch(e){SAMPLE=null;}})();
+const MODNAME={presencial:"presencial",hibrido:"híbrido",remoto:"100 % remoto",intensiva:"jornada intensiva en verano"};
+const AI={
+  ctx(){return {objetivos:s.goals.map(g=>G(g).name),objetivo_principal:G(s.goals[0]).name,modalidad:MODNAME[s.mode],tramo_irpf:Math.round(s.t*100)+" %",beneficios_activos_en_la_empresa:Object.keys(B).filter(activo),nota_libre_del_empleado:s.ai.note||null,empleados_parecidos:{n:COHORT[s.mode].n,uso_dia_a_dia_pct:Object.fromEntries(fixedList().map(id=>[id,Math.round(COHORT[s.mode][id]*100)]))}};},
+  log(step,via,data){s.ai.trace.push({step,via,...data});renderTrace();},
+  async json(prompt){
+    if(!SAMPLE)throw {code:"no_disponible"};
+    return SAMPLE.json(prompt,{modelTier:"quick"});
+  },
+  async decideQuestions(){
+    const pool=QB.filter(q=>s.goals.includes(q.goal)).map(q=>({id:q.id,objetivo:G(q.goal).name,pregunta:q.text,opciones:optsOf(q),sensible:isSensitive(q),empleados_parecidos_responden:Object.fromEntries(Object.entries(priors(q)).map(([k,v])=>[k,Math.round(v*100)+" %"]))}));
+    const prompt=`Eres el motor de personalización del onboarding de Cobee, una plataforma de retribución flexible. Decide QUÉ PREGUNTAR a este empleado.
+
+CONTEXTO DEL EMPLEADO
+${JSON.stringify(this.ctx(),null,1)}
+
+PREGUNTAS DEL BANCO APROBADO (puedes elegirlas por "id")
+${JSON.stringify(pool,null,1)}
+
+VARIABLES SOBRE LAS QUE PUEDES CREAR UNA PREGUNTA NUEVA (por "variable"; las opciones de respuesta son cerradas y las pone el sistema)
+${JSON.stringify(Object.keys(VARS).filter(varFits).map(k=>({variable:k,mide:VARDESC[k],sirve_a_objetivos:VARS[k].goals.filter(g=>s.goals.includes(g)).map(g=>G(g).name)})),null,1)}
+
+REGLAS
+- Prioridad: cada objetivo del empleado debe tener su pregunta sobre el beneficio que le vas a recomendar (p. ej. salud → saber si ya paga seguro médico). Las variables de comida y transporte ya tienen valores por defecto del perfil: pregúntalas solo si sobra hueco.
+- Cada pregunta debe servir a uno de los objetivos del empleado (el principal tiene prioridad) o a algo que haya dicho en la nota. No preguntes por temas ajenos a sus objetivos.
+- Máximo 2 preguntas EN TOTAL (banco + nuevas) y como mucho 1 sensible. Las nuevas nunca son sensibles.
+- Prefiere crear una pregunta nueva cuando mida algo que el banco no cubre y que cambie el ahorro del empleado según su perfil, objetivo o nota libre; si no, usa el banco. No dupliques lo que ya mide una pregunta del banco.
+- Cada pregunta del banco trae "empleados_parecidos_responden": si una opción supera el 85 %, no preguntes (se asume). Usa esos datos para decidir qué preguntar.
+- Pregunta solo si la respuesta cambiaría de verdad los beneficios que le recomendarás o su ahorro. Si empleados con este perfil responderían casi todos igual, no preguntes.
+- La nota libre puede orientar qué preguntar, pero NO infieras ni repitas datos de salud, familia u otras categorías sensibles.
+
+PERSONALIZACIÓN DEL TEXTO
+- Para cada pregunta, sea del banco o nueva, escribe su enunciado ("texto") para este empleado: natural, cercano, en segunda persona, máximo 120 caracteres, que termine en "?" y conserve exactamente lo que se mide (mismas opciones). Usa su objetivo, su modalidad o su nota libre si ayudan; sin cifras y sin mencionar datos sensibles que no haya dicho en la pregunta original.
+
+Responde SOLO con JSON: {"preguntar":[{"id":"id del banco","texto":"enunciado","motivo":"una frase corta en español, en segunda persona"} o {"variable":"nombre de variable","texto":"enunciado","motivo":"..."}],"omitir":[{"id":"...","motivo":"..."}]}`;
+    let raw=null,via="ia",note="";
+    try{
+      raw=await this.json(prompt);
+      const ok=new Set(pool.map(q=>q.id)),out=[],drop=[];
+      s.ai.dyn={};
+      (Array.isArray(raw.preguntar)?raw.preguntar:[]).forEach(r=>{
+        if(r.variable){
+          const vn=String(r.variable),tx=String(r.texto||"").trim();
+          if(!VARS[vn]||!varFits(vn)||out.some(o=>o.id==="V_"+vn)){drop.push({variable:vn,por:"variable no aplicable o ajena a sus objetivos"});return;}
+          if(out.length>=2){drop.push({variable:vn,por:"máximo 2 preguntas"});return;}
+          if(!(tx&&tx.length<=140&&tx.endsWith("?")&&!/\d/.test(tx))){drop.push({variable:vn,por:"enunciado no válido"});return;}
+          const dq=dynQ(vn,tx,r.motivo);s.ai.dyn[dq.id]=dq;out.push({id:dq.id,motivo:r.motivo,texto:tx,nueva:true});return;
+        }
+        const q=QB.find(x=>x.id===r.id);
+        if(!q||!ok.has(r.id)||out.some(o=>o.id===r.id)){drop.push({id:r.id,por:"no está en el banco aprobado"});return;}
+        if(out.length>=2){drop.push({id:r.id,por:"máximo 2 preguntas"});return;}
+        if(isSensitive(q)&&out.some(o=>!o.nueva&&isSensitive(QB.find(x=>x.id===o.id)))){drop.push({id:r.id,por:"máximo 1 pregunta sensible"});return;}
+        out.push(r);
+      });
+      /* guardrail de cobertura: cada objetivo tiene su pregunta sobre el beneficio que se le recomendará.
+         Comida y transporte ya van en el plan con los datos del perfil: solo se preguntan si sobra hueco */
+      const fixedB=fixedList(),forced=[];
+      const covers=(o,g)=>{if(o.nueva){const v=VARS[o.id.slice(2)];return !fixedB.includes(v.benefit)&&v.goals.includes(g);}const q=QB.find(x=>x.id===o.id);return !!q&&q.goal===g;};
+      s.goals.slice(0,2).forEach(g=>{
+        if(out.some(o=>covers(o,g)))return;
+        let add=null;const bq=QB.find(q=>q.goal===g&&ok.has(q.id));
+        if(bq&&!(isSensitive(bq)&&out.some(o=>!o.nueva&&isSensitive(qById(o.id)))))add={id:bq.id,motivo:"Para tu objetivo «"+G(g).name+"»"};
+        else{const vn=Object.keys(VARS).find(k=>varFits(k)&&VARS[k].goals.includes(g)&&!fixedB.includes(VARS[k].benefit)&&!out.some(o=>o.id==="V_"+k));
+          if(vn){const dq=dynQ(vn,VARS[vn].texto,"Para tu objetivo «"+G(g).name+"»");s.ai.dyn[dq.id]=dq;add={id:dq.id,motivo:dq.motivo,texto:dq.text,nueva:true};}}
+        if(!add)return;
+        if(out.length>=2){let ix=out.findIndex(o=>!s.goals.some(gg=>covers(o,gg)));if(ix<0)ix=out.length-1;forced.push("quita "+out[ix].id);out.splice(ix,1);}
+        out.push(add);forced.push("añade "+add.id+" (objetivo "+g+")");
+      });
+      s.ai.qs=out.map(o=>o.id);s.assumed={};
+      out.forEach(o=>{s.ai.motQ[o.id]=String(o.motivo||"").slice(0,160);
+        const tx=String(o.texto||"").trim();
+        if(tx&&tx.length<=140&&tx.endsWith("?")&&!/\d/.test(tx))s.ai.txtQ[o.id]=tx;});
+      this.log("Qué preguntar","ia",{entrada:{objetivos:s.goals,nota:s.ai.note||null,banco:pool.map(q=>q.id),variables_permitidas:Object.keys(VARS).filter(varFits)},salida_ia:raw,validado:s.ai.qs,preguntas_nuevas_creadas:Object.keys(s.ai.dyn),ajustes_por_reglas:forced,descartado:drop});
+    }catch(e){
+      s.ai.qs=null;via="reglas";note=e.code==="no_disponible"?"IA no disponible en esta vista: se usa el motor de reglas":"La IA no respondió bien ("+(e.code||"error")+"): se usa el motor de reglas";
+      this.log("Qué preguntar","reglas",{motivo:note,preguntas:rulesQuestions().map(q=>q.id)});
+    }
+    s.ai.via=via;
+  },
+  async decideRecs(){
+    const fixed=fixedList(),n=4-fixed.length;
+    const cands=Object.keys(B).filter(id=>activo(id)&&!fixed.includes(id)&&!B[id].noSave&&(id!=="guarderia"||given("guarderia")!==undefined)).map(id=>({id,nombre:B[id].name(),ahorro_anual_estimado_eur:Math.round(saveOf(id,true)),usan_empleados_parecidos_pct:Math.round((COHORT_B[id]||0)*100),encaja_con_objetivos:fitsGoals(id).map(g=>G(g).name),ya_lo_paga:!!existing(id),importe_declarado:given(id)??(s.vals[id]!==undefined?s.vals[id]:null)}));
+    const prompt=`Eres el motor de personalización del onboarding de Cobee. Elige QUÉ BENEFICIOS recomendar a este empleado y explícalos.
+
+CONTEXTO DEL EMPLEADO
+${JSON.stringify(this.ctx(),null,1)}
+
+RESPUESTAS DEL EMPLEADO (todo lo que respondió debe reflejarse en tu elección: si contestó sobre un beneficio, ese beneficio tiene que aparecer)
+${JSON.stringify(s.answers)}
+
+YA INCLUIDOS PARA TODOS (no los elijas): ${fixed.join(", ")}
+
+CANDIDATOS (solo puedes elegir de aquí; los euros ya están calculados por reglas fiscales y NO debes recalcularlos)
+${JSON.stringify(cands,null,1)}
+
+REGLAS
+- Elige exactamente ${n} candidatos, ordenados de más a menos relevante para el empleado. El primero debe servir a su objetivo principal (${G(s.goals[0]).name}) y, si tiene un segundo objetivo, otro debe servir a ese. Un candidato con "encaja_con_objetivos" vacío solo puede elegirse si ya_lo_paga es true o hay importe_declarado; si no, no lo elijas aunque ahorre mucho.
+- Usa "usan_empleados_parecidos_pct" (lo que usan empleados con tu perfil) para desempatar entre candidatos que encajan igual.
+- Redacta cada explicación en máximo 2 frases cortas, en lenguaje cotidiano, sin tecnicismos fiscales. Si el beneficio NO ahorra impuestos (descuentos, bienestar/Wellhub), di claramente «no es ahorro fiscal».
+- Si "ya_lo_paga" es true, plantéalo como traslado de un gasto que ya tiene, no como contratación nueva.
+- Explica cada uno en 1-2 frases en español, en segunda persona. Si citas una cifra en euros, usa solo ahorro_anual_estimado_eur o importe_declarado tal cual. No inventes otras cifras.
+- No infieras categorías sensibles (salud, familia) a partir de la nota libre.
+
+Responde SOLO con JSON: {"recomendar":[{"id":"...","porque":"..."}]}`;
+    const allowed=new Set();cands.forEach(c=>{allowed.add(String(c.ahorro_anual_estimado_eur));if(c.importe_declarado!=null)allowed.add(String(Math.round(c.importe_declarado)));});
+    fixed.forEach(id=>allowed.add(String(Math.round(saveOf(id,true)))));
+    const numsOk=txt=>(String(txt).match(/\d[\d.]*/g)||[]).every(x=>{const v=x.replace(/\./g,"");return Number(v)<=31||allowed.has(v);});
+    let raw=null;
+    try{
+      raw=await this.json(prompt);
+      const ids=new Set(cands.map(c=>c.id)),out=[],drop=[];
+      (Array.isArray(raw.recomendar)?raw.recomendar:[]).forEach(r=>{
+        if(!ids.has(r.id)||out.some(o=>o.id===r.id)){drop.push({id:r.id,por:"no está en el catálogo de la empresa"});return;}
+        {const c=cands.find(x=>x.id===r.id);if(!c.encaja_con_objetivos.length&&!c.ya_lo_paga&&c.importe_declarado==null){drop.push({id:r.id,por:"no encaja con sus objetivos"});return;}}
+        if(out.length>=n){drop.push({id:r.id,por:"fuera de los "+n+" huecos"});return;}
+        out.push(r);
+      });
+      const filled=[];
+      if(out.length<n){rulesPick().filter(id=>fitsGoals(id).length).forEach(id=>{if(out.length<n&&!out.some(o=>o.id===id)&&ids.has(id)){out.push({id});filled.push(id);}});}
+      /* guardrail de coherencia: (1) todo lo respondido aparece en el plan; (2) nada ajeno a objetivos y respuestas */
+      const rel=relBenefits().filter(id=>ids.has(id)).sort((x,y)=>saveOf(y,true)-saveOf(x,true));
+      const before=out.map(o=>o.id).join(",");
+      const kept=out.filter(o=>fitsGoals(o.id).length||rel.includes(o.id));
+      const missing=rel.filter(id=>!kept.some(k=>k.id===id));
+      while(missing.length){
+        if(kept.length<n)kept.push({id:missing.shift()});
+        else{let ix=-1;kept.forEach((k,i)=>{if(!rel.includes(k.id))ix=i;});if(ix<0)break;kept[ix]={id:missing.shift()};}
+      }
+      out.length=0;kept.slice(0,n).forEach(o=>out.push(o));
+      if(out.length<n){rulesPick().filter(id=>ids.has(id)&&(fitsGoals(id).length||rel.includes(id))).forEach(id=>{if(out.length<n&&!out.some(o=>o.id===id)){out.push({id});filled.push(id);}});}
+      if(out.map(o=>o.id).join(",")!==before)filled.push("coherencia:"+before+" → "+out.map(o=>o.id).join(","));
+      /* regla: el primer beneficio sirve al objetivo principal */
+      const mainG=s.goals[0],fitMain=o=>fitsGoals(o.id).includes(mainG)||rel.includes(o.id);
+      if(out.length&&!fitMain(out[0])){
+        const j=out.findIndex(fitMain);
+        if(j>0){out.unshift(out.splice(j,1)[0]);filled.push("orden:"+out[0].id);}
+        else{const alt=cands.filter(c=>fitsGoals(c.id).includes(mainG)&&!out.some(o=>o.id===c.id)).sort((x,y)=>y.ahorro_anual_estimado_eur-x.ahorro_anual_estimado_eur)[0];
+          if(alt){out.pop();out.unshift({id:alt.id});filled.push("principal:"+alt.id);}}
+      }
+      s.ai.recs=out.map(o=>o.id);s.ai.whyR={};
+      const badNum=[];
+      out.forEach(o=>{if(o.porque){if(numsOk(o.porque)){let x=String(o.porque).slice(0,260);if(["descuentos","bienestar"].includes(o.id)&&!/fiscal|impuest/i.test(x))x+=" No es ahorro fiscal.";s.ai.whyR[o.id]=x;}else badNum.push(o.id);}});
+      s.ai.viaR="ia";
+      this.log("Qué recomendar","ia",{entrada:{candidatos:cands.map(c=>c.id+" "+c.ahorro_anual_estimado_eur+" €"),huecos:n},salida_ia:raw,validado:s.ai.recs,descartado:drop,completado_por_reglas:filled,explicacion_con_cifra_no_permitida:badNum});
+    }catch(e){
+      s.ai.recs=null;s.ai.viaR="reglas";
+      const note=e.code==="no_disponible"?"IA no disponible en esta vista: se usa el motor de reglas":"La IA no respondió bien ("+(e.code||"error")+"): se usa el motor de reglas";
+      this.log("Qué recomendar","reglas",{motivo:note,recomendados:rulesPick()});
+    }
+  }
+};
+function rulesPick(){const k=s.ai.recs;s.ai.recs=null;const r=pickCustom().map(x=>x.id);s.ai.recs=k;return r;}
+const isDark=()=>{const th=document.documentElement.getAttribute("data-theme");return th==="dark"||(!th&&window.matchMedia("(prefers-color-scheme: dark)").matches);};
+function thinking(msg,sub){return `<div class="think fade"><img class="walk" src="assets/${isDark()?"coin-hop-white":"coin-walking"}${reduce?"-poster.png":".webp"}" alt="" aria-hidden="true"><h1>${msg}</h1><p class="lead">${sub}</p></div>`;}
+async function toPlan(){
+  const run=++runId;cta.disabled=true;
+  main.innerHTML=thinking("Armando tu plan","Combinamos tus objetivos y respuestas con lo que ofrece tu empresa.");
+  await AI.decideRecs();
+  if(run!==runId)return;
+  go(2);
+}
+function renderTrace(){
+  const el=$("#ailog");if(!el)return;
+  const tr=(s&&s.ai&&s.ai.trace)||[];
+  el.innerHTML=tr.length?tr.map(x=>`<div class="tr"><b>${x.step}</b> · ${x.via==="ia"?"✦ decidido por IA":"motor de reglas"}<pre>${esc(JSON.stringify(x,null,1))}</pre></div>`).join(""):"Aún no ha decidido nada. Elige un objetivo y pulsa Continuar.";
+}
+
+/* Comparativa reglas puras frente a reglas + IA, con el mismo perfil y las mismas respuestas */
+function renderCompare(){
+  const el=$("#cmp");if(!el)return;
+  if(!s.ai||s.ai.recs===undefined||s.step<2){el.innerHTML="Completa el flujo hasta el plan para comparar.";return;}
+  const keepA=s.assumed;
+  const rq=rulesQuestions().map(q=>q.id);s.assumed=keepA;
+  const iq=(s.ai.qs||[]).slice();
+  const rr=rulesPick(),ir=(s.ai.recs||[]).slice();
+  const fx=fixedList();
+  const tot=ids=>Math.round([...fx,...ids].filter(id=>!B[id].est).reduce((n,id)=>n+saveOf(id,true),0));
+  const txt=id=>{const q=qById(id);return q?(s.ai.txtQ[id]||q.text):id;};
+  const rows=[
+    ["Preguntas",rq.map(txt).join(" · ")||"ninguna",iq.map(txt).join(" · ")||"ninguna"],
+    ["Beneficios",rr.map(id=>B[id].name()).join(", ")||"—",ir.map(id=>B[id].name()).join(", ")||"(la IA no respondió: igual que reglas)"],
+    ["Ahorro que suma",fmt(tot(rr)),fmt(tot(ir.length?ir:rr))],
+    ["Explicación","Plantilla igual para todos",Object.keys(s.ai.whyR).length?"Redactada para esta persona ("+Object.keys(s.ai.whyR).length+")":"Plantilla (la IA no aportó texto)"]
+  ];
+  el.innerHTML=`<table class="cmpt"><tr><th></th><th>Reglas puras</th><th>Reglas + IA</th></tr>${rows.map(r=>`<tr><th>${r[0]}</th><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")}</table>`;
+}
+/* Bucle de aprendizaje (simulado): al activar el plan, los parecidos suman esta activación */
+function learn(){
+  const c=COHORT[s.mode],N=c.n,ch=[];
+  plan.filter(p=>s.on[p.id]).forEach(p=>{
+    const fixed=p.kind==="fijo",o=fixed?c[p.id]:(COHORT_B[p.id]||0),nv=(o*N+1)/(N+1);
+    if(fixed)c[p.id]=nv;else COHORT_B[p.id]=nv;
+    ch.push(`${B[p.id].name()}: ${(o*100).toFixed(2)} % → ${(nv*100).toFixed(2)} %`);
+  });
+  c.n=N+1;
+  AI.log("Aprendizaje","reglas",{motivo:"Se suma esta activación al grupo de empleados parecidos (simulado)",perfiles_parecidos:c.n,uso_actualizado:ch});
+}
+const aiChip=v=>false?`<span class="aichip${v==="ia"?"":" off"}">${v==="ia"?"✦ Preguntas elegidas por IA":"Motor de reglas (IA no disponible)"}</span>`:"";
+const esc=v=>String(v).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+cta.addEventListener("click",async()=>{
   if(s.step===0){
     track("goal_selected",{objetivos:s.goals,principal:s.goals[0]});
     /* al volver a elegir objetivos se parte de cero: nada de lo anterior se arrastra */
     s.answers={};s.ans={};s.extra=[];s.vals={};s.on={};s.open={};s.fold={};s.tips={};s.shown={};s.planSeen=false;s.qtip=null;
-    const qs=questions();QB.filter(q=>s.goals.includes(q.goal)).forEach(q=>{const ev=evaluate(q);track("question_evaluated",{pregunta:q.id,valor:ev.value,respuesta_probable:ev.likely,prob:Math.round(ev.pmax*100)+"%",preguntada:qs.includes(q),asumida:s.assumed[q.id]||null});});
+    const note=($("#note")&&$("#note").value||"").trim().slice(0,200);
+    s.ai={qs:null,recs:null,whyR:{},motQ:{},txtQ:{},dyn:{},trace:[],note};renderTrace();
+    const run=++runId;cta.disabled=true;
+    main.innerHTML=thinking("Preparando tus preguntas","Solo te preguntamos lo que cambia tu ahorro.");
+    await AI.decideQuestions();
+    if(run!==runId)return;
+    const qs=questions();
+    track("ia_decidio_preguntas",{via:s.ai.via,preguntas:qs.map(q=>q.id),objetivos:s.goals});
     if(qs.length)go(1);
-    else{track("step2_skipped",{motivo:"sin pregunta decisiva"});go(2);}
-  }else if(s.step===1){go(2);}
+    else{track("step2_skipped",{motivo:"la IA no necesita preguntar"});await toPlan();}
+  }else if(s.step===1){await toPlan();}
   else if(s.step===2){
+    learn();
     track("plan_activated",{beneficios:plan.filter(p=>s.on[p.id]).map(p=>p.id),ahorro_total:Math.round(totalOf()),segundos:Math.round((Date.now()-t0)/1000)});
     s.step=3;head();wrapStart();
   }
@@ -1021,6 +1315,7 @@ $("#phone").addEventListener("click",e=>{
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&s&&s.step===1&&s.qtip){s.qtip=null;syncQTips();}
   if(e.key==="Escape"&&s&&s.step===2&&Object.values(s.tips||{}).some(Boolean)){s.tips={};updatePlan();}});
 $("#back").addEventListener("click",()=>{
+  runId++;
   if(s.step===2)go(questions().length?1:0);else go(Math.max(0,s.step-1));
 });
 $("#theme").addEventListener("change",e=>{const v=e.target.value,r=document.documentElement;if(v)r.setAttribute("data-theme",v);else r.removeAttribute("data-theme");});
@@ -1030,9 +1325,11 @@ $("#catalogo").addEventListener("change",()=>reset());
 $("#alta").addEventListener("change",()=>reset());
 $("#alta").value=String(new Date().getMonth()+1);
 $("#restart").addEventListener("click",()=>reset());
+$("#cmpbtn").addEventListener("click",()=>{const o=$("#cmp").classList.toggle("open");$("#cmpbtn").setAttribute("aria-expanded",o);renderCompare();});
+$("#aibtn").addEventListener("click",()=>{const o=$("#ailog").classList.toggle("open");$("#aibtn").setAttribute("aria-expanded",o);renderTrace();});
 $("#evbtn").addEventListener("click",()=>{const o=$("#log").classList.toggle("open");$("#evbtn").setAttribute("aria-expanded",o);});
 function reset(){
-  s=fresh($("#mode").value);plan=[];evs=[];t0=Date.now();counted=false;
+  runId++;s=fresh($("#mode").value);plan=[];evs=[];t0=Date.now();counted=false;renderTrace();
   $("#wrapped").hidden=true;$("#end").hidden=true;$("#evn").textContent="0";$("#log").innerHTML="";
   track("onboarding_started",{variante:"B",empresa:"Demo S.L.",modalidad:s.mode});
   go(0);
@@ -1040,5 +1337,3 @@ function reset(){
 reset();
 })();
 </script>
-</body>
-</html>
