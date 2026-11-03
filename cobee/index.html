@@ -269,7 +269,9 @@ h1{font-size:var(--fs-title);line-height:1.15}
 .end{--bg:#F5F3FE;--surface:#FFFFFF;--ink:#131117;--muted:#645F78;--line:#E4E0F0;--accent-ink:#177855;color:var(--ink);position:absolute;inset:0;z-index:6;background:var(--bg);display:flex;flex-direction:column}
 .end[hidden]{display:none}
 @media (max-width:480px){
-  .phone{border-radius:24px}
+  .phone{border-radius:24px;height:calc(100dvh - 40px);min-height:0}
+  /* en móvil se oculta el panel de personalización del prototipo */
+  .proto{display:none}
 :root{--fs-title:26px}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
